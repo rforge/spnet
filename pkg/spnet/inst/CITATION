@@ -1,4 +1,4 @@
-citHeader("To cite trim in publications please use:")
+citHeader("== To cite spnet in publications please use:")
 
 p1 <- person("Emmanuel", "Rousseaux", email = "emmanuel.rousseaux@unige.ch")
 p2 <- person("Marion", "Deville-Naggay", email = "Marion.Deville-Naggay@unige.ch")
@@ -14,12 +14,12 @@ citEntry(
   year = "2013",
   url = "url",
   textVersion = paste(
-    "Marion Deville-Naggay, Emmanuel Rousseaux.",
+    "Deville-Naggay M. and Rousseaux E.",
     "title",
     "conference",
     "URL url."
   ),
-  header = "For the article 'AAA':\n"
+  header = "= For the article 'AAA':\n"
 )
 
 citEntry(
@@ -33,12 +33,12 @@ citEntry(
   year = "2013",
   url = "url",
   textVersion = paste(
-    "Emmanuel Rousseaux, Marion Deville-Naggay.",
+    "Rousseaux E. and Deville-Naggay M.",
     "title",
     "conference",
     "URL url."
   ),
-  header = "For the spnet package:\n"
+  header = "= For the 'spnet' package:\n"
 )
 
 

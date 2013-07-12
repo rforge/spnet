@@ -1,0 +1,48 @@
+%\VignetteEngine{knitr}
+%\VignetteIndexEntry{An overview of the trim package}
+\documentclass{article}
+\title{An overview of the spnet package}
+\author{Emmanuel Rousseaux and Marion Deville-Naggay}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\vspace*{2cm}
+
+\tableofcontents
+
+\newpage
+
+<<echo=FALSE, message=FALSE>>=
+library(spnet)
+@
+
+
+\section{Introduction}
+
+The \verb|spnet| package offers methods for dealing with spacial social networks. It allows to plot networks for which actors have a specific location on a map (participants in a political debate, cities, etc.). \verb|SpatialPolygons| objects from the \verb|sp| package are supported.
+
+\section{Creating rooms}
+
+The easiest way to create a room to represent a debate is the {\ttfamily room.create.grid} function. Here is an example of use:
+
+<<>>=
+col <- 5
+row <- 6
+m <- matrix(rep(-1, col*row), nrow = row)
+m[1,2:4] <- 0
+m[3,c(1,5)] <- 0
+m[4,c(1,5)] <- 0
+m[5,c(1,5)] <- 0
+m[6,c(1,5)] <- 0
+m
+@
+
+<<fig.cap="A simple room with table in invered 'U' form">>=
+room1 <- room.create.grid(m, seat.width=2, seat.height=1)
+plot.placement(room1)
+@
+
+\end{document}

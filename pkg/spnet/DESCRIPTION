@@ -10,4 +10,4 @@ License: GPL-3
 Depends: methods, sp
 Suggests: knitr
 VignetteBuilder: knitr
-collapse: environment.R,room.create.grid.R,SpatialNetwork.R,plot.placement.R,zzz.R
+collapse: environment.R,room.create.grid.R,SpatialNetwork.R,plot.position.R,zzz.R

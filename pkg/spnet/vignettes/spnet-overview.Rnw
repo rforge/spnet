@@ -42,7 +42,7 @@ m
 
 <<fig.cap="A simple room with table in invered 'U' form">>=
 room1 <- room.create.grid(m, seat.width=2, seat.height=1)
-plot.placement(room1)
+plot.position(room1)
 @
 
 \end{document}

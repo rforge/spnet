@@ -1,16 +1,16 @@
 setGeneric(
-  'plot.placement',
+  'plot.position',
   function(
     x,
     label = '',
     ...
   ) {
-    standardGeneric("plot.placement")
+    standardGeneric("plot.position")
   }
 )
 
 setMethod(
-  f = 'plot.placement',
+  f = 'plot.position',
   signature = 'SpatialPolygons',
   definition = function(x, label, ...) {
     plot(x, ...)
@@ -19,9 +19,9 @@ setMethod(
 )
 
 setMethod(
-  f = 'plot.placement',
+  f = 'plot.position',
   signature = 'SpatialNetwork',
   definition = function(x, label, ...) {
-    getMethod('plot.placement', 'SpatialNetwork')(x@sp, label, ...)
+    getMethod('plot.position', 'SpatialNetwork')(x@sp, label, ...)
   }
 )

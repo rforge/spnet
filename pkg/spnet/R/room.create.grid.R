@@ -83,7 +83,7 @@ room.create.grid <- function(
 # m[5,1] <- 0
 # m[6,1] <- 0
 # room1 <- room.create.grid(m, seat.width=2, seat.height=1)
-# plot.placement(room1)
+# plot.position(room1)
 
 # 
 # 

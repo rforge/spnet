@@ -4,14 +4,14 @@ setClass(
   slots = c(
     #     'edges' = 'data.frame',
     'sp' = 'SpatialPolygons',
-    'network' = 'matrix',
-    'meta' = 'list',
+    'networks' = 'list',
+    'plot.title' = 'list',
     'plot.color' = 'list',
-    'plot.name' = 'list',
     'plot.symbol' = 'list',
     'plot.arrow' = 'list',
-    'infos' = 'list',
-    'warnings' = 'list'
+    'infos' = 'list', # for the user
+    'meta' = 'list', # for the dev
+    'warnings' = 'list' # for the dev
   ),
   #   prototype,
   #   contains=character(),
@@ -19,16 +19,23 @@ setClass(
   validity = function(object) {
     flag <- TRUE
     
+    # .Data: NODE
+    if(flag && (!'NODE' %in% names(object))){
+      stop("The NODE column doesn't exist")
+    }
     
-    # NETWORK
-    net <- object@network
-    if(flag && (nrow(net)>0 || ncol(net)>0)) {
-      if(nrow(net) != ncol(net)) {
-        message("The 'network' attribute has to be a squared matrix")
-        message("Here ncol=", ncol(net), "and nrow=", nrow(net))
-        stop("Invalid 'network' matrix dimensions")
+    # networks
+    nets <- object@networks
+    for (net in nets) {
+      if(flag && (nrow(net)>0 || ncol(net)>0)) {
+        if(nrow(net) != ncol(net)) {
+          message("Each network of the 'networks' attribute has to be a squared matrix")
+          message("Here ncol=", ncol(net), "and nrow=", nrow(net))
+          stop("Invalid 'networks' matrix dimensions")
+        }
       }
     }
+    
     return(flag)
     
     # COLOR
@@ -38,14 +45,29 @@ setClass(
   }
 )
 
-spnet <- function(
-  edge.names
+
+
+spnet.create <- function(
+  x,
+  sp,
+  networks,
+  plot.title,
+  plot.color,
+  plot.symbol,
+  plot.arrow,
+  infos,
+  quiet = FALSE
 ) {
+  
+  if(inherits(x, 'data.frame')) {
+    df <- x
+  } else if(length(x) > 0) {
+    df <- data.frame('NODE' = x)
+  } else stop("Invalid 'x' argument")
   return(new(
     Class = 'SpatialNetwork',
-    .Data = data.frame('name' = edge.names),
-    row.names = 1:length(edge.names),
-    names = 'NAME'
+    .Data = df,
+    row.names = 1:nrow(df)
   ))
 }
 
@@ -58,9 +80,11 @@ setMethod(
     print.data.frame(object)
     cat("\n")
     
-    if(nrow(object@network) > 0) {
-      cat("- Network:\n\n")
-      print(object@network)
+    if(length(object@networks) > 0) {
+      cat("- networks:\n\n")
+#       for (net in nets) {
+        print(object@networks)
+#       }
       cat("\n")
     }
   }
@@ -134,7 +158,7 @@ setMethod(
       text(coord, labels = lab)
     }
     
-    net <- x@network
+    net <- x@networks
     if(nrow(net) > 0) flag.arrow <- T
     if(flag.arrow) {
       coord <- coordinates(x@sp)

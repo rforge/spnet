@@ -1,0 +1,89 @@
+\name{room.create.u}
+\alias{room.create.u}
+\title{
+Create a room with a U shape
+}
+\description{
+The \code{room.create.u} function allows to design a room with a U shape and 4 possible orientations: top, bottom, left and right. Gaps between tables can be defined.
+}
+\usage{
+room.create.u(
+  x = c(7, 3, 7),
+  gap = c(0, 0, 0),
+  orientation = "top",
+  seat.width = 1,
+  seat.height = 1,
+  out = 'SpatialPolygons'
+)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{x}{
+a \code{numeric} object of length 3. The first value defines the number of seats of the table corresponding to the vertical bar on the left of the U. The second value defines the number of seats for the table of the middel, and the third value defines the number of seats of the table corresponding to the vertical bar on the right of the U.
+}
+  \item{gap}{
+a \code{numeric} object of length 3. This parameter allows to define gap between tables. The first value defines the number of empty column(s) to create between the left table and the middle table. The second value defines the vertical position of the middle table: a positive value translate the table to the bottom (creating gaps), while a negative value will translate the table to the top.
+The third value defines the number of empty column(s) to create between the middle table and the right table. Default is 0 for all parameters.
+}
+  \item{orientation}{
+allow to change the orientation of the U. Four orientations are available: \code{top}, \code{bottom}, \code{left} and \code{right}. Default is \code{top}.
+}
+  \item{seat.width}{
+see \code{\link{room.create.grid}}.
+}
+  \item{seat.height}{
+see \code{\link{room.create.grid}}.
+}
+  \item{out}{
+a \code{character}. Allow to specify whether you want to get a \code{\link{SpatialPolygons}} object (default) or a \code{matrix} you can edit and reuse in the \code{\link{room.create.grid}} function.
+}
+}
+\details{
+If you want to assign seat numbering you can use the \code{out} argument to export the room as a \code{matrix} object, then assign the numbering in the matrix, and then use the \code{\link{room.create.grid}} function to create the final room.
+}
+\value{
+Either a \code{\link{SpatialPolygons}} object or a \code{matrix} (according to the value given to the \code{out} parameter).
+}
+\author{
+Emmanuel Rousseaux
+}
+
+\seealso{
+\code{\link{plot.position}}, \code{\link{room.create.grid}}
+}
+\examples{
+room.u.0 <- room.create.u()
+plot(room.u.0)
+
+room.u.1 <- room.create.u(c(9,4,9))
+plot(room.u.1)
+
+room.u.2 <- room.create.u(c(9,4,9), orientation = 'left')
+plot(room.u.2)
+
+room.u.3 <- room.create.u(c(9,4,9), orientation = 'right')
+plot(room.u.3)
+
+room.u.4 <- room.create.u(c(9,4,9), orientation = 'bottom')
+plot(room.u.4)
+
+room.u.5 <- room.create.u(c(9,4,9), gap=c(1,1,1))
+plot(room.u.5)
+
+room.u.5 <- room.create.u(c(9,4,9), gap=c(0,-1,0))
+plot(room.u.5)
+
+room.u.6 <- room.create.u(c(9,4,9), gap=c(0,-5,0))
+plot(room.u.6)
+
+room.u.7 <- room.create.u(c(9,4,9), seat.width=2)
+plot(room.u.7)
+
+room.u.8 <- room.create.u(c(9,4,9), out = 'matrix')
+room.u.8
+plot(room.create.grid(room.u.8, seat.width=2))
+}
+\keyword{ map }
+\keyword{ room }
+\keyword{ seat }
+\keyword{ U }

@@ -134,3 +134,83 @@ room.create.grid <- function(
 # plot(room1)
 # text(coordinates(room1), labels=paste("", row.names(coordinates(room1)), sep=' '), cex=0.8)
 
+room.create.u <- function(
+  x = c(7,3,7),
+  gap = c(0, 0, 0),
+  orientation = 'top',
+  seat.width = 1,
+  seat.height = 1,
+  out = 'SpatialPolygons'
+){
+  stopifnot(length(x) == 3)
+  stopifnot(!any(is.na(x)))
+  stopifnot(all(x >= 1))
+  
+  stopifnot(length(gap) == 3)
+  stopifnot(!any(is.na(gap)))
+  stopifnot(all(gap[c(1,3)] >= 0))
+  
+  stopifnot(out %in% c('matrix','SpatialPolygons'))
+  
+  maxl <- max(x[c(1,3)])
+  if(-gap[2] > maxl -1){
+    stop("The gap for the table in the middle is to high. If you want to change the orientation please use the 'orientation' argument")
+  }
+  
+  stopifnot(orientation %in% c('top', 'bottom', 'left', 'right'))
+  
+  
+  ncol <- x[2] + 2 + gap[1] + gap[3]
+  nrow <- max(maxl + 1, maxl + 1 + gap[2])
+  
+  m <- matrix(rep(-1, nrow*ncol), nrow = nrow)
+  
+  m[min(nrow, nrow + gap[2]),] <- c(rep(-1, gap[1]+1),rep(0,x[2]),rep(-1, gap[3]+1))
+  for (i in maxl:1){
+    x[c(1,3)] <- x[c(1,3)] - 1
+    m[i,c(1,ncol)] <- c(x[1],x[3])
+  }
+  m[m >= 0] <- 0
+  m[m < 0] <- -1
+  
+  if(orientation == 'left')
+    m <- t(m)
+  if(orientation == 'bottom')
+    m <- matrix(rev(m), nrow = maxl+1)
+  if(orientation == 'right')
+    m <- t(matrix(rev(m), nrow = maxl+1))
+  
+  if (out == 'matrix')
+    return(m)
+  
+  if (out == 'SpatialPolygons') {
+    return(room.create.grid(
+      x = m,
+      seat.width = seat.width,
+      seat.height = seat.height
+    ))
+  }
+  
+}
+
+# room.u.0 <- room.create.u()
+# plot(room.u.0)
+# room.u.1 <- room.create.u(c(9,4,9))
+# plot(room.u.1)
+# room.u.2 <- room.create.u(c(9,4,9), orientation = 'left')
+# plot(room.u.2)
+# room.u.3 <- room.create.u(c(9,4,9), orientation = 'right')
+# plot(room.u.3)
+# room.u.4 <- room.create.u(c(9,4,9), orientation = 'bottom')
+# plot(room.u.4)
+# room.u.5 <- room.create.u(c(9,4,9), gap=c(1,1,1))
+# plot(room.u.5)
+# room.u.5 <- room.create.u(c(9,4,9), gap=c(0,-1,0))
+# plot(room.u.5)
+# room.u.6 <- room.create.u(c(9,4,9), gap=c(0,-5,0))
+# plot(room.u.6)
+# room.u.7 <- room.create.u(c(9,4,9), seat.width=2)
+# plot(room.u.7)
+# room.u.8 <- room.create.u(c(9,4,9), out = 'matrix')
+# room.u.8
+# plot(room.create.grid(room.u.8, seat.width=2))

@@ -38,7 +38,7 @@ A \code{\link{SpatialPolygons}} object.
 Emmanuel Rousseaux
 }
 \seealso{
-\code{\link{plot.position}}
+\code{\link{plot.position}}, \code{\link{room.create.u}}
 }
 \examples{
 # A room with tables in inversed 'U' form

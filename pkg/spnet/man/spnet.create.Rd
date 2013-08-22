@@ -10,7 +10,7 @@ The \code{spnet.create} function is the official builder for creating \code{Spat
 \usage{
 spnet.create(
   x,
-  sp,
+  map,
   networks,
   plot.title,
   plot.color,
@@ -25,8 +25,8 @@ spnet.create(
   \item{x}{
 %%     ~~Describe \code{x} here~~
 }
-  \item{sp}{
-%%     ~~Describe \code{sp} here~~
+  \item{map}{
+%%     ~~Describe \code{map} here~~
 }
   \item{networks}{
 %%     ~~Describe \code{networks} here~~

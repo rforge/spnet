@@ -2,7 +2,7 @@
 %\VignetteIndexEntry{An overview of the trim package}
 \documentclass{article}
 \title{An overview of the spnet package}
-\author{Emmanuel Rousseaux and Marion Deville-Naggay}
+\author{Emmanuel Rousseaux and Marion Deville}
 \date{\today}
 
 \begin{document}

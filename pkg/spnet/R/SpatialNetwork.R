@@ -21,6 +21,7 @@ setClass(
       plot.symbol.default = list(
         color = 'grey10',
         cex = 4,
+        space = 0.5,
         translate.x = 0,
         translate.y = 0
       ),
@@ -83,11 +84,12 @@ setClass(
     # symbol
     symbol <- object@plot.symbol
     if(flag && (length(symbol) > 0)){
-      if(!all(names(symbol) %in% c('variable', 'legend', 'color', 'cex', 'translate.x', 'translate.y'))) stop("Elements in 'plot.symbol' have to be named by one of the following names: 'variable', 'legend', 'color', 'cex', 'translate.x', 'translate.y'.")
+      if(!all(names(symbol) %in% c('variable', 'legend', 'color', 'cex', 'space', 'translate.x', 'translate.y'))) stop("Elements in 'plot.symbol' have to be named by one of the following names: 'variable', 'legend', 'color', 'cex', 'space', 'translate.x', 'translate.y'.")
       if(!'variable' %in% names(symbol)) stop("The 'plot.symbol' list should contain a 'variable' element")
       if(!'legend' %in% names(symbol)) stop("The 'plot.symbol' list should contain a 'legend' element")
       if(!symbol$variable %in% names(object)) stop("The 'variable' element of 'plot.symbol' doesn't exist in data.")
-      exist.in.data <- names(symbol$legend) %in% unique(object[,symbol$variable])
+      values.of.symbol.column <- unique(.extract.multiple.strings(object[,symbol$variable]))
+      exist.in.data <- names(symbol$legend) %in% values.of.symbol.column
       if(!all(exist.in.data)) {
         stop(paste(
           "Some values in the 'legend' referenced in 'plot.symbol' doesn't exist in the variable ",
@@ -378,19 +380,49 @@ setMethod(
         coord <- coordinates(x@map)
         ids <- row.names(coord)
         seats <- x[, 'POSITION']
-        symb.coord <- coord[match(seats, as.numeric(ids)),]
-        names(seats) <- x[,symbol$variable] # we store symbols in names
+        symb.coord <- coord[match(seats, as.numeric(ids)),] # symb.coord give the coordinates of each existing seat
+        names(seats) <- x[,symbol$variable] # we store the data.frame column to match to symbols in seat names
         
+        seats <- .expand.multiple.names(seats)
+
         role.match <- names(seats) %in% names(symbol$legend)
         seats <- seats[role.match] # then if no role match we remove
-        symb.coord <- symb.coord[role.match,]
+
+        #symb.coord <- symb.coord[seats,]
+
+        if('cex' %in% names(symbol)) {
+          symb.cex <- symbol$cex
+        } else {
+          symb.cex <- x@meta$plot.symbol.default$cex
+        }
+        if('space' %in% names(symbol)) {
+          symb.space <- symbol$space
+        } else {
+          symb.space <- x@meta$plot.symbol.default$space
+        }
         
+        symb.coord.multiple.flag <- TRUE
+        for(l in unique(seats)){
+          nb <- sum(seats == l)
+          val <- .position.multiple.symbols(symb.coord[match(l, rownames(symb.coord)),], n = nb, cex = symb.cex, space = symb.space)
+          dimnames(val) <- list(rep(l, nb), NULL) # rownames
+          if(symb.coord.multiple.flag) {
+            symb.coord.multiple <- val
+            symb.coord.multiple.flag <- FALSE
+          }
+          else {
+            symb.coord.multiple <- rbind(symb.coord.multiple, val)
+          }
+        }
+print(symb.coord.multiple)        
+
         for(k in names(symbol$legend)){ # we replace by the symbol code
           role.match2 <- names(seats) == k # we select elements which match
           if(any(role.match2)){
             names(seats)[role.match2] <- symbol$legend[[k]] # and we replace
           }
         }
+        print(seats)
         arg.pch <- names(seats)
         allsymb <- spnet:::.spnet.symbol.list
         arg.pch <- allsymb[match(arg.pch, names(allsymb))]
@@ -400,11 +432,7 @@ setMethod(
         } else {
           symb.color <- x@meta$plot.symbol.default$color
         }
-        if('cex' %in% names(symbol)) {
-          symb.cex <- symbol$cex
-        } else {
-          symb.cex <- x@meta$plot.symbol.default$cex
-        }
+        
         if('translate.x' %in% names(symbol)) {
           symb.translate.x <- symbol$translate.x
         } else {
@@ -416,11 +444,11 @@ setMethod(
           symb.translate.y <- x@meta$plot.symbol.default$translate.y
         }
         
-        symb.coord[,1] <- symb.coord[,1] + symb.translate.x
-        symb.coord[,2] <- symb.coord[,2] + symb.translate.y
+        symb.coord.multiple[,1] <- symb.coord.multiple[,1] + symb.translate.x
+        symb.coord.multiple[,2] <- symb.coord.multiple[,2] + symb.translate.y
         
         points(
-          symb.coord,
+          symb.coord.multiple,
           pch = arg.pch,
           cex = symb.cex,
           col = symb.color

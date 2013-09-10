@@ -1,8 +1,8 @@
 Package: spnet
 Type: Package
 Title: Plotting social networks on maps
-Version: 0.1-4
-Date: 2013-08-23
+Version: 0.1-5
+Date: 2013-09-09
 Author: Emmanuel Rousseaux, Marion Deville
 Maintainer: Emmanuel Rousseaux <emmanuel.rousseaux@unige.ch>
 Description: The spnet package offers methods for dealing with spacial social networks. It allows to plot networks for which actors have a specific location on a map (participants in a political debate, cities, etc.). SpatialPolygons objects from the sp package are supported.
@@ -10,4 +10,4 @@ License: GPL-3
 Depends: methods, sp
 Suggests: knitr
 VignetteBuilder: knitr
-collapse: environment.R,room.create.grid.R,SpatialNetwork.R,plot.position.R,zzz.R
+collapse: environment.R,tools.nary.R,room.create.grid.R,SpatialNetwork.R,plot.position.R,zzz.R

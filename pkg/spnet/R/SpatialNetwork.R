@@ -30,8 +30,8 @@ setClass(
         color = c('dodgerblue2', 'brown3', 'darkorange3', 'olivedrab', 'hotpink3'),
         translate.x = c(0,0.2,-0.2,0,0),
         translate.y = c(0,0,0,-0.2,0.2),
-        opacity = 0.8,
-        thickness = 1.00,
+        opacity = 0.9,
+        thickness = 2.00,
         length.rate = 1,
         length.fixed.cut = 0.3,
         head.length = 0.20,
@@ -464,6 +464,8 @@ setMethod(
       
       if(flag.arrow) {
         arrow.col.list <- c()
+        arrow.translate.x.list <- c()
+        arrow.translate.y.list <- c()
         arrow.label.list <- names(nets)
         
         coord <- coordinates(x@map)
@@ -473,6 +475,8 @@ setMethod(
         names(seats.which) <- x[, 'NODE']
         
         default.color = x@meta$plot.arrow.default$color
+        default.translate.x = x@meta$plot.arrow.default$translate.x
+        default.translate.y = x@meta$plot.arrow.default$translate.y
         default.opacity = x@meta$plot.arrow.default$opacity
         default.thickness = x@meta$plot.arrow.default$thickness
         default.length.rate = x@meta$plot.arrow.default$length.rate
@@ -497,6 +501,20 @@ setMethod(
           }
           arrow.col <- rgb(t(col2rgb(arrow.col)), alpha = round(arrow.opacity*255), maxColorValue = 255)
           arrow.col.list <- c(arrow.col.list, arrow.col)
+          
+          if('translate.x' %in% names(net.list)) {
+            arrow.translate.x <- net.list$translate.x
+          } else {
+            arrow.translate.x <- x@meta$plot.arrow.default$translate.x[k]
+          }
+          arrow.translate.x.list <- c(arrow.translate.x.list, arrow.translate.x)
+          
+          if('translate.y' %in% names(net.list)) {
+            arrow.translate.y <- net.list$translate.y
+          } else {
+            arrow.translate.y <- x@meta$plot.arrow.default$translate.y[k]
+          }
+          arrow.translate.y.list <- c(arrow.translate.x.list, arrow.translate.y)
           
           if('length.rate' %in% names(net.list)) {
             arrow.length.rate <- net.list$length.rate
@@ -537,10 +555,10 @@ setMethod(
                   )
 #                   print(arrow.coords)
                   arrows(
-                    x0 = arrow.coords['x0'],
-                    y0 = arrow.coords['y0'],
-                    x1 = arrow.coords['x1'],
-                    y1 = arrow.coords['y1'],
+                    x0 = arrow.coords['x0'] + arrow.translate.x,
+                    y0 = arrow.coords['y0'] + arrow.translate.y,
+                    x1 = arrow.coords['x1'] + arrow.translate.x,
+                    y1 = arrow.coords['y1'] + arrow.translate.y,
                     col=arrow.col,
                     length=arrow.head.length,
                     lwd=net[i,j] * arrow.thickness

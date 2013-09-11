@@ -30,7 +30,8 @@ setClass(
         color = c('blue', 'red', 'green', 'pink', 'yellow'),
         opacity = 1,
         thickness = 1.00,
-        length = 0.9,
+        length.rate = 1,
+        length.fixed.cut = 0.2,
         head.length = 0.20,
         head.type = NULL
       )
@@ -413,8 +414,7 @@ setMethod(
           else {
             symb.coord.multiple <- rbind(symb.coord.multiple, val)
           }
-        }
-print(symb.coord.multiple)        
+        }      
 
         for(k in names(symbol$legend)){ # we replace by the symbol code
           role.match2 <- names(seats) == k # we select elements which match
@@ -422,7 +422,7 @@ print(symb.coord.multiple)
             names(seats)[role.match2] <- symbol$legend[[k]] # and we replace
           }
         }
-        print(seats)
+#         print(seats)
         arg.pch <- names(seats)
         allsymb <- spnet:::.spnet.symbol.list
         arg.pch <- allsymb[match(arg.pch, names(allsymb))]
@@ -469,7 +469,8 @@ print(symb.coord.multiple)
         default.color = x@meta$plot.arrow.default$color
         default.opacity = x@meta$plot.arrow.default$opacity
         default.thickness = x@meta$plot.arrow.default$thickness
-        default.length = x@meta$plot.arrow.default$length
+        default.length.rate = x@meta$plot.arrow.default$length.rate
+        default.length.fixed.cut = x@meta$plot.arrow.default$length.fixed.cut
         default.head.length = x@meta$plot.arrow.default$head.length
         default.head.type = x@meta$plot.arrow.default$head.type
         
@@ -483,6 +484,17 @@ print(symb.coord.multiple)
           }
           arrow.col <- arrow.col.list[k]
           
+          if('length.rate' %in% names(net.list)) {
+            arrow.length.rate <- net.list$length.rate
+          } else {
+            arrow.length.rate <- default.length.rate
+          }
+          if('length.fixed.cut' %in% names(net.list)) {
+            arrow.length.fixed.cut <- net.list$length.fixed.cut
+          } else {
+            arrow.length.fixed.cut <- default.length.fixed.cut
+          }
+          
           if('name' %in% names(net.list)) {
             arrow.label.list[k] <- net.list$name
           }
@@ -495,11 +507,26 @@ print(symb.coord.multiple)
                 if (net[i,j] > 0) {
                   arrow.start <- coord[seats.which[i],]
                   arrow.stop <- coord[seats.which[j],]
+                  arrow.coords <- .arrow.resize(
+                    arrow.start[1],
+                    arrow.start[2],
+                    arrow.stop[1],
+                    arrow.stop[2],
+                    size = arrow.length.rate
+                  )
+                  arrow.coords <- .arrow.cut(
+                    x0 = arrow.coords['x0'],
+                    y0 = arrow.coords['y0'],
+                    x1 = arrow.coords['x1'],
+                    y1 = arrow.coords['y1'],
+                    cut = arrow.length.fixed.cut
+                  )
+                  print(arrow.coords)
                   arrows(
-                    x0 = arrow.start[1],
-                    y0 = arrow.start[2],
-                    x1 = arrow.stop[1],
-                    y1 = arrow.stop[2],
+                    x0 = arrow.coords['x0'],
+                    y0 = arrow.coords['y0'],
+                    x1 = arrow.coords['x1'],
+                    y1 = arrow.coords['y1'],
                     col=arrow.col,
                     length=arrow.head.length,
                     lwd=net[i,j] * arrow.thickness
@@ -548,7 +575,7 @@ print(symb.coord.multiple)
   #         xx <- 0.8
   #         yy <- 0.66
   #         tt <- 0.04
-  #         arrows(xx, yy, xx + tt, yy, col=arrow.col, length=arrow.length)
+  #         arrows(xx, yy, xx + tt, yy, col=arrow.col, length=arrow.length.rate)
   #         
   #         text(x= xx+tt+0.11, y = yy, labels = dn, ...=...)
   #       }
@@ -572,7 +599,7 @@ print(symb.coord.multiple)
   "times" = 4  
 )
 plot.symbol.list <- function(){
-  l <- spnet:::.spnet.symbol.list
+  l <- .spnet.symbol.list
   coord <- 2:(length(l)+1)
   plot(
     coord,
@@ -599,3 +626,40 @@ plot.symbol.list <- function(){
   )
 }
 # .plot.symbol.list.all()
+.arrow.resize <- function(x0, y0, x1, y1, size = 0.9) {
+  stopifnot(size > 0 && size <= 1)
+  
+  segment <- c(0,1)
+  breaks.size <- (1-size)/2
+  breaks <- c(segment[1] + breaks.size, segment[2] - breaks.size)
+  
+  new.x0 <- (1-breaks[1]) * x0 + breaks[1] * x1
+  new.y0 <- (1-breaks[1]) * y0 + breaks[1] * y1
+  new.x1 <- (1-breaks[2]) * x0 + breaks[2] * x1
+  new.y1 <- (1-breaks[2]) * y0 + breaks[2] * y1
+  
+  out <- c(new.x0, new.y0, new.x1, new.y1)
+  names(out) <- c('x0', 'y0', 'x1', 'y1')
+  return(out)
+}
+# .arrow.resize(0,0,1,1)
+# .arrow.resize(0,0,1,1)['x0']
+.arrow.cut <- function(x0, y0, x1, y1, cut = 0.2) {
+  
+  arrow.norm <- sqrt((x1-x0)^2 + (y1-y0)^2)
+  unitaire.x <- (x1-x0)/arrow.norm
+  unitaire.y <- (y1-y0)/arrow.norm
+  
+  new.x0 <- x0 + unitaire.x * cut
+  new.y0 <- y0 + unitaire.y * cut
+  new.x1 <- x1 - unitaire.x * cut
+  new.y1 <- y1 - unitaire.y * cut
+  
+  out <- c(new.x0, new.y0, new.x1, new.y1)
+  names(out) <- c('x0', 'y0', 'x1', 'y1')
+  return(out)
+}
+# .arrow.cut('x0' = 0,'y0' = 0,'x1' = 1,'y1' = 1)
+# .arrow.cut(0,0,2,2)
+# .arrow.cut(1,1,2,2)
+# .arrow.resize(0,0,1,1)['x0']

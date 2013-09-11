@@ -35,7 +35,7 @@ setClass(
         length.rate = 1,
         length.fixed.cut = 0.3,
         head.length = 0.20,
-        head.type = NULL
+        head.type = 'curved'
       )
     )
   ),
@@ -531,8 +531,24 @@ setMethod(
             arrow.label.list[k] <- net.list$name
           }
           
-          arrow.head.length <- x@meta$plot.arrow.default$head.length
-          arrow.thickness <- x@meta$plot.arrow.default$thickness
+          if('head.length' %in% names(net.list)) {
+            arrow.head.length <- net.list$head.length
+          } else {
+            arrow.head.length <- default.head.length
+          }
+          
+          if('head.type' %in% names(net.list)) {
+            arrow.head.type <- net.list$head.type
+          } else {
+            arrow.head.type <- default.head.type
+          }
+          
+          if('thickness' %in% names(net.list)) {
+            arrow.thickness <- net.list$thickness
+          } else {
+            arrow.thickness <- default.thickness
+          }
+          
           for (i in dimnames(net)[[1]]){
             for(j in dimnames(net)[[2]]) {
               if (i != j){
@@ -554,14 +570,16 @@ setMethod(
                     cut = arrow.length.fixed.cut
                   )
 #                   print(arrow.coords)
-                  arrows(
+                  Arrows(
                     x0 = arrow.coords['x0'] + arrow.translate.x,
                     y0 = arrow.coords['y0'] + arrow.translate.y,
                     x1 = arrow.coords['x1'] + arrow.translate.x,
                     y1 = arrow.coords['y1'] + arrow.translate.y,
                     col=arrow.col,
-                    length=arrow.head.length,
-                    lwd=net[i,j] * arrow.thickness
+                    arr.col=arrow.col,
+                    arr.length=arrow.head.length,
+                    lwd=net[i,j] * arrow.thickness,
+                    arr.type = arrow.head.type
                   )
                 }
               }
@@ -613,6 +631,7 @@ setMethod(
   #       }
   #     }
     }
+    par(def.par)  #- reset to default
   }
 )
 

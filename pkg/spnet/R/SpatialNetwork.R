@@ -27,11 +27,13 @@ setClass(
       ),
       plot.arrow.default = list(
         max.networks = 5,
-        color = c('blue', 'red', 'green', 'pink', 'yellow'),
-        opacity = 1,
+        color = c('dodgerblue2', 'brown3', 'darkorange3', 'olivedrab', 'hotpink3'),
+        translate.x = c(0,0.2,-0.2,0,0),
+        translate.y = c(0,0,0,-0.2,0.2),
+        opacity = 0.8,
         thickness = 1.00,
         length.rate = 1,
-        length.fixed.cut = 0.2,
+        length.fixed.cut = 0.3,
         head.length = 0.20,
         head.type = NULL
       )
@@ -128,6 +130,10 @@ setClass(
             message("Here ncol=", ncol(net.matrix), "and nrow=", nrow(net.matrix))
             stop("Invalid 'networks' matrix dimensions")
           }
+        }
+        if(flag && 'opacity' %in% net) {
+          if(net$opacity < 0 || net$opacity > 1)
+            stop("In each network the opacity has to be in [0;1]")
         }
       }
     }
@@ -477,12 +483,20 @@ setMethod(
         for (k in 1:length(nets)) {
           net.list <- nets[[k]]
           net <- net.list$matrix
-          if('color' %in% names(net.list)) {
-            arrow.col.list <- c(arrow.col.list, net.list$color)
+          
+          if('opacity' %in% names(net.list)) {
+            arrow.opacity <- net.list$opacity
           } else {
-            arrow.col.list <- c(arrow.col.list, x@meta$plot.arrow.default$color[k])
+            arrow.opacity <- default.opacity
           }
-          arrow.col <- arrow.col.list[k]
+          
+          if('color' %in% names(net.list)) {
+            arrow.col <- net.list$color
+          } else {
+            arrow.col <- x@meta$plot.arrow.default$color[k]
+          }
+          arrow.col <- rgb(t(col2rgb(arrow.col)), alpha = round(arrow.opacity*255), maxColorValue = 255)
+          arrow.col.list <- c(arrow.col.list, arrow.col)
           
           if('length.rate' %in% names(net.list)) {
             arrow.length.rate <- net.list$length.rate
@@ -521,7 +535,7 @@ setMethod(
                     y1 = arrow.coords['y1'],
                     cut = arrow.length.fixed.cut
                   )
-                  print(arrow.coords)
+#                   print(arrow.coords)
                   arrows(
                     x0 = arrow.coords['x0'],
                     y0 = arrow.coords['y0'],
@@ -663,3 +677,28 @@ plot.symbol.list <- function(){
 # .arrow.cut(0,0,2,2)
 # .arrow.cut(1,1,2,2)
 # .arrow.resize(0,0,1,1)['x0']
+
+
+# .base1to256 <- function(x) {
+#   return(round(x*255))
+# }
+# 
+# .base256tohex <- function(x) {
+#   sprintf("%X", x) 
+# }
+# .base256tohex(0)
+# .base256tohex(10)
+# .base256tohex(255)
+# .base1tohex <- function(x) {
+#   return(.base256tohex(.base1to256(x)))
+# }
+# .addzero <- function(x) {
+#   if(nchar(x) == 1)
+#     x <- paste('0', x, sep = '')
+#   
+#   return(x)
+#   }
+# }
+# .addzero(.base1tohex(0))
+# .addzero(.base1tohex(0.5))
+# .addzero(.base1tohex(1))

@@ -1,7 +1,7 @@
 Package: spnet
 Type: Package
 Title: Plotting social networks on maps
-Version: 0.1-13
+Version: 0.1-14
 Date: 2013-09-10
 Author: Emmanuel Rousseaux, Marion Deville
 Maintainer: Emmanuel Rousseaux <emmanuel.rousseaux@unige.ch>
@@ -24,3 +24,4 @@ Collate:
     'SpatialNetwork.R'
     'tools.nary.R'
     'zzz.R'
+    'spnet.R'

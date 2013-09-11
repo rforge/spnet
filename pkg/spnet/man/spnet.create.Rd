@@ -1,67 +1,32 @@
 \name{spnet.create}
 \alias{spnet.create}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-Create a \code{SpatialNetwork} object
+\title{Create a \code{SpatialNetwork} object}
+\usage{
+  spnet.create(x, map, networks, plot.title, plot.color,
+    plot.symbol, plot.arrow, infos, quiet = FALSE)
+}
+\arguments{
+  \item{x}{AAA}
+
+  \item{map}{AAA}
+
+  \item{networks}{AAA}
+
+  \item{plot.title}{AAA}
+
+  \item{plot.color}{AAA}
+
+  \item{plot.symbol}{AAA}
+
+  \item{plot.arrow}{AAA}
+
+  \item{infos}{AAA}
+
+  \item{quiet}{= FALSE AAA}
 }
 \description{
-The \code{spnet.create} function is the official builder for creating \code{SpatialNetwork} objects.
-}
-\usage{
-spnet.create(
-  x,
-  map,
-  networks,
-  plot.title,
-  plot.color,
-  plot.symbol,
-  plot.arrow,
-  infos,
-  quiet = FALSE
-)
-}
-%- maybe also 'usage' for other objects documented here.
-\arguments{
-  \item{x}{
-%%     ~~Describe \code{x} here~~
-}
-  \item{map}{
-%%     ~~Describe \code{map} here~~
-}
-  \item{networks}{
-%%     ~~Describe \code{networks} here~~
-}
-  \item{plot.title}{
-%%     ~~Describe \code{plot.title} here~~
-}
-  \item{plot.color}{
-%%     ~~Describe \code{plot.color} here~~
-}
-  \item{plot.symbol}{
-%%     ~~Describe \code{plot.symbol} here~~
-}
-  \item{plot.arrow}{
-%%     ~~Describe \code{plot.arrow} here~~
-}
-  \item{infos}{
-%%     ~~Describe \code{infos} here~~
-}
-  \item{quiet}{
-%%     ~~Describe \code{quiet} here~~
-}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
-\value{
-A \code{\link{SpatialNetwork-class}} object.
-}
-\author{
-Emmanuel Rousseaux
-}
-
-\seealso{
-\code{\link{SpatialNetwork-class}}
+  The \code{spnet.create} function is the official builder
+  for creating \code{SpatialNetwork} objects.
 }
 \examples{
 people <- c("John", "Elsa", "Brian", "Kate")
@@ -82,7 +47,7 @@ net2 <- spnet.create(
 )
 net2
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ spatial }
-\keyword{ network }% __ONLY ONE__ keyword per line
+\author{
+  Emmanuel Rousseaux
+}
+

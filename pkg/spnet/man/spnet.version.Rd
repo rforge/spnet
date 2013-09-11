@@ -1,22 +1,17 @@
 \name{spnet.version}
 \alias{spnet.version}
-\title{
-Get your current \code{spnet} package version
+\title{Get your current \code{spnet} package version}
+\usage{
+  spnet.version()
 }
 \description{
-The \code{spnet.version} function return the version of the \code{spnet} package you are currently running.
-}
-\usage{
-spnet.version()
-}
-\value{
-A \code{character}.
-}
-\author{
-Emmanuel Rousseaux
+  The \code{spnet.version} function return the version of
+  the \code{spnet} package you are currently running.
 }
 \examples{
 spnet.version()
 }
-\keyword{ package }
-\keyword{ version }
+\author{
+  Emmanuel Rousseaux
+}
+

@@ -1,35 +1,29 @@
+\docType{methods}
 \name{plot.position}
 \alias{plot.position}
-\title{
-Plot a room with the seat numbering
+\alias{plot.position,SpatialNetwork,SpatialNetwork-method}
+\alias{plot.position,SpatialPolygons,SpatialPolygons-method}
+\title{Plot a map labelled with the ID numbering}
+\arguments{
+  \item{x}{an object for which a \code{plot.position}
+  method is defined. See
+  \code{\link{plot.position-methods}} for a list of object
+  supported.}
+
+  \item{label}{a character of length 1 for prefixing seat
+  numbering.}
+
+  \item{...}{other arguments to pass to the plot function.
+  The main usage is setting the \code{cex} value.}
+}
+\value{
+  NULL
 }
 \description{
-The \code{plot.position} function allows to plot rooms defined as for example \code{SpatialNetwork} or \code{SpatialPolygons} objects, and render the seat numbering.
-}
-\usage{
-plot.position(
-  x,
-  label = "",
-  ...
-)
-}
-%- maybe also 'usage' for other objects documented here.
-\arguments{
-  \item{x}{
-an object for which a \code{plot.position} method is defined. See \code{\link{plot.position-methods}} for a list of object supported.
-}
-  \item{label}{
-a character of length 1 for prefixing seat numbering.
-}
-  \item{\dots}{
-other arguments to pass to the plot function. The main usage is setting the \code{cex} value.
-}
-}
-\author{
-Emmanuel Rousseaux
-}
-\seealso{
-\code{\link{plot.position-methods}} methods
+  The \code{plot.position} function allows to plot maps
+  defined as for example \code{SpatialNetwork} or
+  \code{SpatialPolygons} objects, and render the ID
+  numbering.
 }
 \examples{
 # A room with tables in inversed 'U' form
@@ -47,7 +41,7 @@ plot.position(room1)
 plot.position(room1, label = 'Seat ')
 plot.position(room1, label = 'Seat ', cex = 0.8)
 }
-\keyword{ plot }
-\keyword{ spatial }
-\keyword{ SpatialPolygons }
-\keyword{ SpatialNetwork }
+\author{
+  Emmanuel Rousseaux
+}
+

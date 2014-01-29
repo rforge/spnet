@@ -1,0 +1,11 @@
+Afficher des messages (désactivables) lorsque un noeud présent dans une matrice réseau n'est pas référencée dans les nodes du dataframe, car l'utilisateur peut perdre des flèches sans s'en rendre compte
+
+Laisser à l'utilisateur la possibilité de ne pas affiche les labels
+
+Faire la fusion des cases
+
+
+layout :
+- ratios doit sommer à 1, 
+- soit ratio soit mat doit être non nuls
+- ratios s'appelle titre graphique legend

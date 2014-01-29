@@ -12,10 +12,10 @@
 }
 \details{
   \tabular{ll}{ Package: \tab spnet\cr Date: \tab
-  2013-09-10\cr License: \tab GPL-3\cr }
+  2014-01-29\cr License: \tab GPL-3\cr }
 }
 \author{
-  Emmanuel Rousseaux, Marion Deville-Naggay \cr Maintainer:
+  Emmanuel Rousseaux, Marion Deville \cr Maintainer:
   Emmanuel Rousseaux <emmanuel.rousseaux
 }
 \references{

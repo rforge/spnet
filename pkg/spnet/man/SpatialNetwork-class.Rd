@@ -18,16 +18,20 @@
   \code{"SpatialPolygons"} ~~ }
   \item{\code{networks}:}{Object of class \code{"list"} ~~
   } \item{\code{plot.title}:}{Object of class \code{"list"}
-  ~~ } \item{\code{plot.color}:}{Object of class
-  \code{"list"} ~~ } \item{\code{plot.symbol}:}{Object of
-  class \code{"list"} ~~ } \item{\code{plot.arrow}:}{Object
-  of class \code{"list"} ~~ } \item{\code{infos}:}{Object
-  of class \code{"list"} ~~ } \item{\code{meta}:}{Object of
-  class \code{"list"} ~~ } \item{\code{warnings}:}{Object
-  of class \code{"list"} ~~ } \item{\code{names}:}{Object
-  of class \code{"character"} ~~ }
-  \item{\code{row.names}:}{Object of class
-  \code{"data.frameRowLabels"} ~~ }
+  ~~ } \item{\code{plot.label}:}{Object of class
+  \code{"list"} ~~ } \item{\code{plot.color}:}{Object of
+  class \code{"list"} ~~ }
+  \item{\code{plot.symbol}:}{Object of class \code{"list"}
+  ~~ } \item{\code{plot.arrow}:}{Object of class
+  \code{"list"} ~~ } \item{\code{plot.legend}:}{Object of
+  class \code{"list"} ~~ }
+  \item{\code{plot.layout}:}{Object of class \code{"list"}
+  ~~ } \item{\code{infos}:}{Object of class \code{"list"}
+  ~~ } \item{\code{meta}:}{Object of class \code{"list"} ~~
+  } \item{\code{warnings}:}{Object of class \code{"list"}
+  ~~ } \item{\code{names}:}{Object of class
+  \code{"character"} ~~ } \item{\code{row.names}:}{Object
+  of class \code{"data.frameRowLabels"} ~~ }
   \item{\code{.S3Class}:}{Object of class
   \code{"character"} ~~ } }
 }

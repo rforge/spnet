@@ -4,12 +4,12 @@
 #' 
 #' \tabular{ll}{
 #' Package: \tab spnet\cr
-#' Date: \tab 2013-09-10\cr
+#' Date: \tab 2014-01-29\cr
 #' License: \tab GPL-3\cr
 #' }
 #' 
 #' @name spnet
-#' @author Emmanuel Rousseaux, Marion Deville-Naggay \cr
+#' @author Emmanuel Rousseaux, Marion Deville \cr
 #' Maintainer: Emmanuel Rousseaux <emmanuel.rousseaux@unige.ch>
 #' @references Deville M. and Rousseaux E. (2013). TITLE. JOURNAL. VOLUME(NUMBER), PAGEFROM-PAGETO.
 #' @keywords package spnet networks map spatial

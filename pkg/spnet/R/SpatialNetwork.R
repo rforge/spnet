@@ -18,9 +18,12 @@
 #'    \item{\code{sp}:}{Object of class \code{"SpatialPolygons"} ~~ }
 #'    \item{\code{networks}:}{Object of class \code{"list"} ~~ }
 #'    \item{\code{plot.title}:}{Object of class \code{"list"} ~~ }
+#'    \item{\code{plot.label}:}{Object of class \code{"list"} ~~ }
 #'    \item{\code{plot.color}:}{Object of class \code{"list"} ~~ }
 #'    \item{\code{plot.symbol}:}{Object of class \code{"list"} ~~ }
 #'    \item{\code{plot.arrow}:}{Object of class \code{"list"} ~~ }
+#'    \item{\code{plot.legend}:}{Object of class \code{"list"} ~~ }
+#'    \item{\code{plot.layout}:}{Object of class \code{"list"} ~~ }
 #'    \item{\code{infos}:}{Object of class \code{"list"} ~~ }
 #'    \item{\code{meta}:}{Object of class \code{"list"} ~~ }
 #'    \item{\code{warnings}:}{Object of class \code{"list"} ~~ }
@@ -69,9 +72,13 @@ setClass(
     'map' = 'SpatialPolygons',
     'networks' = 'list',
     'plot.title' = 'list',
+    'plot.label' = 'list',
     'plot.color' = 'list',
     'plot.symbol' = 'list',
     'plot.arrow' = 'list',
+    'plot.legend' = 'list',
+    'plot.layout' = 'list',
+    'plot.par' = 'list',
     'infos' = 'list', # for the user
     'meta' = 'list', # for the dev
     'warnings' = 'list' # for the dev
@@ -79,7 +86,6 @@ setClass(
   prototype = prototype(
     meta = list(
       date.created = Sys.time(),
-      layout = c(1/10, 7/10, 2/10),
       plot.color.default = "grey90",
       plot.symbol.default = list(
         color = 'grey10',
@@ -105,7 +111,7 @@ setClass(
   #   contains=character(),
   #   sealed = FALSE,
   validity = function(object) {
-    flag <- TRUE
+    flag = TRUE
     
     # .Data: NODE
     if(flag && (!'NODE' %in% names(object))){
@@ -258,6 +264,42 @@ setReplaceMethod(
   }
 )
 
+setGeneric("spnet.title", function(object){ standardGeneric("spnet.title") })
+setMethod(
+  f = "spnet.title",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.title"))
+  }
+)
+setGeneric("spnet.title<-", function(object, value){ standardGeneric("spnet.title<-") })
+setReplaceMethod(
+  f = "spnet.title" ,
+  signature = c("SpatialNetwork", 'list'),
+  definition = function(object, value){
+    object@plot.title <- value
+    validObject(object)
+    return(object)
+  }
+)
+setGeneric("spnet.label", function(object){ standardGeneric("spnet.label") })
+setMethod(
+  f = "spnet.label",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.label"))
+  }
+)
+setGeneric("spnet.label<-", function(object, value){ standardGeneric("spnet.label<-") })
+setReplaceMethod(
+  f = "spnet.label" ,
+  signature = c("SpatialNetwork", 'list'),
+  definition = function(object, value){
+    object@plot.label <- value
+    validObject(object)
+    return(object)
+  }
+)
 setGeneric("spnet.color", function(object){ standardGeneric("spnet.color") })
 setMethod(
   f = "spnet.color",
@@ -295,6 +337,61 @@ setReplaceMethod(
     return(object)
   }
 )
+setGeneric("spnet.legend", function(object){ standardGeneric("spnet.legend") })
+setMethod(
+  f = "spnet.legend",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.legend"))
+  }
+)
+setGeneric("spnet.legend<-", function(object, value){ standardGeneric("spnet.legend<-") })
+setReplaceMethod(
+  f = "spnet.legend" ,
+  signature = c("SpatialNetwork", 'list'),
+  definition = function(object, value){
+    object@plot.legend <- value
+    validObject(object)
+    return(object)
+  }
+)
+setGeneric("spnet.layout", function(object){ standardGeneric("spnet.layout") })
+setMethod(
+  f = "spnet.layout",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.layout"))
+  }
+)
+setGeneric("spnet.layout<-", function(object, value){ standardGeneric("spnet.layout<-") })
+setReplaceMethod(
+  f = "spnet.layout" ,
+  signature = c("SpatialNetwork", 'list'),
+  definition = function(object, value){
+    object@plot.layout <- value
+    validObject(object)
+    return(object)
+  }
+)
+setGeneric("spnet.par", function(object){ standardGeneric("spnet.par") })
+setMethod(
+  f = "spnet.par",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.par"))
+  }
+)
+setGeneric("spnet.par<-", function(object, value){ standardGeneric("spnet.par<-") })
+setReplaceMethod(
+  f = "spnet.par" ,
+  signature = c("SpatialNetwork", 'list'),
+  definition = function(object, value){
+    object@plot.par <- value
+    validObject(object)
+    return(object)
+  }
+)
+
 
 
 #' Create a \code{SpatialNetwork} object
@@ -307,9 +404,13 @@ setReplaceMethod(
 #' @param map AAA
 #' @param networks AAA
 #' @param plot.title AAA
+#' @param plot.label list of arguments to be passed to the \code{\link{text}} function.
 #' @param plot.color AAA
 #' @param plot.symbol AAA
 #' @param plot.arrow AAA
+#' @param plot.legend AAA
+#' @param plot.layout AAA
+#' @param plot.par AAA
 #' @param infos AAA
 #' @param quiet = FALSE AAA
 #' @examples
@@ -334,10 +435,14 @@ spnet.create <- function(
   x,
   map,
   networks,
-  plot.title,
+  plot.title = list(main = "Untitled SPNET object", sub = "", cex = 2, col = "#333333"),
+  plot.label = list(cex = 1, col = '#333333'),
   plot.color,
   plot.symbol,
   plot.arrow,
+  plot.legend = list(print = TRUE, cex = 1),
+  plot.layout = list(ratios = c('title' = 1/10, 'graphic' = 7/10, 'legend' = 2/10), mat = NULL, reset = TRUE),
+  plot.par = list(mar = c(1,1,1,1)), # par(mar = c(5,4,2,2))
   infos,
   quiet = FALSE
 ) {
@@ -351,7 +456,12 @@ spnet.create <- function(
   out <- new(
     Class = 'SpatialNetwork',
     .Data = df,
-    row.names = 1:nrow(df)
+    row.names = 1:nrow(df),
+    plot.title =plot.title,
+    plot.label = plot.label,
+    plot.legend = plot.legend,
+    plot.layout = plot.layout,
+    plot.par = plot.par
   )
   
   if(!missing(networks)) {
@@ -413,6 +523,8 @@ setMethod(
     if(length(spnet.map(x)) == 0)
       stop("The map is empty. Please define a valid map.")
     
+    tit <- x@plot.title
+    
     color <- x@plot.color
     if(length(color) > 0) {flag.color <- T} else {flag.color <- F}
         
@@ -422,20 +534,71 @@ setMethod(
     nets <- x@networks
     if(length(nets) > 0) {flag.arrow <- T} else {flag.arrow <- F}
     
+    lay <- x@plot.layout
+    
     arg.col <- numeric()
     
     ## PLOT
     def.par <- par(no.readonly = TRUE) # save default, for resetting...
-    nf <- layout(
-      mat = matrix(c(1,2),nrow=2,byrow = TRUE),
-      widths = c(6),
-      heights = c(5,1),
-      respect = TRUE
-    )
-    layout.show(nf)
-    par(mar = c(5,4,2,2))
-    par(mar = c(5,4,2,2))
+#     nf <- layout(
+#       mat = matrix(c(1,2),nrow=2,byrow = TRUE),
+#       widths = c(6.8),
+#       heights = c(4,1),
+#       respect = TRUE
+#     )
+
+    if(!is.null(lay$mat)) {
+#       nf <- layout(
+#         mat = matrix(c(1,3,2,2),nrow=2,byrow = TRUE),
+#         widths = c(3,3),
+#         heights = c(4,1), 
+#         respect = TRUE
+#       )
+    } else {
+      nf <- layout(
+        mat = matrix(c(1,2,3),nrow=3,byrow = TRUE),
+        widths = c(1),
+        heights = lay$ratios, 
+        respect = TRUE
+      )
+    }
+#     layout.show(nf)
+    par(spnet.par(x))
     
+    plot.new()
+    # plot the title
+    if(any(c('main', 'sub') %in% names(tit))) {
+      tit.main.clean = tit[-which(names(tit) %in% c('main', 'sub'))]
+    } else {
+      tit.main.clean = tit
+    }
+    main.call = as.call(c(
+      list(
+        fun=text,
+        x=0.5,
+        y=0.65,
+        labels = tit$main
+      ),
+      tit.main.clean
+    ))
+    eval(main.call)
+    if(any(c('main', 'sub', 'cex') %in% names(tit))) {
+      tit.sub.clean = tit[-which(names(tit) %in% c('main', 'sub', 'cex'))]
+    } else {
+      tit.sub.clean = tit
+    }
+    sub.call = as.call(c(
+      list(
+        fun=text,
+        x=0.5,
+        y=0.20,
+        labels = tit$sub,
+        cex = tit$cex / 1.5
+      ),
+      tit.sub.clean
+    ))
+    eval(sub.call)
+
     if(!'POSITION' %in% names(x)) { # we only plot the map
       plot(spnet.map(x), ... = ...)
       plot.new()
@@ -475,8 +638,25 @@ setMethod(
       seats <- x[, 'POSITION']
       seats.which <- match(seats, ids)
       lab <- rep("", nrow(coord))
-      lab[seats.which] <- as.character(x[, 'NODE'])
-      text(coord, labels = lab)
+
+      lab.opt <- spnet.label(x)
+      if(any(c('variable') %in% names(lab.opt))) {
+        lab.opt.clean = lab.opt[-which(names(lab.opt) %in% c('variable'))]
+        lab[seats.which] <- as.character(x[, lab.opt$variable])
+      } else {
+        lab.opt.clean = lab.opt
+        lab[seats.which] <- as.character(x[, 'NODE'])
+      }
+
+      label.call = as.call(c(
+        list(
+          fun=text,
+          x=coord,
+          labels = lab
+        ),
+      lab.opt.clean
+      ))
+      eval(label.call)
       
       
       
@@ -689,45 +869,59 @@ setMethod(
       
       
       ## LEGEND
-      par(mar = c(1,1,1,1))
+      leg.pring = spnet.legend(x)$print
+      leg.cex = spnet.legend(x)$cex
+
+      par(spnet.par(x))
       plot.new()
-      if(flag.color) {
-        legend(
-          x = "topleft",
-          legend = names(x@plot.color$legend),
-          fill = x@plot.color$legend,
-          bty = 'n'
-        )
+      if(leg.pring) {
+        if(flag.color) {
+          legend(
+            x = "topleft",
+            legend = names(x@plot.color$legend),
+            fill = x@plot.color$legend,
+            bty = 'n',
+            cex = leg.cex
+          )
+        }
+        if(flag.symbol) {
+          legend(
+            x = "top",
+            legend = names(x@plot.symbol$legend),
+            pch = spnet:::.spnet.symbol.list[match(x@plot.symbol$legend, names(.spnet.symbol.list))],
+            bty = 'n',
+            cex = leg.cex
+          )
+        }
+        if(flag.arrow) {
+          legend(
+            x = "topright",
+            legend = arrow.label.list,
+            col = arrow.col.list,
+            lty = 1,
+            bty = 'n',
+            cex = leg.cex
+          )
+        }
+    #     if(flag.arrow){
+    #       dn <- x@plot.arrow$legend
+    #       if(nchar(dn) > 0) {
+    #         xx <- 0.8
+    #         yy <- 0.66
+    #         tt <- 0.04
+    #         arrows(xx, yy, xx + tt, yy, col=arrow.col, length=arrow.length.rate)
+    #         
+    #         text(x= xx+tt+0.11, y = yy, labels = dn, ...=...)
+    #       }
+    #     }
       }
-      if(flag.symbol) {
-        legend(
-          x = "top",
-          legend = names(x@plot.symbol$legend),
-          pch = spnet:::.spnet.symbol.list[match(x@plot.symbol$legend, names(.spnet.symbol.list))],
-          bty = 'n'
-        )
-      }
-      if(flag.arrow) {
-        legend(
-          x = "topright",
-          legend = arrow.label.list,
-          col = arrow.col.list,
-          lty = 1,
-          bty = 'n'
-        )
-      }
-  #     if(flag.arrow){
-  #       dn <- x@plot.arrow$legend
-  #       if(nchar(dn) > 0) {
-  #         xx <- 0.8
-  #         yy <- 0.66
-  #         tt <- 0.04
-  #         arrows(xx, yy, xx + tt, yy, col=arrow.col, length=arrow.length.rate)
-  #         
-  #         text(x= xx+tt+0.11, y = yy, labels = dn, ...=...)
-  #       }
-  #     }
     }
+
+  reset = TRUE
+  if(is.element('reset',names(lay)))
+    if(lay$reset == FALSE)
+      reset = FALSE
+  if(reset)
     par(def.par)  #- reset to default
   }
 )

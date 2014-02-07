@@ -1,36 +1,34 @@
 #' Class \code{"SpatialNetwork"}
 #' 
 #' Allow to store spatial networks, especially for rendering them
-#' 
-#' @rdname SpatialNetwork-class
-#' @name SpatialNetwork
-#' @aliases SpatialNetwork-class
-#' @docType class
-#' @author Emmanuel Rousseaux
+#'
+#' @rdname SpatialNetwork
+#' @export
+#' @classHierarchy
+#' @classMethods
+#' @genericMethods
 #' @keywords classes spatial network sp
 #' @family spnet-class
+#' @slot .Data object of class \code{"list"}
+#' @slot map object of class \code{"SpatialPolygons"}
+#' @slot networks object of class \code{"list"}
+#' @slot plot.title object of class \code{"list"}
+#' @slot plot.label object of class \code{"list"}
+#' @slot plot.color object of class \code{"list"}
+#' @slot plot.symbol object of class \code{"list"}
+#' @slot plot.arrow object of class \code{"list"}
+#' @slot plot.legend object of class \code{"list"}
+#' @slot plot.layout object of class \code{"list"}
+#' @slot plot.par object of class \code{"list"}
+#' @slot infos object of class \code{"list"}
+#' @slot meta object of class \code{"list"}
+#' @slot warnings object of class \code{"list"}
+#' @slot names object of class \code{"character"}
+#' @slot row.names object of class \code{"data.frameRowLabels"}
+#' @slot .S3Class object of class \code{"character"}
+#'    
 #' @section Objects from the Class:
 #' Objects can be created with the \code{\link{spnet}} function (official class builder).
-#' 
-#' @section Slots:
-#'  \describe{
-#'    \item{\code{.Data}:}{Object of class \code{"list"} ~~ }
-#'    \item{\code{sp}:}{Object of class \code{"SpatialPolygons"} ~~ }
-#'    \item{\code{networks}:}{Object of class \code{"list"} ~~ }
-#'    \item{\code{plot.title}:}{Object of class \code{"list"} ~~ }
-#'    \item{\code{plot.label}:}{Object of class \code{"list"} ~~ }
-#'    \item{\code{plot.color}:}{Object of class \code{"list"} ~~ }
-#'    \item{\code{plot.symbol}:}{Object of class \code{"list"} ~~ }
-#'    \item{\code{plot.arrow}:}{Object of class \code{"list"} ~~ }
-#'    \item{\code{plot.legend}:}{Object of class \code{"list"} ~~ }
-#'    \item{\code{plot.layout}:}{Object of class \code{"list"} ~~ }
-#'    \item{\code{infos}:}{Object of class \code{"list"} ~~ }
-#'    \item{\code{meta}:}{Object of class \code{"list"} ~~ }
-#'    \item{\code{warnings}:}{Object of class \code{"list"} ~~ }
-#'    \item{\code{names}:}{Object of class \code{"character"} ~~ }
-#'    \item{\code{row.names}:}{Object of class \code{"data.frameRowLabels"} ~~ }
-#'    \item{\code{.S3Class}:}{Object of class \code{"character"} ~~ }
-#' }
 #' 
 #' @section Extends:
 #' Class \code{"\linkS4class{data.frame}"}, directly.
@@ -216,6 +214,34 @@ setClass(
   }
 )
 
+
+#' Extract or replace parts of a SpatialNetwork object
+#'
+#' @name [
+#' @aliases [,SpatialNetwork-method
+#' @docType methods
+#' @rdname extract-methods
+NULL
+# setMethod(
+#   "[", signature(x = "SpatialNetwork", i = "ANY", j="ANY"),
+#   function (x, i, j, ..., drop) {
+#     x[i,j]
+#   }
+# )
+
+#' set parts of SpatialNetwork
+#'
+#' @name [<-
+#' @aliases [<-,SpatialNetwork-method
+#' @docType methods
+#' @rdname extract-methods
+NULL
+# setReplaceMethod(
+#   "[", signature(x = "SpatialNetwork", i = "ANY", j="ANY"),
+#   function (x, i, j, ..., drop, value) {
+#     x[i,j] <- value
+#   }
+# )
 
 setGeneric("spnet.map", function(object){ standardGeneric("spnet.map") })
 setMethod(
@@ -413,6 +439,7 @@ setReplaceMethod(
 #' @param plot.par AAA
 #' @param infos AAA
 #' @param quiet = FALSE AAA
+#' @export
 #' @examples
 #' people <- c("John", "Elsa", "Brian", "Kate")
 #' position <- c(2,4,6,8)
@@ -440,7 +467,7 @@ spnet.create <- function(
   plot.color,
   plot.symbol,
   plot.arrow,
-  plot.legend = list(print = TRUE, cex = 1),
+  plot.legend = list(print = TRUE, cex = 1, ncol = 1, horiz = FALSE),
   plot.layout = list(ratios = c('title' = 1/10, 'graphic' = 7/10, 'legend' = 2/10), mat = NULL, reset = TRUE),
   plot.par = list(mar = c(1,1,1,1)), # par(mar = c(5,4,2,2))
   infos,
@@ -871,6 +898,8 @@ setMethod(
       ## LEGEND
       leg.pring = spnet.legend(x)$print
       leg.cex = spnet.legend(x)$cex
+      leg.ncol = spnet.legend(x)$ncol
+      leg.horiz = spnet.legend(x)$horiz
 
       par(spnet.par(x))
       plot.new()
@@ -881,7 +910,9 @@ setMethod(
             legend = names(x@plot.color$legend),
             fill = x@plot.color$legend,
             bty = 'n',
-            cex = leg.cex
+            cex = leg.cex,
+            ncol = leg.ncol,
+            horiz = leg.horiz
           )
         }
         if(flag.symbol) {

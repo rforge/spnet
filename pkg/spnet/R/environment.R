@@ -6,7 +6,7 @@
 #' 
 #' The \code{spnet.version} function return the version of the \code{spnet} package you are currently running.
 #' 
-#' @author Emmanuel Rousseaux
+#' @export
 #' @examples 
 #' spnet.version()
 spnet.version <- function() {

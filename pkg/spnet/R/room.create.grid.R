@@ -14,6 +14,7 @@
 #' @param  seat.width a \code{numeric} of length 1. Define the width of each seat.
 #' @param  seat.height a \code{numeric} of length 1. Define the height of each seat.
 #' 
+#' @export
 #' @examples
 #' # A room with tables in inversed 'U' form
 #' col <- 5
@@ -61,7 +62,6 @@ room.create.grid <- function(
   seat.width = 1,
   seat.height = 1
 ) {
-  require(sp)
   stopifnot(inherits(x, 'matrix'))
   stopifnot(inherits(seat.width, 'numeric'))
   stopifnot(inherits(seat.height, 'numeric'))
@@ -214,6 +214,7 @@ room.create.grid <- function(
 #' @param  seat.width see \code{\link{room.create.grid}}.
 #' @param  seat.height see \code{\link{room.create.grid}}.
 #' @param  out a \code{character}. Allow to specify whether you want to get a \code{\link{SpatialPolygons}} object (default) or a \code{matrix} you can edit and reuse in the \code{\link{room.create.grid}} function.
+#' @export
 #' @examples
 #' room.u.0 <- room.create.u()
 #' plot(room.u.0)

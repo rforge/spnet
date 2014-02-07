@@ -2,9 +2,8 @@
 \alias{room.create.u}
 \title{Create a room with a U shape}
 \usage{
-  room.create.u(x = c(7, 3, 7), gap = c(0, 0, 0),
-    orientation = "top", seat.width = 1, seat.height = 1,
-    out = "SpatialPolygons")
+room.create.u(x = c(7, 3, 7), gap = c(0, 0, 0), orientation = "top",
+  seat.width = 1, seat.height = 1, out = "SpatialPolygons")
 }
 \arguments{
   \item{x}{a \code{numeric} object of length 3. The first
@@ -41,21 +40,21 @@
   the \code{\link{room.create.grid}} function.}
 }
 \value{
-  Either a \code{\link{SpatialPolygons}} object or a
-  \code{matrix} (according to the value given to the
-  \code{out} parameter).
+Either a \code{\link{SpatialPolygons}} object or a
+\code{matrix} (according to the value given to the
+\code{out} parameter).
 }
 \description{
-  The \code{room.create.u} function allows to design a room
-  with a U shape and 4 possible orientations: top, bottom,
-  left and right. Gaps between tables can be defined.
+The \code{room.create.u} function allows to design a room
+with a U shape and 4 possible orientations: top, bottom,
+left and right. Gaps between tables can be defined.
 }
 \details{
-  If you want to assign seat numbering you can use the
-  \code{out} argument to export the room as a \code{matrix}
-  object, then assign the numbering in the matrix, and then
-  use the \code{\link{room.create.grid}} function to create
-  the final room. \cr\cr
+If you want to assign seat numbering you can use the
+\code{out} argument to export the room as a \code{matrix}
+object, then assign the numbering in the matrix, and then
+use the \code{\link{room.create.grid}} function to create
+the final room. \cr\cr
 }
 \examples{
 room.u.0 <- room.create.u()
@@ -90,9 +89,9 @@ room.u.8
 plot(room.create.grid(room.u.8, seat.width=2))
 }
 \author{
-  Emmanuel Rousseaux
+Emmanuel Rousseaux
 }
 \seealso{
-  Other map plot: \code{\link{room.create.grid}}
+Other map plot: \code{\link{room.create.grid}}
 }
 

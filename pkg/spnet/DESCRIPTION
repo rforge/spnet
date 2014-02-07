@@ -1,8 +1,8 @@
 Package: spnet
 Type: Package
 Title: Plotting social networks on maps
-Version: 0.2.0
-Date: 2013-09-10
+Version: 0.3.0
+Date: 2014-02-07
 Author: Emmanuel Rousseaux, Marion Deville
 Maintainer: Emmanuel Rousseaux <emmanuel.rousseaux@unige.ch>
 Description: The spnet package offers methods for dealing with spacial social
@@ -17,11 +17,3 @@ Depends:
 Suggests:
     knitr
 VignetteBuilder: knitr
-Collate:
-    'environment.R'
-    'plot.position.R'
-    'room.create.grid.R'
-    'SpatialNetwork.R'
-    'tools.nary.R'
-    'zzz.R'
-    'spnet.R'

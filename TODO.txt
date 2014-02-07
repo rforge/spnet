@@ -1,11 +1,34 @@
+tester un plot traminer avec le layout
+
+tester la fusion des cases (avec maptools)
+
+corriger les symboles
+
 Afficher des messages (désactivables) lorsque un noeud présent dans une matrice réseau n'est pas référencée dans les nodes du dataframe, car l'utilisateur peut perdre des flèches sans s'en rendre compte
 
 Laisser à l'utilisateur la possibilité de ne pas affiche les labels
 
-Faire la fusion des cases
+IMPORTANT toutes les options de configuration doivent apparaitre dans les listes (comme c'est le cas pour la légende par exemple.)
+il faut faire un test dans la fonction de validity que chaque élément existe (est non null) (all (liste des noms delements) in names())
+lorsque la personne met un réseau, je construit automatiquement la liste si elle n'existe pas, avec tous les éléments (translate x, etc.) ainsi l'utilisateur n'a que à faire TAB pour spnet.networks()$TAB pour retrouver l'élément
 
 
 layout :
 - ratios doit sommer à 1, 
 - soit ratio soit mat doit être non nuls
 - ratios s'appelle titre graphique legend
+
+
+Viser d'avoir une version pour le CRAN avant l'EPSA
+
+== réseaux temporels
+
+l'objectif est que les personnes puissent visualiser un réseau dans le temps. La personne doit donc pouvoir insérer une matrice contenant la liste des débats voir les choses avancer dans le temps. Basiquement 
+* il suffit d'une de compiler toutes les matrices en ligne, avec une colonne qui indique le numéro de la slide ou elle doit apparaitre (une colonne 1 1 1 1 1 2 2 2 2 2 2 3 3 3 3 3 si on veut coder trois débats, une colone 1,2,3,4,5,6 etc si on veut voir les fleches aparaitre ou grossir une par une. chaque ligne est une nouvelle intervention (approbation, neutre, etc.) => pas trop couteux en mémoire, on ne stocke qu'une fois les données
+* mais on doit aussi pouvoir prendre plusieurs objets spnet, les mettre dans une liste, et faire le plot => couteux en mémoire, les données sont stockées dans chaque objet
+
+Pour le graphique utiliser shiny ou les outils du package animation
+avantages animation : export en pdf
+avantages shiny : joli dans rstudio et web, facile à paramétrer, par contre faut enregistrer toutes les données pour que l'application y ait accès ?
+
+si j'ai le temps faire les deux : shiny avec tous les paramètres (couleur, largeur de trait, taille figure, etc. ) pour bien paramétrer la figure, et ensuite animation pour l'export

@@ -132,24 +132,24 @@ setClass(
     # layout
     
     # colors
-    color <- object@plot.color
-    if(flag && (length(color) > 0)){
-      if(!all(names(color) %in% c('variable', 'legend'))) stop("Elements in 'plot.color' have to be named by one of the following names: 'variable', 'legend'.")
-      if(!'variable' %in% names(color)) stop("The 'plot.color' list should contain a 'variable' element")
-      if(!'legend' %in% names(color)) stop("The 'plot.color' list should contain a 'legend' element")
-      if(!color$variable %in% names(object)) stop("The 'variable' element of 'plot.color' doesn't exist in data.")
-      exist.in.data <- names(color$legend) %in% unique(object[,color$variable])
-      if(!all(exist.in.data)) {
-        stop(paste(
-          "Some values in the 'legend' referenced in 'plot.color' doesn't exist in the variable ",
-          color$variable,
-          ': ',
-          paste(names(color$legend)[which(!exist.in.data)], collapse = ', '),
-          sep = ''
-          )
-        )
-      }
-    }
+#     color <- object@plot.color
+#     if(flag && (length(color) > 0)){
+#       if(!all(names(color) %in% c('variable', 'legend'))) stop("Elements in 'plot.color' have to be named by one of the following names: 'variable', 'legend'.")
+#       if(!'variable' %in% names(color)) stop("The 'plot.color' list should contain a 'variable' element")
+#       if(!'legend' %in% names(color)) stop("The 'plot.color' list should contain a 'legend' element")
+#       if(!color$variable %in% names(object)) stop("The 'variable' element of 'plot.color' doesn't exist in data.")
+#       exist.in.data <- names(color$legend) %in% unique(object[,color$variable])
+#       if(!all(exist.in.data)) {
+#         stop(paste(
+#           "Some values in the 'legend' referenced in 'plot.color' doesn't exist in the variable ",
+#           color$variable,
+#           ': ',
+#           paste(names(color$legend)[which(!exist.in.data)], collapse = ', '),
+#           sep = ''
+#           )
+#         )
+#       }
+#     }
     
     # symbol
     symbol <- object@plot.symbol
@@ -262,17 +262,17 @@ setReplaceMethod(
   }
 )
 
-setGeneric("spnet.networks", function(object){ standardGeneric("spnet.networks") })
+setGeneric("spnet.networks.list", function(object){ standardGeneric("spnet.networks.list") })
 setMethod(
-  f = "spnet.networks",
+  f = "spnet.networks.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "networks"))
   }
 )
-setGeneric("spnet.networks<-", function(object, value){ standardGeneric("spnet.networks<-") })
+setGeneric("spnet.networks.list<-", function(object, value){ standardGeneric("spnet.networks.list<-") })
 setReplaceMethod(
-  f = "spnet.networks" ,
+  f = "spnet.networks.list" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@networks <- value
@@ -281,7 +281,7 @@ setReplaceMethod(
   }
 )
 setReplaceMethod(
-  f = "spnet.networks" ,
+  f = "spnet.networks.list" ,
   signature = c("SpatialNetwork", 'matrix'),
   definition = function(object, value){
     object@networks <- list(value)
@@ -290,17 +290,17 @@ setReplaceMethod(
   }
 )
 
-setGeneric("spnet.title", function(object){ standardGeneric("spnet.title") })
+setGeneric("spnet.title.list", function(object){ standardGeneric("spnet.title.list") })
 setMethod(
-  f = "spnet.title",
+  f = "spnet.title.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.title"))
   }
 )
-setGeneric("spnet.title<-", function(object, value){ standardGeneric("spnet.title<-") })
+setGeneric("spnet.title.list<-", function(object, value){ standardGeneric("spnet.title.list<-") })
 setReplaceMethod(
-  f = "spnet.title" ,
+  f = "spnet.title.list" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@plot.title <- value
@@ -308,17 +308,17 @@ setReplaceMethod(
     return(object)
   }
 )
-setGeneric("spnet.label", function(object){ standardGeneric("spnet.label") })
+setGeneric("spnet.label.list", function(object){ standardGeneric("spnet.label.list") })
 setMethod(
-  f = "spnet.label",
+  f = "spnet.label.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.label"))
   }
 )
-setGeneric("spnet.label<-", function(object, value){ standardGeneric("spnet.label<-") })
+setGeneric("spnet.label.list<-", function(object, value){ standardGeneric("spnet.label.list<-") })
 setReplaceMethod(
-  f = "spnet.label" ,
+  f = "spnet.label.list" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@plot.label <- value
@@ -326,17 +326,17 @@ setReplaceMethod(
     return(object)
   }
 )
-setGeneric("spnet.color", function(object){ standardGeneric("spnet.color") })
+setGeneric("spnet.color.list", function(object){ standardGeneric("spnet.color.list") })
 setMethod(
-  f = "spnet.color",
+  f = "spnet.color.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.color"))
   }
 )
-setGeneric("spnet.color<-", function(object, value){ standardGeneric("spnet.color<-") })
+setGeneric("spnet.color.list<-", function(object, value){ standardGeneric("spnet.color.list<-") })
 setReplaceMethod(
-  f = "spnet.color" ,
+  f = "spnet.color.list" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@plot.color <- value
@@ -344,18 +344,53 @@ setReplaceMethod(
     return(object)
   }
 )
-
-setGeneric("spnet.symbol", function(object){ standardGeneric("spnet.symbol") })
+setGeneric("spnet.color.variable", function(object){ standardGeneric("spnet.color.variable") })
 setMethod(
-  f = "spnet.symbol",
+  f = "spnet.color.variable",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.color")$variable)
+  }
+)
+setGeneric("spnet.color.variable<-", function(object, value){ standardGeneric("spnet.color.variable<-") })
+setReplaceMethod(
+  f = "spnet.color.variable" ,
+  signature = c("SpatialNetwork", 'character'),
+  definition = function(object, value){
+    object@plot.color$variable <- value
+    validObject(object)
+    return(object)
+  }
+)
+setGeneric("spnet.color.legend", function(object){ standardGeneric("spnet.color.legend") })
+setMethod(
+  f = "spnet.color.legend",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.color")$legend)
+  }
+)
+setGeneric("spnet.color.legend<-", function(object, value){ standardGeneric("spnet.color.legend<-") })
+setReplaceMethod(
+  f = "spnet.color.legend" ,
+  signature = c("SpatialNetwork", 'character'),
+  definition = function(object, value){
+    object@plot.color$legend <- value
+    validObject(object)
+    return(object)
+  }
+)
+setGeneric("spnet.symbol.list", function(object){ standardGeneric("spnet.symbol.list") })
+setMethod(
+  f = "spnet.symbol.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.symbol"))
   }
 )
-setGeneric("spnet.symbol<-", function(object, value){ standardGeneric("spnet.symbol<-") })
+setGeneric("spnet.symbol.list<-", function(object, value){ standardGeneric("spnet.symbol.list<-") })
 setReplaceMethod(
-  f = "spnet.symbol" ,
+  f = "spnet.symbol.list" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@plot.symbol <- value
@@ -363,17 +398,17 @@ setReplaceMethod(
     return(object)
   }
 )
-setGeneric("spnet.legend", function(object){ standardGeneric("spnet.legend") })
+setGeneric("spnet.legend.list", function(object){ standardGeneric("spnet.legend.list") })
 setMethod(
-  f = "spnet.legend",
+  f = "spnet.legend.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.legend"))
   }
 )
-setGeneric("spnet.legend<-", function(object, value){ standardGeneric("spnet.legend<-") })
+setGeneric("spnet.legend.list<-", function(object, value){ standardGeneric("spnet.legend.list<-") })
 setReplaceMethod(
-  f = "spnet.legend" ,
+  f = "spnet.legend.list" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@plot.legend <- value
@@ -381,17 +416,17 @@ setReplaceMethod(
     return(object)
   }
 )
-setGeneric("spnet.layout", function(object){ standardGeneric("spnet.layout") })
+setGeneric("spnet.layout.list", function(object){ standardGeneric("spnet.layout.list") })
 setMethod(
-  f = "spnet.layout",
+  f = "spnet.layout.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.layout"))
   }
 )
-setGeneric("spnet.layout<-", function(object, value){ standardGeneric("spnet.layout<-") })
+setGeneric("spnet.layout.list<-", function(object, value){ standardGeneric("spnet.layout.list<-") })
 setReplaceMethod(
-  f = "spnet.layout" ,
+  f = "spnet.layout.list" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@plot.layout <- value
@@ -399,17 +434,17 @@ setReplaceMethod(
     return(object)
   }
 )
-setGeneric("spnet.par", function(object){ standardGeneric("spnet.par") })
+setGeneric("spnet.par.list", function(object){ standardGeneric("spnet.par.list") })
 setMethod(
-  f = "spnet.par",
+  f = "spnet.par.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.par"))
   }
 )
-setGeneric("spnet.par<-", function(object, value){ standardGeneric("spnet.par<-") })
+setGeneric("spnet.par.list<-", function(object, value){ standardGeneric("spnet.par.list<-") })
 setReplaceMethod(
-  f = "spnet.par" ,
+  f = "spnet.par.list" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@plot.par <- value
@@ -492,7 +527,7 @@ spnet.create <- function(
   )
   
   if(!missing(networks)) {
-    spnet.networks(out) <- networks
+    spnet.networks.list(out) <- networks
   }
   
   return(out)
@@ -590,7 +625,7 @@ setMethod(
       )
     }
 #     layout.show(nf)
-    par(spnet.par(x))
+    par(spnet.par.list(x))
     
     plot.new()
     # plot the title
@@ -666,7 +701,7 @@ setMethod(
       seats.which <- match(seats, ids)
       lab <- rep("", nrow(coord))
 
-      lab.opt <- spnet.label(x)
+      lab.opt <- spnet.label.list(x)
       if(any(c('variable') %in% names(lab.opt))) {
         lab.opt.clean = lab.opt[-which(names(lab.opt) %in% c('variable'))]
         lab[seats.which] <- as.character(x[, lab.opt$variable])
@@ -896,12 +931,12 @@ setMethod(
       
       
       ## LEGEND
-      leg.pring = spnet.legend(x)$print
-      leg.cex = spnet.legend(x)$cex
-      leg.ncol = spnet.legend(x)$ncol
-      leg.horiz = spnet.legend(x)$horiz
+      leg.pring = spnet.legend.list(x)$print
+      leg.cex = spnet.legend.list(x)$cex
+      leg.ncol = spnet.legend.list(x)$ncol
+      leg.horiz = spnet.legend.list(x)$horiz
 
-      par(spnet.par(x))
+      par(spnet.par.list(x))
       plot.new()
       if(leg.pring) {
         if(flag.color) {

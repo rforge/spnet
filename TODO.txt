@@ -1,8 +1,35 @@
+NEXT version
+créer toutes les fonctions d'accès
+mettre à jour tout le code de Marion et le mettre à jour dans la vignette
+commit
+
 tester un plot traminer avec le layout
 
 tester la fusion des cases (avec maptools)
 
 corriger les symboles
+
+tout ce qui est dans spnet.label devrait être dans spnet.map
+spnet.map.area()
+spnet.map.labels
+spnet.map.labels.cex
+=> bon en fait si je vais dans ce sens, il faudrait pour être cohérent faire de même pour color, symbol, etc...
+=> donc à la place, c'est mieux de trouver un nom plus claire que "label", par exemples "nodes"
+spnet.nodes.variable
+spnet.nodes.labels
+spnet.nodes.cex
+et je pourrais m'échapper de ces variables NODES et POSITION
+
+On aurait au final:
+spnet.create(data)
+spnet.map.area(net1) (ou directement spnet.map ?)
+spnet.nodes.variable(net1)
+spnet.nodes.position(net1)
+spnet.nodes.labels(net1)
+spnet.nodes.cex(net1)
+spnet.color.variable(net1)
+spnet.networks.add(net1) <- a matrix
+spnet.networks.translate.x(net1) <- c('approb' = 0.2)
 
 Afficher des messages (désactivables) lorsque un noeud présent dans une matrice réseau n'est pas référencée dans les nodes du dataframe, car l'utilisateur peut perdre des flèches sans s'en rendre compte
 
@@ -19,7 +46,8 @@ layout :
 - ratios s'appelle titre graphique legend
 
 
-Viser d'avoir une version pour le CRAN avant l'EPSA
+
+Faire le namespace avec roxygen
 
 == réseaux temporels
 

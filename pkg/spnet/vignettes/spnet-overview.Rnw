@@ -1,5 +1,5 @@
 %\VignetteEngine{knitr}
-%\VignetteIndexEntry{An overview of the trim package}
+%\VignetteIndexEntry{An overview of the spnet package}
 \documentclass{article}
 \title{An overview of the spnet package}
 \author{Emmanuel Rousseaux and Marion Deville}
@@ -24,7 +24,62 @@ library(spnet)
 
 The \verb|spnet| package offers methods for dealing with spacial social networks. It allows to plot networks for which actors have a specific location on a map (participants in a political debate, cities, etc.). \verb|SpatialPolygons| objects from the \verb|sp| package are supported.
 
-\section{Creating rooms}
+\section{Main functionalities / Gallery}
+
+The |spnet.example.basic| function provides a working example involving basic functionnalities of the |spnet| package.
+
+<<>>=
+net1 <- spnet.example.basic()
+plot(net1)
+@
+
+\section{Usage}
+
+\subsection{Create a Spnet object}
+
+
+\subsection{Set colors}
+
+To set colors you basically need:
+\begin{itemize}
+\item A categorical variable affecting each node to a class
+\item a legend of color specifying the color to use for each class
+\end{itemize}
+Here is a practical example. First, we create an basic \verb|Spnet| object containing a map.
+<<>>=
+net1 <- spnet.example.basic.map()
+plot(net1)
+@
+This example contains the following data:
+<<>>=
+data.frame(net1)
+@
+We add a categorical variable affecting each node to a class:
+<<>>=
+net1$parti <- c('vert', 'socialiste', 'autre', 'vert')
+@
+Data are now:
+<<>>=
+data.frame(net1)
+@
+Then we specify we want to use the variable \verb|parti| to colorize the map:
+<<>>=
+spnet.color.variable(net1) <- "parti"
+@
+Finally we specify the colors to use:
+<<>>=
+spnet.color.legend(net1) <- c('vert' = "#32AB58", 'socialiste' = "#E31923")
+@
+Now the \verb|plot| function is able to colorize the graphic:
+<<>>=
+plot(net1)
+@
+
+\section{Maps}
+
+\subsection{SpatialPolygons maps}
+
+\subsection{Rooms}
 
 The easiest way to create a room to represent a debate is the {\ttfamily room.create.grid} function. Here is an example of use:
 
@@ -44,5 +99,7 @@ m
 room1 <- room.create.grid(m, seat.width=2, seat.height=1)
 plot.position(room1)
 @
+
+
 
 \end{document}

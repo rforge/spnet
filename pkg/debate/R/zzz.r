@@ -7,19 +7,19 @@
 
 
 .onAttach <- function(libname, pkgname) {
-  packageStartupMessage('\n', 'Welcome to spnet', '.')
-  packageStartupMessage('You are running version ', utils::packageVersion("spnet"), '.\n')
+  packageStartupMessage('\n', 'Welcome to debate', '.')
+  packageStartupMessage('You are running version ', utils::packageVersion("debate"), '.\n')
   packageStartupMessage(
     'For introductory material, type ',
     #"'vignette(package=\"spnet\")'.\n"
-    "`vignette('spnet-overview')`.\n"
+    "`vignette('debate-overview')`.\n"
   )
   packageStartupMessage(
     'If you use this package in your work, thank you for rewarding our work by citing the package in your own one. ',
-    "Please type `citation(\'spnet\')` for citation information.\n"
+    "Please type `citation(\'debate\')` for citation information.\n"
   )
   packageStartupMessage(
-    "Type `?spnet` ",
+    "Type `?debate` ",
     "to display the help index.\n"
   )
   
@@ -27,7 +27,7 @@
 
 #' @export
 .Last.lib <- function(libpath) {
-  message('\n', 'Thank you for using spnet', '.')
+  message("Thank you for using the 'debate' R-package", '.')
   message('See you soon', '!')
 }
 

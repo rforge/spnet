@@ -26,7 +26,7 @@ The \verb|spnet| package offers methods for dealing with spacial social networks
 
 \section{Main functionalities / Gallery}
 
-The |spnet.example.basic| function provides a working example involving basic functionnalities of the |spnet| package.
+The \verb|spnet.example.basic| function provides a working example involving basic functionnalities of the \verb|spnet| package.
 
 <<>>=
 net1 <- spnet.example.basic()
@@ -37,8 +37,9 @@ plot(net1)
 
 \subsection{Create a Spnet object}
 
+\subsection{Setting labels}
 
-\subsection{Set colors}
+\subsection{Setting colors}
 
 To set colors you basically need:
 \begin{itemize}
@@ -74,6 +75,61 @@ Now the \verb|plot| function is able to colorize the graphic:
 <<>>=
 plot(net1)
 @
+
+
+
+
+
+
+
+\subsection{Dealing with a quantitative covariate: rendering individual barplots}
+
+We may need to render a quantitative attribute related to each node of the network. To that purpose we provide a simple barplot tool. This section details how to use it. We start with a fresh \verb|spnet| object and equipe it with a map.
+
+<<>>=
+ex.bp <- spnet.example.basic.map()
+@
+
+\noindent A fresh \verb|spnet| object contains the following default barplot settings:
+
+<<>>=
+spnet.barplot.list(ex.bp)
+@
+
+\noindent The first point is to
+
+<<>>=
+ex.bp$content <- c(0.1,0.3,0.5,0.9)
+ex.bp
+@
+
+<<>>=
+spnet.barplot.variable(ex.bp) <- "content"
+spnet.barplot.list(ex.bp)
+@
+
+<<>>=
+ex.bp
+@
+
+<<>>=
+plot(ex.bp)
+@
+
+<<>>=
+spnet.barplot.bound.lower(ex.bp) <- c(-0.5,-0.44)
+spnet.barplot.bound.upper(ex.bp) <- c(0.5,-0.44)
+spnet.barplot.width(ex.bp) <- 6
+plot(ex.bp)
+@
+
+<<>>=
+spnet.barplot.fgcolor(ex.bp) <- "#00dd00"
+spnet.barplot.bgcolor(ex.bp) <- "#0000dd"
+plot(ex.bp)
+@
+
+
 
 \section{Maps}
 

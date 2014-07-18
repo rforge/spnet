@@ -4,9 +4,6 @@
 #'
 #' @rdname SpatialNetwork
 #' @export
-#' @classHierarchy
-#' @classMethods
-#' @genericMethods
 #' @keywords classes spatial network sp
 #' @family spnet-class
 #' @slot .Data object of class \code{"list"}
@@ -17,6 +14,7 @@
 #' @slot plot.color object of class \code{"list"}
 #' @slot plot.symbol object of class \code{"list"}
 #' @slot plot.arrow object of class \code{"list"}
+#' @slot plot.barplot object of class \code{"list"}
 #' @slot plot.legend object of class \code{"list"}
 #' @slot plot.layout object of class \code{"list"}
 #' @slot plot.par object of class \code{"list"}
@@ -30,19 +28,6 @@
 #' @section Objects from the Class:
 #' Objects can be created with the \code{\link{spnet}} function (official class builder).
 #' 
-#' @section Extends:
-#' Class \code{"\linkS4class{data.frame}"}, directly.
-#' Class \code{"\linkS4class{list}"}, by class "data.frame", distance 2.
-#' Class \code{"\linkS4class{oldClass}"}, by class "data.frame", distance 2.
-#' Class \code{"\linkS4class{vector}"}, by class "data.frame", distance 3.
-#' 
-#' @section Methods:
-#'   \describe{
-#'     \item{plot}{\code{signature(x = "SpatialNetwork", y = "ANY")}: ... }
-#'     \item{plot.position}{\code{signature(x = "SpatialNetwork")}: ... }
-#'     \item{print}{\code{signature(x = "SpatialNetwork")}: ... }
-#'     \item{show}{\code{signature(object = "SpatialNetwork")}: ... }
-#'   }
 #'   
 #' @examples
 #' people <- c("John", "Elsa", "Brian", "Kate")
@@ -74,6 +59,7 @@ setClass(
     'plot.color' = 'list',
     'plot.symbol' = 'list',
     'plot.arrow' = 'list',
+    'plot.barplot' = 'list',
     'plot.legend' = 'list',
     'plot.layout' = 'list',
     'plot.par' = 'list',
@@ -152,31 +138,34 @@ setClass(
 #     }
     
     # symbol
-    symbol <- object@plot.symbol
-    if(flag && (length(symbol) > 0)){
-      if(!all(names(symbol) %in% c('variable', 'legend', 'color', 'cex', 'space', 'translate.x', 'translate.y'))) stop("Elements in 'plot.symbol' have to be named by one of the following names: 'variable', 'legend', 'color', 'cex', 'space', 'translate.x', 'translate.y'.")
-      if(!'variable' %in% names(symbol)) stop("The 'plot.symbol' list should contain a 'variable' element")
-      if(!'legend' %in% names(symbol)) stop("The 'plot.symbol' list should contain a 'legend' element")
-      if(!symbol$variable %in% names(object)) stop("The 'variable' element of 'plot.symbol' doesn't exist in data.")
-      values.of.symbol.column <- unique(.extract.multiple.strings(object[,symbol$variable]))
-      exist.in.data <- names(symbol$legend) %in% values.of.symbol.column
-      if(!all(exist.in.data)) {
-        stop(paste(
-          "Some values in the 'legend' referenced in 'plot.symbol' doesn't exist in the variable ",
-          symbol$variable,
-          ': ',
-          paste(names(symbol$legend)[which(!exist.in.data)], collapse = ', '),
-          sep = ''
-          )
-        )
-      }
-      exist.in.symbol <- symbol$legend %in% names(spnet:::.spnet.symbol.list)
-      if(!all(exist.in.symbol)) stop(
-        paste(
-          "Some symbol names you provided doesn't exist:",
-          paste(symbol$legend[which(!exist.in.symbol)])
-        ))
-    }
+#     symbol <- object@plot.symbol
+#     if(flag && (length(symbol) > 0)){
+#       if(!all(names(symbol) %in% c('variable', 'legend', 'color', 'cex', 'space', 'translate.x', 'translate.y'))) stop("Elements in 'plot.symbol' have to be named by one of the following names: 'variable', 'legend', 'color', 'cex', 'space', 'translate.x', 'translate.y'.")
+#       if(!'variable' %in% names(symbol)) stop("The 'plot.symbol' list should contain a 'variable' element")
+#       if(!'legend' %in% names(symbol)) stop("The 'plot.symbol' list should contain a 'legend' element")
+#       if(!symbol$variable %in% names(object)) stop("The 'variable' element of 'plot.symbol' doesn't exist in data.")
+#       values.of.symbol.column <- unique(.extract.multiple.strings(object[,symbol$variable]))
+#       exist.in.data <- names(symbol$legend) %in% values.of.symbol.column
+#       if(!all(exist.in.data)) {
+#         stop(paste(
+#           "Some values in the 'legend' referenced in 'plot.symbol' doesn't exist in the variable ",
+#           symbol$variable,
+#           ': ',
+#           paste(names(symbol$legend)[which(!exist.in.data)], collapse = ', '),
+#           sep = ''
+#           )
+#         )
+#       }
+#       exist.in.symbol <- symbol$legend %in% names(spnet::.spnet.symbol.list)
+#       if(!all(exist.in.symbol)) stop(
+#         paste(
+#           "Some symbol names you provided doesn't exist:",
+#           paste(symbol$legend[which(!exist.in.symbol)])
+#         ))
+#     }
+
+    # barplots
+    # vérif variable numérique, 
     
     # networks
     nets <- object@networks
@@ -243,6 +232,7 @@ NULL
 #   }
 # )
 
+#' @export
 setGeneric("spnet.map", function(object){ standardGeneric("spnet.map") })
 setMethod(
   f = "spnet.map",
@@ -251,6 +241,7 @@ setMethod(
     return(slot(object, "map"))
   }
 )
+#' @export
 setGeneric("spnet.map<-", function(object, value){ standardGeneric("spnet.map<-") })
 setReplaceMethod(
   f = "spnet.map" ,
@@ -262,6 +253,7 @@ setReplaceMethod(
   }
 )
 
+#' @export
 setGeneric("spnet.networks.list", function(object){ standardGeneric("spnet.networks.list") })
 setMethod(
   f = "spnet.networks.list",
@@ -270,6 +262,7 @@ setMethod(
     return(slot(object, "networks"))
   }
 )
+#' @export
 setGeneric("spnet.networks.list<-", function(object, value){ standardGeneric("spnet.networks.list<-") })
 setReplaceMethod(
   f = "spnet.networks.list" ,
@@ -280,16 +273,8 @@ setReplaceMethod(
     return(object)
   }
 )
-setReplaceMethod(
-  f = "spnet.networks.list" ,
-  signature = c("SpatialNetwork", 'matrix'),
-  definition = function(object, value){
-    object@networks <- list(value)
-    validObject(object)
-    return(object)
-  }
-)
 
+#' @export
 setGeneric("spnet.title.list", function(object){ standardGeneric("spnet.title.list") })
 setMethod(
   f = "spnet.title.list",
@@ -298,6 +283,7 @@ setMethod(
     return(slot(object, "plot.title"))
   }
 )
+#' @export
 setGeneric("spnet.title.list<-", function(object, value){ standardGeneric("spnet.title.list<-") })
 setReplaceMethod(
   f = "spnet.title.list" ,
@@ -308,6 +294,47 @@ setReplaceMethod(
     return(object)
   }
 )
+#' @export
+setGeneric("spnet.title.main", function(object){ standardGeneric("spnet.title.main") })
+setMethod(
+  f = "spnet.title.main",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.title")$main)
+  }
+)
+#' @export
+setGeneric("spnet.title.main<-", function(object, value){ standardGeneric("spnet.title.main<-") })
+setReplaceMethod(
+  f = "spnet.title.main" ,
+  signature = c("SpatialNetwork", 'character'),
+  definition = function(object, value){
+    object@plot.title$main <- value
+    validObject(object)
+    return(object)
+  }
+)
+#' @export
+setGeneric("spnet.title.sub", function(object){ standardGeneric("spnet.title.sub") })
+setMethod(
+  f = "spnet.title.sub",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.title")$sub)
+  }
+)
+#' @export
+setGeneric("spnet.title.sub<-", function(object, value){ standardGeneric("spnet.title.sub<-") })
+setReplaceMethod(
+  f = "spnet.title.sub" ,
+  signature = c("SpatialNetwork", 'character'),
+  definition = function(object, value){
+    object@plot.title$sub <- value
+    validObject(object)
+    return(object)
+  }
+)
+#' @export
 setGeneric("spnet.label.list", function(object){ standardGeneric("spnet.label.list") })
 setMethod(
   f = "spnet.label.list",
@@ -316,6 +343,7 @@ setMethod(
     return(slot(object, "plot.label"))
   }
 )
+#' @export
 setGeneric("spnet.label.list<-", function(object, value){ standardGeneric("spnet.label.list<-") })
 setReplaceMethod(
   f = "spnet.label.list" ,
@@ -326,6 +354,7 @@ setReplaceMethod(
     return(object)
   }
 )
+#' @export
 setGeneric("spnet.color.list", function(object){ standardGeneric("spnet.color.list") })
 setMethod(
   f = "spnet.color.list",
@@ -334,6 +363,7 @@ setMethod(
     return(slot(object, "plot.color"))
   }
 )
+#' @export
 setGeneric("spnet.color.list<-", function(object, value){ standardGeneric("spnet.color.list<-") })
 setReplaceMethod(
   f = "spnet.color.list" ,
@@ -344,6 +374,7 @@ setReplaceMethod(
     return(object)
   }
 )
+#' @export
 setGeneric("spnet.color.variable", function(object){ standardGeneric("spnet.color.variable") })
 setMethod(
   f = "spnet.color.variable",
@@ -352,6 +383,7 @@ setMethod(
     return(slot(object, "plot.color")$variable)
   }
 )
+#' @export
 setGeneric("spnet.color.variable<-", function(object, value){ standardGeneric("spnet.color.variable<-") })
 setReplaceMethod(
   f = "spnet.color.variable" ,
@@ -362,6 +394,7 @@ setReplaceMethod(
     return(object)
   }
 )
+#' @export
 setGeneric("spnet.color.legend", function(object){ standardGeneric("spnet.color.legend") })
 setMethod(
   f = "spnet.color.legend",
@@ -370,6 +403,7 @@ setMethod(
     return(slot(object, "plot.color")$legend)
   }
 )
+#' @export
 setGeneric("spnet.color.legend<-", function(object, value){ standardGeneric("spnet.color.legend<-") })
 setReplaceMethod(
   f = "spnet.color.legend" ,
@@ -380,6 +414,7 @@ setReplaceMethod(
     return(object)
   }
 )
+#' @export
 setGeneric("spnet.symbol.list", function(object){ standardGeneric("spnet.symbol.list") })
 setMethod(
   f = "spnet.symbol.list",
@@ -388,6 +423,7 @@ setMethod(
     return(slot(object, "plot.symbol"))
   }
 )
+#' @export
 setGeneric("spnet.symbol.list<-", function(object, value){ standardGeneric("spnet.symbol.list<-") })
 setReplaceMethod(
   f = "spnet.symbol.list" ,
@@ -398,6 +434,229 @@ setReplaceMethod(
     return(object)
   }
 )
+#' @export
+setGeneric("spnet.symbol.variable", function(object){ standardGeneric("spnet.symbol.variable") })
+setMethod(
+  f = "spnet.symbol.variable",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.symbol")$variable)
+  }
+)
+#' @export
+setGeneric("spnet.symbol.variable<-", function(object, value){ standardGeneric("spnet.symbol.variable<-") })
+setReplaceMethod(
+  f = "spnet.symbol.variable" ,
+  signature = c("SpatialNetwork", 'character'),
+  definition = function(object, value){
+    object@plot.symbol$variable <- value
+    validObject(object)
+    return(object)
+  }
+)
+#' @export
+setGeneric("spnet.symbol.legend", function(object){ standardGeneric("spnet.symbol.legend") })
+setMethod(
+  f = "spnet.symbol.legend",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.symbol")$legend)
+  }
+)
+#' @export
+setGeneric("spnet.symbol.legend<-", function(object, value){ standardGeneric("spnet.symbol.legend<-") })
+setReplaceMethod(
+  f = "spnet.symbol.legend" ,
+  signature = c("SpatialNetwork", 'character'),
+  definition = function(object, value){
+    object@plot.symbol$legend <- value
+    validObject(object)
+    return(object)
+  }
+)
+#' @export
+setGeneric("spnet.symbol.cex", function(object){ standardGeneric("spnet.symbol.cex") })
+setMethod(
+  f = "spnet.symbol.cex",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.symbol")$cex)
+  }
+)
+#' @export
+setGeneric("spnet.symbol.cex<-", function(object, value){ standardGeneric("spnet.symbol.cex<-") })
+setReplaceMethod(
+  f = "spnet.symbol.cex" ,
+  signature = c("SpatialNetwork", 'numeric'),
+  definition = function(object, value){
+    object@plot.symbol$cex <- value
+    validObject(object)
+    return(object)
+  }
+)
+#' @export
+setGeneric("spnet.symbol.color", function(object){ standardGeneric("spnet.symbol.color") })
+setMethod(
+  f = "spnet.symbol.color",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.symbol")$color)
+  }
+)
+#' @export
+setGeneric("spnet.symbol.color<-", function(object, value){ standardGeneric("spnet.symbol.color<-") })
+setReplaceMethod(
+  f = "spnet.symbol.color" ,
+  signature = c("SpatialNetwork", 'character'),
+  definition = function(object, value){
+    object@plot.symbol$color <- value
+    validObject(object)
+    return(object)
+  }
+)
+
+#' @export
+setGeneric("spnet.barplot.list", function(object){ standardGeneric("spnet.barplot.list") })
+setMethod(
+  f = "spnet.barplot.list",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.barplot"))
+  }
+)
+#' @export
+setGeneric("spnet.barplot.list<-", function(object, value){ standardGeneric("spnet.barplot.list<-") })
+setReplaceMethod(
+  f = "spnet.barplot.list" ,
+  signature = c("SpatialNetwork", 'list'),
+  definition = function(object, value){
+    object@plot.barplot <- value
+    validObject(object)
+    return(object)
+  }
+)
+#' @export
+setGeneric("spnet.barplot.variable", function(object){ standardGeneric("spnet.barplot.variable") })
+setMethod(
+  f = "spnet.barplot.variable",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.barplot")$variable)
+  }
+)
+#' @export
+setGeneric("spnet.barplot.variable<-", function(object, value){ standardGeneric("spnet.barplot.variable<-") })
+setReplaceMethod(
+  f = "spnet.barplot.variable" ,
+  signature = c("SpatialNetwork", 'character'),
+  definition = function(object, value){
+    object@plot.barplot$variable <- value
+    validObject(object)
+    return(object)
+  }
+)
+#' @export
+setGeneric("spnet.barplot.fgcolor", function(object){ standardGeneric("spnet.barplot.fgcolor") })
+setMethod(
+  f = "spnet.barplot.fgcolor",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.barplot")$fgcolor)
+  }
+)
+#' @export
+setGeneric("spnet.barplot.fgcolor<-", function(object, value){ standardGeneric("spnet.barplot.fgcolor<-") })
+setReplaceMethod(
+  f = "spnet.barplot.fgcolor" ,
+  signature = c("SpatialNetwork", 'character'),
+  definition = function(object, value){
+    object@plot.barplot$fgcolor <- value
+    validObject(object)
+    return(object)
+  }
+)
+#' @export
+setGeneric("spnet.barplot.bgcolor", function(object){ standardGeneric("spnet.barplot.bgcolor") })
+setMethod(
+  f = "spnet.barplot.bgcolor",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.barplot")$bgcolor)
+  }
+)
+#' @export
+setGeneric("spnet.barplot.bgcolor<-", function(object, value){ standardGeneric("spnet.barplot.bgcolor<-") })
+setReplaceMethod(
+  f = "spnet.barplot.bgcolor" ,
+  signature = c("SpatialNetwork", 'character'),
+  definition = function(object, value){
+    object@plot.barplot$bgcolor <- value
+    validObject(object)
+    return(object)
+  }
+)
+#' @export
+setGeneric("spnet.barplot.bound.lower", function(object){ standardGeneric("spnet.barplot.bound.lower") })
+setMethod(
+  f = "spnet.barplot.bound.lower",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.barplot")$bound.lower)
+  }
+)
+#' @export
+setGeneric("spnet.barplot.bound.lower<-", function(object, value){ standardGeneric("spnet.barplot.bound.lower<-") })
+setReplaceMethod(
+  f = "spnet.barplot.bound.lower" ,
+  signature = c("SpatialNetwork", 'numeric'),
+  definition = function(object, value){
+    object@plot.barplot$bound.lower <- value
+    validObject(object)
+    return(object)
+  }
+)
+#' @export
+setGeneric("spnet.barplot.bound.upper", function(object){ standardGeneric("spnet.barplot.bound.upper") })
+setMethod(
+  f = "spnet.barplot.bound.upper",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.barplot")$bound.upper)
+  }
+)
+#' @export
+setGeneric("spnet.barplot.bound.upper<-", function(object, value){ standardGeneric("spnet.barplot.bound.upper<-") })
+setReplaceMethod(
+  f = "spnet.barplot.bound.upper" ,
+  signature = c("SpatialNetwork", 'numeric'),
+  definition = function(object, value){
+    object@plot.barplot$bound.upper <- value
+    validObject(object)
+    return(object)
+  }
+)
+#' @export
+setGeneric("spnet.barplot.width", function(object){ standardGeneric("spnet.barplot.width") })
+setMethod(
+  f = "spnet.barplot.width",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.barplot")$width)
+  }
+)
+#' @export
+setGeneric("spnet.barplot.width<-", function(object, value){ standardGeneric("spnet.barplot.width<-") })
+setReplaceMethod(
+  f = "spnet.barplot.width" ,
+  signature = c("SpatialNetwork", 'numeric'),
+  definition = function(object, value){
+    object@plot.barplot$width <- value
+    validObject(object)
+    return(object)
+  }
+)
+
+#' @export
 setGeneric("spnet.legend.list", function(object){ standardGeneric("spnet.legend.list") })
 setMethod(
   f = "spnet.legend.list",
@@ -406,6 +665,7 @@ setMethod(
     return(slot(object, "plot.legend"))
   }
 )
+#' @export
 setGeneric("spnet.legend.list<-", function(object, value){ standardGeneric("spnet.legend.list<-") })
 setReplaceMethod(
   f = "spnet.legend.list" ,
@@ -416,6 +676,7 @@ setReplaceMethod(
     return(object)
   }
 )
+#' @export
 setGeneric("spnet.layout.list", function(object){ standardGeneric("spnet.layout.list") })
 setMethod(
   f = "spnet.layout.list",
@@ -424,6 +685,7 @@ setMethod(
     return(slot(object, "plot.layout"))
   }
 )
+#' @export
 setGeneric("spnet.layout.list<-", function(object, value){ standardGeneric("spnet.layout.list<-") })
 setReplaceMethod(
   f = "spnet.layout.list" ,
@@ -434,6 +696,7 @@ setReplaceMethod(
     return(object)
   }
 )
+#' @export
 setGeneric("spnet.par.list", function(object){ standardGeneric("spnet.par.list") })
 setMethod(
   f = "spnet.par.list",
@@ -442,6 +705,7 @@ setMethod(
     return(slot(object, "plot.par"))
   }
 )
+#' @export
 setGeneric("spnet.par.list<-", function(object, value){ standardGeneric("spnet.par.list<-") })
 setReplaceMethod(
   f = "spnet.par.list" ,
@@ -468,6 +732,7 @@ setReplaceMethod(
 #' @param plot.label list of arguments to be passed to the \code{\link{text}} function.
 #' @param plot.color AAA
 #' @param plot.symbol AAA
+#' @param plot.barplot AAA
 #' @param plot.arrow AAA
 #' @param plot.legend AAA
 #' @param plot.layout AAA
@@ -501,6 +766,7 @@ spnet.create <- function(
   plot.label = list(cex = 1, col = '#333333'),
   plot.color,
   plot.symbol,
+  plot.barplot = list(variable = "", bound.lower = c(-0.5,-0.5), bound.upper = c(0.5,-0.5), fgcolor = "#666666", bgcolor = "#eeeeee", width = 8),
   plot.arrow,
   plot.legend = list(print = TRUE, cex = 1, ncol = 1, horiz = FALSE),
   plot.layout = list(ratios = c('title' = 1/10, 'graphic' = 7/10, 'legend' = 2/10), mat = NULL, reset = TRUE),
@@ -521,6 +787,7 @@ spnet.create <- function(
     row.names = 1:nrow(df),
     plot.title =plot.title,
     plot.label = plot.label,
+    plot.barplot = plot.barplot,
     plot.legend = plot.legend,
     plot.layout = plot.layout,
     plot.par = plot.par
@@ -532,6 +799,7 @@ spnet.create <- function(
   
   return(out)
 }
+
 
 setMethod(
   f = 'show',
@@ -558,13 +826,16 @@ setMethod(
     
     color <- object@plot.color
     symbol <- object@plot.symbol
+    barplot <- object@plot.barplot
     
-    if('variable' %in% c(names(color), names(symbol))) {
+    if('variable' %in% c(names(color), names(symbol), names(barplot))) {
       cat("- Plotting options:\n")
       if('variable' %in% names(color))
         cat("    ", "Variable used to colorize: '", color$variable, "'\n", sep = "")
       if('variable' %in% names(symbol))
         cat("    ", "Variable used to draw symbols: '", symbol$variable, "'\n", sep = "")
+      if(nzchar(barplot$variable))
+        cat("    ", "Variable used to draw barplots: '", barplot$variable, "'\n", sep = "")
       cat("\n")
     }
   }
@@ -588,10 +859,13 @@ setMethod(
     tit <- x@plot.title
     
     color <- x@plot.color
-    if(length(color) > 0) {flag.color <- T} else {flag.color <- F}
+    flag.color <- ifelse(length(color) > 0, T, F)
         
     symbol <- x@plot.symbol
-    if(length(symbol) > 0) {flag.symbol <- T} else {flag.symbol <- F}
+    flag.symbol <- ifelse(length(symbol) > 0, T, F)
+    
+    barplot <- x@plot.barplot
+    flag.barplot <- ifelse(nzchar(barplot$variable), T, F)
     
     nets <- x@networks
     if(length(nets) > 0) {flag.arrow <- T} else {flag.arrow <- F}
@@ -769,7 +1043,7 @@ setMethod(
         }
 #         print(seats)
         arg.pch <- names(seats)
-        allsymb <- spnet:::.spnet.symbol.list
+        allsymb <- .spnet.symbol.list
         arg.pch <- allsymb[match(arg.pch, names(allsymb))]
         
         if('color' %in% names(symbol)) {
@@ -800,7 +1074,30 @@ setMethod(
         )
       }
       
-      
+      if(flag.barplot) {
+        coord <- coordinates(x@map)
+        ids <- row.names(coord)
+        seats <- x[, 'POSITION']
+        seats.which <- match(seats, ids)
+
+        values <- x[, spnet.barplot.variable(x)]
+        
+        for(i in 1:length(values)) {
+          value <- values[i]
+          if(!is.na(value)) {
+            lines.barplot(
+              value = value,
+              bound.lower = coord[seats.which[i],] + spnet.barplot.bound.lower(x),
+              bound.upper = coord[seats.which[i],] + spnet.barplot.bound.upper(x),
+              bgcolor = spnet.barplot.bgcolor(x),
+              fgcolor = spnet.barplot.fgcolor(x),
+              lwd = spnet.barplot.width(x)
+            )
+          }
+        }
+        
+      }
+
       if(flag.arrow) {
         arrow.col.list <- c()
         arrow.translate.x.list <- c()
@@ -954,7 +1251,7 @@ setMethod(
           legend(
             x = "top",
             legend = names(x@plot.symbol$legend),
-            pch = spnet:::.spnet.symbol.list[match(x@plot.symbol$legend, names(.spnet.symbol.list))],
+            pch = .spnet.symbol.list[match(x@plot.symbol$legend, names(.spnet.symbol.list))],
             bty = 'n',
             cex = leg.cex
           )

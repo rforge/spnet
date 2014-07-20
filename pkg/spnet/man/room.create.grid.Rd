@@ -35,7 +35,7 @@ m[5,c(1,5)] <- 0
 m[6,c(1,5)] <- 0
 m
 room1 <- room.create.grid(m, seat.width=2, seat.height=1)
-plot.position(room1)
+spnet.map.plot.position(room1)
 
 
 # A room with tables in inversed 'U', asymetric, with a customized seat numbering
@@ -49,7 +49,7 @@ m[5,1] <- c('L03')
 m[6,1] <-c('L04')
 m
 room2 <- room.create.grid(m, seat.width=2, seat.height=1)
-plot.position(room2)
+spnet.map.plot.position(room2)
 
 
 # A room with tables in square, and with odd and even number of seats
@@ -64,7 +64,7 @@ dimnames(m) <- list(
   rep('E',col)
 )
 room3 <- room.create.grid(m, seat.width=2, seat.height=1)
-plot.position(room3)
+spnet.map.plot.position(room3)
 }
 \author{
 Emmanuel Rousseaux

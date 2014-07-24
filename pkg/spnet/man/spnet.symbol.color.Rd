@@ -4,7 +4,7 @@
 \alias{spnet.symbol.color}
 \alias{spnet.symbol.color,SpatialNetwork-method}
 \alias{spnet.symbol.color<-,SpatialNetwork,character-method}
-\title{Get the color symbol of a \code{SpatialNetwork} object}
+\title{Get the symbol color of a \code{SpatialNetwork} object}
 \usage{
 spnet.symbol.color(object)
 
@@ -18,7 +18,7 @@ spnet.symbol.color(object)
 \item{value}{the color.}
 }
 \description{
-This generic method intends to extract the color symbol of a \code{SpatialNetwork} object.
+This generic method intends to extract the symbol color of a \code{SpatialNetwork} object.
 }
 \section{Methods (by class)}{
 \itemize{

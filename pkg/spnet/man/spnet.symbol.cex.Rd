@@ -4,7 +4,7 @@
 \alias{spnet.symbol.cex}
 \alias{spnet.symbol.cex,SpatialNetwork-method}
 \alias{spnet.symbol.cex<-,SpatialNetwork,numeric-method}
-\title{Get the cex parameter of a \code{SpatialNetwork} object}
+\title{Get the symbol cex parameter of a \code{SpatialNetwork} object}
 \usage{
 spnet.symbol.cex(object)
 
@@ -18,7 +18,7 @@ spnet.symbol.cex(object)
 \item{value}{the new cex parameter.}
 }
 \description{
-This generic method intends to extract the cex parameter of a \code{SpatialNetwork} object.
+This generic method intends to extract the symbol cex parameter of a \code{SpatialNetwork} object.
 }
 \section{Methods (by class)}{
 \itemize{

@@ -6,22 +6,24 @@
 \title{Spnet basic examples}
 \usage{
 spnet.example.basic(map = TRUE, color = TRUE, symbol = TRUE,
-  network1 = TRUE, network2 = TRUE)
+  network1 = TRUE, network2 = TRUE, barplot = TRUE)
 
 spnet.example.basic.full()
 
 spnet.example.basic.map()
 }
 \arguments{
-\item{map}{if \code{TRUE} an example of map is provided.}
+\item{map}{logical; if \code{TRUE} an example of map is provided.}
 
-\item{color}{if \code{TRUE} an example of map colorization is provided.}
+\item{color}{logical; if \code{TRUE} an example of map colorization is provided.}
 
-\item{symbol}{if \code{TRUE} an example of symbol use is provided.}
+\item{symbol}{logical; if \code{TRUE} an example of symbol use is provided.}
 
-\item{network1}{if \code{TRUE} a first example of network is provided.}
+\item{network1}{logical; if \code{TRUE} a first example of network is provided.}
 
-\item{network2}{if \code{TRUE} a second example of network is provided.}
+\item{network2}{logical; if \code{TRUE} a second example of network is provided.}
+
+\item{barplot}{logical; if \code{TRUE} a example of barplot rendering of a numeric variable is provided.}
 }
 \value{
 a \code{SpatialNetwok} object.

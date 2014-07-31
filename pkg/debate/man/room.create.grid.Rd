@@ -70,6 +70,6 @@ spnet.map.plot.position(room3)
 Emmanuel Rousseaux
 }
 \seealso{
-Other map plot: \code{\link{room.create.u}}
+Other map.plot: \code{\link{room.create.u}}
 }
 

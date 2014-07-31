@@ -11,20 +11,12 @@
 #' @family plot map
 #' @export
 #' @examples
-#' # A room with tables in inversed 'U' form
-#' col <- 5
-#' row <- 6
-#' m <- matrix(rep(-1, col*row), nrow = row)
-#' m[1,2:4] <- 0
-#' m[3,c(1,5)] <- 0
-#' m[4,c(1,5)] <- 0
-#' m[5,c(1,5)] <- 0
-#' m[6,c(1,5)] <- 0
-#' m
-#' room1 <- room.create.grid(m, seat.width=2, seat.height=1)
-#' spnet.map.plot.position(room1)
-#' spnet.map.plot.position(room1, label = 'Seat ')
-#' spnet.map.plot.position(room1, label = 'Seat ', cex = 0.8)
+#' ## The world map
+#' data(world.map.simplified, package = "spnet")
+#'
+#' spnet.map.plot.position(world.map.simplified)
+#' spnet.map.plot.position(world.map.simplified, cex = 0.4)
+#' spnet.map.plot.position(world.map.simplified, label = 'ID ', cex = 0.3)
 setGeneric(
   'spnet.map.plot.position',
   function(

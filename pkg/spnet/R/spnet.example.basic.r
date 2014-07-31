@@ -10,6 +10,7 @@
 #' @param barplot logical; if \code{TRUE} a example of barplot rendering of a numeric variable is provided.
 #' @return a \code{SpatialNetwok} object.
 #' @examples
+#' data(world.map.simplified, package = "spnet")
 #' net1 <- spnet.example.basic()
 #' plot(net1)
 #' @rdname spnet.example.basic
@@ -22,8 +23,8 @@ spnet.example.basic <- function(
   network2 = TRUE,
   barplot = TRUE
 ) {
-  node <- c("John", "Elsa", "Brian", "Kate")
-  position <- c(2,4,6,8)
+  node <- c("France", "United States", "Brazil", "Australia")
+  position <- match(node, world.map.simplified@data[,'NAME']) - 1
   net1 <- spnet.create(
     data.frame(
       'NODE' =  node,
@@ -32,21 +33,24 @@ spnet.example.basic <- function(
   )
   spnet.title.main(net1) <- ""
   if(map) {
-    spnet.map(net1) <- room.create.u()
+    world.map.simplified <- NULL 
+    rm(world.map.simplified) 
+    data("world.map.simplified", package = "spnet", envir = environment())
+    spnet.map(net1) <- get("world.map.simplified", envir  = environment())
   }
   if(color) {
-    net1$parti <- c('vert', 'socialiste', 'autre', 'vert')
-    spnet.color.variable(net1) <- "parti"
-    spnet.color.legend(net1) <- c('vert' = "#32AB58", 'socialiste' = "#E31923")
+    net1$continent <- c("Europa", "America", "America", "Oceania")
+    spnet.color.variable(net1) <- "continent"
+    spnet.color.legend(net1) <- c('Europa' = "#BEF7E3", 'America' = "#D7BEF7", 'Oceania' = "#F5E78E")
   }
   if(symbol) {
-    net1$role <- c('President', 'Party leader', 'Project leader', 'Partisan')
+    net1$role <- c('North', 'North', 'South', 'South')
     spnet.symbol.variable(net1) <- 'role'
-    spnet.symbol.legend(net1) <- c('President' = 'square.rotated', 'Party leader' = 'triangle.up', 'Project leader' = 'circle')
-    spnet.symbol.color(net1) <- '#0000dd'
-    spnet.symbol.cex(net1) <- 1
-    spnet.symbol.translate.x(net1) <- 0.36
-    spnet.symbol.translate.y(net1) <- 0.36
+    spnet.symbol.legend(net1) <- c('North' = 'triangle.up', 'South' = 'triangle.down')
+    spnet.symbol.color(net1) <- '#00EE00'
+    spnet.symbol.cex(net1) <- 2
+    spnet.symbol.translate.x(net1) <- 0
+    spnet.symbol.translate.y(net1) <- 6
   }
   if(network1) {
     network1 <- matrix(
@@ -54,11 +58,11 @@ spnet.example.basic <- function(
       nrow = length(node),
       dimnames = list(node, node)
     )
-    network1['John', 'Elsa'] <- 1
-    network1['Kate', 'Brian'] <- 2
+    network1['France', 'United States'] <- 1
+    network1['Brazil', 'Australia'] <- 2
     
-    spnet.networks.add(net1) <- "approb"
-    spnet.network.data(net1, "approb") <- network1
+    spnet.networks.add(net1) <- "network1"
+    spnet.network.data(net1, "network1") <- network1
   }
   if(network2) {
     network2 <- matrix(
@@ -66,21 +70,21 @@ spnet.example.basic <- function(
       nrow = length(node),
       dimnames = list(node, node)
     )
-    network2['John', 'Elsa'] <- 1
-    network2['John', 'Brian'] <- 1
-    network2['Brian', 'Elsa'] <- 3
+    network2['United States', 'France'] <- 1
+    network2['United States', 'Australia'] <- 1
+    network2['Brazil', 'France'] <- 3
     
-    spnet.networks.add(net1) <- "desapprob"
-    spnet.network.data(net1, "desapprob") <- network2
+    spnet.networks.add(net1) <- "network2"
+    spnet.network.data(net1, "network2") <- network2
   }
   if(barplot) {
-    net1$followers <- c(0.1,0.3,0.5,0.9)
-    spnet.barplot.variable(net1) <- "followers"
-    spnet.barplot.bound.lower(net1) <- c(-0.5,-0.44)
-    spnet.barplot.bound.upper(net1) <- c(0.5,-0.44)
-#     spnet.barplot.fgcolor(net1) <- "#00dd00"
-#     spnet.barplot.bgcolor(net1) <- "#0000dd"
-    spnet.barplot.width(net1) <- 6
+    net1$num.var <- c(0.1,0.3,0.5,0.9)
+    spnet.barplot.variable(net1) <- "num.var"
+    spnet.barplot.bound.lower(net1) <- c(-5,-6)
+    spnet.barplot.bound.upper(net1) <- c(5,-6)
+    spnet.barplot.fgcolor(net1) <- "#3B6E5C"
+    spnet.barplot.bgcolor(net1) <- "#77D9B7"
+    spnet.barplot.width(net1) <- 8
   }
   return(net1)
 }

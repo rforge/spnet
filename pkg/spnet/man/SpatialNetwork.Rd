@@ -68,6 +68,11 @@ net2 <- spnet.create(
 )
 net2
 }
+\seealso{
+Other res: \code{\link{spnet.map.plot.position}},
+  \code{\link{spnet.map.plot.position,SpatialNetwork-method}},
+  \code{\link{spnet.map.plot.position,SpatialPolygons-method}}
+}
 \keyword{classes}
 \keyword{network}
 \keyword{sp}

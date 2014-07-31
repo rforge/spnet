@@ -109,7 +109,7 @@ setClass(
           stop(paste(
             "Some elements of the 'POSITION' column are not referenced on the map:",
             paste(object[which(!exist.in.map),'POSITION'], collapse = ', ')
-            )
+          )
           )
         }
       }
@@ -118,54 +118,54 @@ setClass(
     # layout
     
     # colors
-#     color <- object@plot.color
-#     if(flag && (length(color) > 0)){
-#       if(!all(names(color) %in% c('variable', 'legend'))) stop("Elements in 'plot.color' have to be named by one of the following names: 'variable', 'legend'.")
-#       if(!'variable' %in% names(color)) stop("The 'plot.color' list should contain a 'variable' element")
-#       if(!'legend' %in% names(color)) stop("The 'plot.color' list should contain a 'legend' element")
-#       if(!color$variable %in% names(object)) stop("The 'variable' element of 'plot.color' doesn't exist in data.")
-#       exist.in.data <- names(color$legend) %in% unique(object[,color$variable])
-#       if(!all(exist.in.data)) {
-#         stop(paste(
-#           "Some values in the 'legend' referenced in 'plot.color' doesn't exist in the variable ",
-#           color$variable,
-#           ': ',
-#           paste(names(color$legend)[which(!exist.in.data)], collapse = ', '),
-#           sep = ''
-#           )
-#         )
-#       }
-#     }
+    #     color <- object@plot.color
+    #     if(flag && (length(color) > 0)){
+    #       if(!all(names(color) %in% c('variable', 'legend'))) stop("Elements in 'plot.color' have to be named by one of the following names: 'variable', 'legend'.")
+    #       if(!'variable' %in% names(color)) stop("The 'plot.color' list should contain a 'variable' element")
+    #       if(!'legend' %in% names(color)) stop("The 'plot.color' list should contain a 'legend' element")
+    #       if(!color$variable %in% names(object)) stop("The 'variable' element of 'plot.color' doesn't exist in data.")
+    #       exist.in.data <- names(color$legend) %in% unique(object[,color$variable])
+    #       if(!all(exist.in.data)) {
+    #         stop(paste(
+    #           "Some values in the 'legend' referenced in 'plot.color' doesn't exist in the variable ",
+    #           color$variable,
+    #           ': ',
+    #           paste(names(color$legend)[which(!exist.in.data)], collapse = ', '),
+    #           sep = ''
+    #           )
+    #         )
+    #       }
+    #     }
     
     # symbol
-#     symbol <- object@plot.symbol
-#     if(flag && (length(symbol) > 0)){
-#       if(!all(names(symbol) %in% c('variable', 'legend', 'color', 'cex', 'space', 'translate.x', 'translate.y'))) stop("Elements in 'plot.symbol' have to be named by one of the following names: 'variable', 'legend', 'color', 'cex', 'space', 'translate.x', 'translate.y'.")
-#       if(!'variable' %in% names(symbol)) stop("The 'plot.symbol' list should contain a 'variable' element")
-#       if(!'legend' %in% names(symbol)) stop("The 'plot.symbol' list should contain a 'legend' element")
-#       if(!symbol$variable %in% names(object)) stop("The 'variable' element of 'plot.symbol' doesn't exist in data.")
-#       values.of.symbol.column <- unique(.extract.multiple.strings(object[,symbol$variable]))
-#       exist.in.data <- names(symbol$legend) %in% values.of.symbol.column
-#       if(!all(exist.in.data)) {
-#         stop(paste(
-#           "Some values in the 'legend' referenced in 'plot.symbol' doesn't exist in the variable ",
-#           symbol$variable,
-#           ': ',
-#           paste(names(symbol$legend)[which(!exist.in.data)], collapse = ', '),
-#           sep = ''
-#           )
-#         )
-#       }
-#       exist.in.symbol <- symbol$legend %in% names(spnet::.spnet.symbol.list)
-#       if(!all(exist.in.symbol)) stop(
-#         paste(
-#           "Some symbol names you provided doesn't exist:",
-#           paste(symbol$legend[which(!exist.in.symbol)])
-#         ))
-#     }
-
+    #     symbol <- object@plot.symbol
+    #     if(flag && (length(symbol) > 0)){
+    #       if(!all(names(symbol) %in% c('variable', 'legend', 'color', 'cex', 'space', 'translate.x', 'translate.y'))) stop("Elements in 'plot.symbol' have to be named by one of the following names: 'variable', 'legend', 'color', 'cex', 'space', 'translate.x', 'translate.y'.")
+    #       if(!'variable' %in% names(symbol)) stop("The 'plot.symbol' list should contain a 'variable' element")
+    #       if(!'legend' %in% names(symbol)) stop("The 'plot.symbol' list should contain a 'legend' element")
+    #       if(!symbol$variable %in% names(object)) stop("The 'variable' element of 'plot.symbol' doesn't exist in data.")
+    #       values.of.symbol.column <- unique(.extract.multiple.strings(object[,symbol$variable]))
+    #       exist.in.data <- names(symbol$legend) %in% values.of.symbol.column
+    #       if(!all(exist.in.data)) {
+    #         stop(paste(
+    #           "Some values in the 'legend' referenced in 'plot.symbol' doesn't exist in the variable ",
+    #           symbol$variable,
+    #           ': ',
+    #           paste(names(symbol$legend)[which(!exist.in.data)], collapse = ', '),
+    #           sep = ''
+    #           )
+    #         )
+    #       }
+    #       exist.in.symbol <- symbol$legend %in% names(spnet::.spnet.symbol.list)
+    #       if(!all(exist.in.symbol)) stop(
+    #         paste(
+    #           "Some symbol names you provided doesn't exist:",
+    #           paste(symbol$legend[which(!exist.in.symbol)])
+    #         ))
+    #     }
+    
     # barplots
-    # vérif variable numérique, 
+    # v??rif variable num??rique, 
     
     # networks
     nets <- object@networks
@@ -176,9 +176,9 @@ setClass(
       }
       
       for (net in nets) {
-#         if(!'data' %in% names(net)) {
-#           stop("One of the network doesn't contain a 'data' element")
-#         }
+        #         if(!'data' %in% names(net)) {
+        #           stop("One of the network doesn't contain a 'data' element")
+        #         }
         net.data <- net$data
         if(is.matrix(net.data)) {
           if(flag && (nrow(net.data)>0 || ncol(net.data)>0)) {
@@ -2498,9 +2498,9 @@ setMethod(
     
     if(length(object@networks) > 0) {
       cat("- Network data:\n")
-#       for (net in nets) {
-        cat("    ", "Number of network(s): ", length(object@networks), sep = "")
-#       }
+      #       for (net in nets) {
+      cat("    ", "Number of network(s): ", length(object@networks), sep = "")
+      #       }
       cat("\n\n")
     }
     
@@ -2540,7 +2540,7 @@ setMethod(
     
     color <- x@plot.color
     flag.color <- ifelse(length(color) > 0, T, F)
-        
+    
     symbol <- x@plot.symbol
     flag.symbol <- ifelse(length(symbol) > 0, T, F)
     
@@ -2556,20 +2556,20 @@ setMethod(
     
     ## PLOT
     def.par <- par(no.readonly = TRUE) # save default, for resetting...
-#     nf <- layout(
-#       mat = matrix(c(1,2),nrow=2,byrow = TRUE),
-#       widths = c(6.8),
-#       heights = c(4,1),
-#       respect = TRUE
-#     )
-
+    #     nf <- layout(
+    #       mat = matrix(c(1,2),nrow=2,byrow = TRUE),
+    #       widths = c(6.8),
+    #       heights = c(4,1),
+    #       respect = TRUE
+    #     )
+    
     if(!is.null(lay$mat)) {
-#       nf <- layout(
-#         mat = matrix(c(1,3,2,2),nrow=2,byrow = TRUE),
-#         widths = c(3,3),
-#         heights = c(4,1), 
-#         respect = TRUE
-#       )
+      #       nf <- layout(
+      #         mat = matrix(c(1,3,2,2),nrow=2,byrow = TRUE),
+      #         widths = c(3,3),
+      #         heights = c(4,1), 
+      #         respect = TRUE
+      #       )
     } else {
       nf <- layout(
         mat = matrix(c(1,2,3),nrow=3,byrow = TRUE),
@@ -2578,7 +2578,7 @@ setMethod(
         respect = TRUE
       )
     }
-#     layout.show(nf)
+    #     layout.show(nf)
     par(spnet.par.list(x))
     
     plot.new()
@@ -2614,7 +2614,7 @@ setMethod(
       tit.sub.clean
     ))
     eval(sub.call)
-
+    
     if(!'POSITION' %in% names(x)) { # we only plot the map
       plot(spnet.map(x), ... = ...)
       plot.new()
@@ -2624,7 +2624,7 @@ setMethod(
       ids <- row.names(coord)
       seats <- x[, 'POSITION']
       names(seats) <- rep(x@meta$plot.color.default, length(seats))
-#       print(seats)
+      #       print(seats)
       
       if(flag.color) {
         names(seats) <- x[, color$variable] # we store color labels in the names
@@ -2635,12 +2635,12 @@ setMethod(
       }
       
       col <- rep(par("bg"), nrow(coord))
-#       print(col)
+      #       print(col)
       col[seats] <- names(seats)
-#       print(col[seats])
+      #       print(col[seats])
       arg.col <- col[as.numeric(ids)]
-#       print(arg.col)
-        
+      #       print(arg.col)
+      
       
       plot(
         x@map,
@@ -2654,7 +2654,7 @@ setMethod(
       seats <- x[, 'POSITION']
       seats.which <- match(seats, ids)
       lab <- rep("", nrow(coord))
-
+      
       lab.opt <- spnet.label.list(x)
       if(any(c('variable') %in% names(lab.opt))) {
         lab.opt.clean = lab.opt[-which(names(lab.opt) %in% c('variable'))]
@@ -2663,14 +2663,14 @@ setMethod(
         lab.opt.clean = lab.opt
         lab[seats.which] <- as.character(x[, 'NODE'])
       }
-
+      
       label.call = as.call(c(
         list(
           fun=text,
           x=coord,
           labels = lab
         ),
-      lab.opt.clean
+        lab.opt.clean
       ))
       eval(label.call)
       
@@ -2684,12 +2684,12 @@ setMethod(
         names(seats) <- x[,symbol$variable] # we store the data.frame column to match to symbols in seat names
         
         seats <- .expand.multiple.names(seats)
-
+        
         role.match <- names(seats) %in% names(symbol$legend)
         seats <- seats[role.match] # then if no role match we remove
-
+        
         #symb.coord <- symb.coord[seats,]
-
+        
         if('cex' %in% names(symbol)) {
           symb.cex <- symbol$cex
         } else {
@@ -2714,14 +2714,14 @@ setMethod(
             symb.coord.multiple <- rbind(symb.coord.multiple, val)
           }
         }      
-
+        
         for(k in names(symbol$legend)){ # we replace by the symbol code
           role.match2 <- names(seats) == k # we select elements which match
           if(any(role.match2)){
             names(seats)[role.match2] <- symbol$legend[[k]] # and we replace
           }
         }
-#         print(seats)
+        #         print(seats)
         arg.pch <- names(seats)
         allsymb <- .spnet.symbol.list
         arg.pch <- allsymb[match(arg.pch, names(allsymb))]
@@ -2759,7 +2759,7 @@ setMethod(
         ids <- row.names(coord)
         seats <- x[, 'POSITION']
         seats.which <- match(seats, ids)
-
+        
         values <- x[, spnet.barplot.variable(x)]
         
         for(i in 1:length(values)) {
@@ -2777,7 +2777,7 @@ setMethod(
         }
         
       }
-
+      
       if(flag.arrow) {
         arrow.col.list <- c()
         arrow.translate.x.list <- c()
@@ -2885,7 +2885,7 @@ setMethod(
                     y1 = arrow.coords['y1'],
                     cut = arrow.shortening
                   )
-#                   print(arrow.coords)
+                  #                   print(arrow.coords)
                   Arrows(
                     x0 = arrow.coords['x0'] + arrow.translate.x,
                     y0 = arrow.coords['y0'] + arrow.translate.y,
@@ -2904,7 +2904,7 @@ setMethod(
         }
       }
       
-
+      
       
       
       ## LEGEND
@@ -2912,7 +2912,7 @@ setMethod(
       leg.cex = spnet.legend.list(x)$cex
       leg.ncol = spnet.legend.list(x)$ncol
       leg.horiz = spnet.legend.list(x)$horiz
-
+      
       par(spnet.par.list(x))
       plot.new()
       if(leg.pring) {
@@ -2946,26 +2946,26 @@ setMethod(
             cex = leg.cex
           )
         }
-    #     if(flag.arrow){
-    #       dn <- x@plot.arrow$legend
-    #       if(nchar(dn) > 0) {
-    #         xx <- 0.8
-    #         yy <- 0.66
-    #         tt <- 0.04
-    #         arrows(xx, yy, xx + tt, yy, col=arrow.col, length=arrow.length.rate)
-    #         
-    #         text(x= xx+tt+0.11, y = yy, labels = dn, ...=...)
-    #       }
-    #     }
+        #     if(flag.arrow){
+        #       dn <- x@plot.arrow$legend
+        #       if(nchar(dn) > 0) {
+        #         xx <- 0.8
+        #         yy <- 0.66
+        #         tt <- 0.04
+        #         arrows(xx, yy, xx + tt, yy, col=arrow.col, length=arrow.length.rate)
+        #         
+        #         text(x= xx+tt+0.11, y = yy, labels = dn, ...=...)
+        #       }
+        #     }
       }
     }
-
-  reset = TRUE
-  if(is.element('reset',names(lay)))
-    if(lay$reset == FALSE)
-      reset = FALSE
-  if(reset)
-    par(def.par)  #- reset to default
+    
+    reset = TRUE
+    if(is.element('reset',names(lay)))
+      if(lay$reset == FALSE)
+        reset = FALSE
+    if(reset)
+      par(def.par)  #- reset to default
   }
 )
 

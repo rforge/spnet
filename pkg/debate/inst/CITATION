@@ -1,20 +1,20 @@
 citHeader("== To cite the 'debate' package in publications please use:")
 
 p1 <- person("Emmanuel", "Rousseaux", email = "emmanuel.rousseaux@unige.ch")
-p2 <- person("Marion", "Deville-Naggay", email = "Marion.Deville-Naggay@unige.ch")
+p2 <- person("Marion", "Deville", email = "Marion.Deville@unige.ch")
 
 citEntry(
   entry = "INPROCEEDINGS",
   title  = "title, use brackets for R {R}",
   author = personList(
-    as.person("Marion Deville-Naggay"),
+    as.person("Marion Deville"),
     as.person("Emmanuel Rousseaux")
   ),
   booktitle = "booktitle",
   year = "2013",
   url = "url",
   textVersion = paste(
-    "Deville-Naggay M. and Rousseaux E.",
+    "Deville M. and Rousseaux E.",
     "title",
     "conference",
     "URL url."
@@ -27,13 +27,13 @@ citEntry(
   title  = "title, use brackets for R {R}",
   author = personList(
     as.person("Emmanuel Rousseaux"),
-    as.person("Marion Deville-Naggay")
+    as.person("Marion Deville")
   ),
   booktitle = "booktitle",
   year = "2013",
   url = "url",
   textVersion = paste(
-    "Rousseaux E. and Deville-Naggay M.",
+    "Rousseaux E. and Deville M.",
     "title",
     "conference",
     "URL url."

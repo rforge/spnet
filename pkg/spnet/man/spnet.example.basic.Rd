@@ -32,6 +32,7 @@ a \code{SpatialNetwok} object.
 Create SpatialNetwork object examples for demonstration and testing purpose.
 }
 \examples{
+data(world.map.simplified, package = "spnet")
 net1 <- spnet.example.basic()
 plot(net1)
 }

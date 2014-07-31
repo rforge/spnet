@@ -1,42 +1,25 @@
 citHeader("== To cite 'spnet' in publications please use:")
 
 p1 <- person("Emmanuel", "Rousseaux", email = "emmanuel.rousseaux@unige.ch")
-p2 <- person("Marion", "Deville-Naggay", email = "Marion.Deville-Naggay@unige.ch")
+p2 <- person("Marion", "Deville", email = "Marion.Deville@unige.ch")
+p3 <- person("Gilbert", "Ritschard", email = "Gilbert.Ritschard@unige.ch")
 
 citEntry(
-  entry = "INPROCEEDINGS",
-  title  = "title, use brackets for R {R}",
-  author = personList(
-    as.person("Marion Deville-Naggay"),
-    as.person("Emmanuel Rousseaux")
-  ),
-  booktitle = "booktitle",
-  year = "2013",
-  url = "url",
-  textVersion = paste(
-    "Deville-Naggay M. and Rousseaux E.",
-    "title",
-    "conference",
-    "URL url."
-  ),
-  header = "= For the article 'AAA':\n"
-)
-
-citEntry(
-  entry = "INPROCEEDINGS",
-  title  = "title, use brackets for R {R}",
+  entry = "misc",
+  title  = "{The SPNET package: Plotting social networks on maps with R}",
   author = personList(
     as.person("Emmanuel Rousseaux"),
-    as.person("Marion Deville-Naggay")
+    as.person("Marion Deville"),
+    as.person("Gilbert Ritschard")
   ),
-  booktitle = "booktitle",
-  year = "2013",
-  url = "url",
+  booktitle = "3emes Rencontres R, Montpellier, France",
+  year = "2014",
+  url = "http://emmanuel.rousseaux.me/rousseaux2014spnet-rencontresr3.pdf",
   textVersion = paste(
-    "Rousseaux E. and Deville-Naggay M.",
-    "title",
-    "conference",
-    "URL url."
+    "Rousseaux E. et al.",
+    "The SPNET package: Plotting social networks on maps with R",
+    "3emes Rencontres R, Montpellier, France",
+    "URL http://emmanuel.rousseaux.me/rousseaux2014spnet-rencontresr3.pdf"
   ),
   header = "= For the 'spnet' package:\n"
 )

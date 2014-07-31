@@ -65,6 +65,6 @@ plot(room.create.grid(room.u.8, seat.width=2))
 Emmanuel Rousseaux
 }
 \seealso{
-Other map plot: \code{\link{room.create.grid}}
+Other map.plot: \code{\link{room.create.grid}}
 }
 

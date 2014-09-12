@@ -722,7 +722,7 @@ setGeneric("spnet.network.arrow.thickness<-", function(object, network.name, val
 #' @describeIn spnet.network.arrow.thickness method for \code{SpatialNetwork} objects.
 setMethod(
   f = "spnet.network.arrow.thickness<-" ,
-  signature = c("SpatialNetwork", "character", "character"),
+  signature = c("SpatialNetwork", "character", "numeric"),
   definition = function(object, network.name, value){
     if(!spnet.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
@@ -779,7 +779,7 @@ setGeneric("spnet.network.arrow.shortening<-", function(object, network.name, va
 #' @describeIn spnet.network.arrow.shortening method for \code{SpatialNetwork} objects.
 setMethod(
   f = "spnet.network.arrow.shortening<-" ,
-  signature = c("SpatialNetwork", "character", "character"),
+  signature = c("SpatialNetwork", "character", "numeric"),
   definition = function(object, network.name, value){
     if(!spnet.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'. Please use the 'spnet.networks.add' function to define a network before trying to add shortening.")
@@ -833,7 +833,7 @@ setMethod(
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param network.name character; the name of the network.
-#' @param value the arrow head type.
+#' @param value type of arrowhead to draw, one of "simple", "curved", "triangle", "circle", "ellipse" or "T". See \code{\link[shape]{Arrows}} for details.
 #' @export
 setGeneric("spnet.network.arrow.head.type<-", function(object, network.name, value){ standardGeneric("spnet.network.arrow.head.type<-") })
 
@@ -896,7 +896,7 @@ setGeneric("spnet.network.arrow.head.length<-", function(object, network.name, v
 #' @describeIn spnet.network.arrow.head.length method for \code{SpatialNetwork} objects.
 setMethod(
   f = "spnet.network.arrow.head.length<-" ,
-  signature = c("SpatialNetwork", "character", "character"),
+  signature = c("SpatialNetwork", "character", "numeric"),
   definition = function(object, network.name, value){
     if(!spnet.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
@@ -952,7 +952,7 @@ setGeneric("spnet.network.arrow.translate.x<-", function(object, network.name, v
 #' @describeIn spnet.network.arrow.translate.x method for \code{SpatialNetwork} objects.
 setMethod(
   f = "spnet.network.arrow.translate.x<-" ,
-  signature = c("SpatialNetwork", "character", "character"),
+  signature = c("SpatialNetwork", "character", "numeric"),
   definition = function(object, network.name, value){
     if(!spnet.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
@@ -1006,7 +1006,7 @@ setGeneric("spnet.network.arrow.translate.y<-", function(object, network.name, v
 #' @describeIn spnet.network.arrow.translate.y method for \code{SpatialNetwork} objects.
 setMethod(
   f = "spnet.network.arrow.translate.y<-" ,
-  signature = c("SpatialNetwork", "character", "character"),
+  signature = c("SpatialNetwork", "character", "numeric"),
   definition = function(object, network.name, value){
     if(!spnet.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")

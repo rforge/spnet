@@ -3,7 +3,7 @@
 \name{spnet.network.arrow.thickness}
 \alias{spnet.network.arrow.thickness}
 \alias{spnet.network.arrow.thickness,SpatialNetwork,character-method}
-\alias{spnet.network.arrow.thickness<-,SpatialNetwork,character,character-method}
+\alias{spnet.network.arrow.thickness<-,SpatialNetwork,character,numeric-method}
 \title{Get the arrow thickness of a given network of a \code{SpatialNetwork} object}
 \usage{
 spnet.network.arrow.thickness(object, network.name)
@@ -12,7 +12,7 @@ spnet.network.arrow.thickness(object, network.name)
   network.name)
 
 
-  \S4method{spnet.network.arrow.thickness}{SpatialNetwork,character,character}(object,
+  \S4method{spnet.network.arrow.thickness}{SpatialNetwork,character,numeric}(object,
   network.name) <- value
 }
 \arguments{
@@ -29,6 +29,6 @@ This generic method intends to extract the arrow thickness of a given network of
 \itemize{
 \item \code{object = SpatialNetwork,network.name = character}: method for \code{SpatialNetwork} objects.
 
-\item \code{object = SpatialNetwork,network.name = character,value = character}: method for \code{SpatialNetwork} objects.
+\item \code{object = SpatialNetwork,network.name = character,value = numeric}: method for \code{SpatialNetwork} objects.
 }}
 

@@ -3,7 +3,7 @@
 \name{spnet.network.arrow.translate.x}
 \alias{spnet.network.arrow.translate.x}
 \alias{spnet.network.arrow.translate.x,SpatialNetwork,character-method}
-\alias{spnet.network.arrow.translate.x<-,SpatialNetwork,character,character-method}
+\alias{spnet.network.arrow.translate.x<-,SpatialNetwork,character,numeric-method}
 \title{Get the arrow translation on the x axis of a given network of a \code{SpatialNetwork} object}
 \usage{
 spnet.network.arrow.translate.x(object, network.name)
@@ -12,7 +12,7 @@ spnet.network.arrow.translate.x(object, network.name)
   network.name)
 
 
-  \S4method{spnet.network.arrow.translate.x}{SpatialNetwork,character,character}(object,
+  \S4method{spnet.network.arrow.translate.x}{SpatialNetwork,character,numeric}(object,
   network.name) <- value
 }
 \arguments{
@@ -29,6 +29,6 @@ This generic method intends to extract the arrow translation on the x axis of a 
 \itemize{
 \item \code{object = SpatialNetwork,network.name = character}: method for \code{SpatialNetwork} objects.
 
-\item \code{object = SpatialNetwork,network.name = character,value = character}: method for \code{SpatialNetwork} objects.
+\item \code{object = SpatialNetwork,network.name = character,value = numeric}: method for \code{SpatialNetwork} objects.
 }}
 

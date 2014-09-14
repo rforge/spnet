@@ -86,7 +86,7 @@ setClass(
         opacity = 0.9,
         thickness = 2.00,
         length.rate = 1,
-        shortening = 0.3,
+        shorten = 0.3,
         head.length = 0.20,
         head.type = 'curved'
       )
@@ -751,17 +751,17 @@ setMethod(
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @export
-setGeneric("spnet.network.arrow.shortening", function(object, network.name){ standardGeneric("spnet.network.arrow.shortening") })
+setGeneric("spnet.network.arrow.shorten", function(object, network.name){ standardGeneric("spnet.network.arrow.shorten") })
 
-#' @describeIn spnet.network.arrow.shortening method for \code{SpatialNetwork} objects.
+#' @describeIn spnet.network.arrow.shorten method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.shortening",
+  f = "spnet.network.arrow.shorten",
   signature = c("SpatialNetwork", "character"), 
   definition = function (object, network.name) {
     if(!spnet.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
-    return(object@networks[[network.name]]$shortening)
+    return(object@networks[[network.name]]$shorten)
   }
 )
 
@@ -774,17 +774,17 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the arrow shortening.
 #' @export
-setGeneric("spnet.network.arrow.shortening<-", function(object, network.name, value){ standardGeneric("spnet.network.arrow.shortening<-") })
+setGeneric("spnet.network.arrow.shorten<-", function(object, network.name, value){ standardGeneric("spnet.network.arrow.shorten<-") })
 
-#' @describeIn spnet.network.arrow.shortening method for \code{SpatialNetwork} objects.
+#' @describeIn spnet.network.arrow.shorten method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.shortening<-" ,
+  f = "spnet.network.arrow.shorten<-" ,
   signature = c("SpatialNetwork", "character", "numeric"),
   definition = function(object, network.name, value){
     if(!spnet.network.exists(object, network.name)) {
-      stop("There is no network called '", network.name, "'. Please use the 'spnet.networks.add' function to define a network before trying to add shortening.")
+      stop("There is no network called '", network.name, "'. Please use the 'spnet.networks.add' function to define a network before trying to add shorten.")
     }
-    object@networks[[network.name]]$shortening <- value
+    object@networks[[network.name]]$shorten <- value
     validObject(object)
     return(object)
   }
@@ -868,11 +868,11 @@ setMethod(
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @export
-setGeneric("spnet.network.arrow.head.length", function(object, network.name){ standardGeneric("spnet.network.arrow.head.length") })
+setGeneric("spnet.network.arrow.head.lth", function(object, network.name){ standardGeneric("spnet.network.arrow.head.lth") })
 
-#' @describeIn spnet.network.arrow.head.length method for \code{SpatialNetwork} objects.
+#' @describeIn spnet.network.arrow.head.lth method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.head.length",
+  f = "spnet.network.arrow.head.lth",
   signature = c("SpatialNetwork", "character"), 
   definition = function (object, network.name) {
     if(!spnet.network.exists(object, network.name)) {
@@ -891,11 +891,11 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the arrow head length.
 #' @export
-setGeneric("spnet.network.arrow.head.length<-", function(object, network.name, value){ standardGeneric("spnet.network.arrow.head.length<-") })
+setGeneric("spnet.network.arrow.head.lth<-", function(object, network.name, value){ standardGeneric("spnet.network.arrow.head.lth<-") })
 
-#' @describeIn spnet.network.arrow.head.length method for \code{SpatialNetwork} objects.
+#' @describeIn spnet.network.arrow.head.lth method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.head.length<-" ,
+  f = "spnet.network.arrow.head.lth<-" ,
   signature = c("SpatialNetwork", "character", "numeric"),
   definition = function(object, network.name, value){
     if(!spnet.network.exists(object, network.name)) {
@@ -2291,10 +2291,210 @@ setMethod(
 
 
 
+#' Get the legend print (yes/no) status of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to extract the legend print (yes/no) status of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @export
+setGeneric("spnet.legend.print", function(object){ standardGeneric("spnet.legend.print") })
+
+#' @describeIn spnet.legend.print method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.legend.print",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.legend")$print)
+  }
+)
+
+#' Set the legend print (yes/no) status of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to add or replace the legend print (yes/no) status of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param value a logical.
+#' @export
+setGeneric("spnet.legend.print<-", function(object, value){ standardGeneric("spnet.legend.print<-") })
+
+#' @describeIn spnet.legend.print method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.legend.print<-" ,
+  signature = c("SpatialNetwork", 'logical'),
+  definition = function(object, value){
+    object@plot.legend$print <- value
+    validObject(object)
+    return(object)
+  }
+)
 
 
 
 
+
+
+
+
+#' Get the legend cex parameter of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to extract the legend cex parameter of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @export
+setGeneric("spnet.legend.cex", function(object){ standardGeneric("spnet.legend.cex") })
+
+#' @describeIn spnet.legend.cex method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.legend.cex",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.legend")$cex)
+  }
+)
+
+#' Set the legend cex parameter of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to add or replace the legend cex parameter of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param value a numeric.
+#' @export
+setGeneric("spnet.legend.cex<-", function(object, value){ standardGeneric("spnet.legend.cex<-") })
+
+#' @describeIn spnet.legend.cex method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.legend.cex<-" ,
+  signature = c("SpatialNetwork", 'numeric'),
+  definition = function(object, value){
+    object@plot.legend$cex <- value
+    validObject(object)
+    return(object)
+  }
+)
+
+
+
+
+
+#' Get the legend number of columns of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to extract the legend number of columns of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @export
+setGeneric("spnet.legend.ncol", function(object){ standardGeneric("spnet.legend.ncol") })
+
+#' @describeIn spnet.legend.ncol method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.legend.ncol",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.legend")$ncol)
+  }
+)
+
+#' Set the legend number of columns of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to add or replace the legend number of columns of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param value a numeric.
+#' @export
+setGeneric("spnet.legend.ncol<-", function(object, value){ standardGeneric("spnet.legend.ncol<-") })
+
+#' @describeIn spnet.legend.ncol method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.legend.ncol<-" ,
+  signature = c("SpatialNetwork", 'numeric'),
+  definition = function(object, value){
+    object@plot.legend$ncol <- value
+    validObject(object)
+    return(object)
+  }
+)
+
+
+
+
+
+
+#' Get the legend horizontal or vertical setting of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to extract the legend horizontal or vertical setting of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @export
+setGeneric("spnet.legend.horiz", function(object){ standardGeneric("spnet.legend.horiz") })
+
+#' @describeIn spnet.legend.horiz method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.legend.horiz",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.legend")$horiz)
+  }
+)
+
+#' Set the legend horizontal or vertical setting of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to add or replace the legend horizontal or vertical setting of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param value a logical.
+#' @export
+setGeneric("spnet.legend.horiz<-", function(object, value){ standardGeneric("spnet.legend.horiz<-") })
+
+#' @describeIn spnet.legend.horiz method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.legend.horiz<-" ,
+  signature = c("SpatialNetwork", 'logical'),
+  definition = function(object, value){
+    object@plot.legend$horiz <- value
+    validObject(object)
+    return(object)
+  }
+)
+
+
+
+
+
+#' Get the legend line width parameter of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to extract the legend line width parameter of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @export
+setGeneric("spnet.legend.line.width", function(object){ standardGeneric("spnet.legend.line.width") })
+
+#' @describeIn spnet.legend.line.width method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.legend.line.width",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.legend")$lwd)
+  }
+)
+
+#' Set the legend line width parameter of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to add or replace the legend line width parameter of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param value a logical.
+#' @export
+setGeneric("spnet.legend.line.width<-", function(object, value){ standardGeneric("spnet.legend.line.width<-") })
+
+#' @describeIn spnet.legend.line.width method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.legend.line.width<-" ,
+  signature = c("SpatialNetwork", 'numeric'),
+  definition = function(object, value){
+    object@plot.legend$lwd <- value
+    validObject(object)
+    return(object)
+  }
+)
 
 
 
@@ -2448,7 +2648,7 @@ spnet.create <- function(
   plot.symbol,
   plot.barplot = list(variable = "", bound.lower = c(-0.5,-0.5), bound.upper = c(0.5,-0.5), fgcolor = "#666666", bgcolor = "#eeeeee", width = 8),
   plot.arrow,
-  plot.legend = list(print = TRUE, cex = 1, ncol = 1, horiz = FALSE),
+  plot.legend = list(print = TRUE, cex = 1, ncol = 1, horiz = FALSE, lwd = 1),
   plot.layout = list(ratios = c('title' = 1/10, 'graphic' = 7/10, 'legend' = 2/10), mat = NULL, reset = TRUE),
   plot.par = list(mar = c(1,1,1,1)), # par(mar = c(5,4,2,2))
   infos,
@@ -2796,7 +2996,7 @@ setMethod(
         default.opacity = x@meta$plot.arrow.default$opacity
         default.thickness = x@meta$plot.arrow.default$thickness
         default.length.rate = x@meta$plot.arrow.default$length.rate
-        default.shortening = x@meta$plot.arrow.default$shortening
+        default.shorten = x@meta$plot.arrow.default$shorten
         default.head.length = x@meta$plot.arrow.default$head.length
         default.head.type = x@meta$plot.arrow.default$head.type
         
@@ -2837,10 +3037,10 @@ setMethod(
           } else {
             arrow.length.rate <- default.length.rate
           }
-          if('shortening' %in% names(net.list)) {
-            arrow.shortening <- net.list$shortening
+          if('shorten' %in% names(net.list)) {
+            arrow.shorten <- net.list$shorten
           } else {
-            arrow.shortening <- default.shortening
+            arrow.shorten <- default.shorten
           }
           
           if('label' %in% names(net.list)) {
@@ -2883,7 +3083,7 @@ setMethod(
                     y0 = arrow.coords['y0'],
                     x1 = arrow.coords['x1'],
                     y1 = arrow.coords['y1'],
-                    cut = arrow.shortening
+                    cut = arrow.shorten
                   )
                   #                   print(arrow.coords)
                   Arrows(
@@ -2912,6 +3112,7 @@ setMethod(
       leg.cex = spnet.legend.list(x)$cex
       leg.ncol = spnet.legend.list(x)$ncol
       leg.horiz = spnet.legend.list(x)$horiz
+      leg.lwd = spnet.legend.list(x)$lwd
       
       par(spnet.par.list(x))
       plot.new()
@@ -2943,7 +3144,8 @@ setMethod(
             col = arrow.col.list,
             lty = 1,
             bty = 'n',
-            cex = leg.cex
+            cex = leg.cex,
+            lwd = leg.lwd
           )
         }
         #     if(flag.arrow){

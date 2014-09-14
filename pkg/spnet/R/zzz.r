@@ -27,7 +27,7 @@
 
 #' @export
 .Last.lib <- function(libpath) {
-  message('\n', 'Thank you for using spnet', '.')
+  message('\n', "Thank you for using the 'spnet' package", '.')
   message('See you soon', '!')
 }
 

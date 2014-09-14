@@ -9,9 +9,9 @@ spnet.create(x, map, networks, plot.title = list(main =
   plot.barplot = list(variable = "", bound.lower = c(-0.5, -0.5), bound.upper
   = c(0.5, -0.5), fgcolor = "#666666", bgcolor = "#eeeeee", width = 8),
   plot.arrow, plot.legend = list(print = TRUE, cex = 1, ncol = 1, horiz =
-  FALSE), plot.layout = list(ratios = c(title = 1/10, graphic = 7/10, legend =
-  2/10), mat = NULL, reset = TRUE), plot.par = list(mar = c(1, 1, 1, 1)),
-  infos, quiet = FALSE)
+  FALSE, lwd = 1), plot.layout = list(ratios = c(title = 1/10, graphic = 7/10,
+  legend = 2/10), mat = NULL, reset = TRUE), plot.par = list(mar = c(1, 1, 1,
+  1)), infos, quiet = FALSE)
 }
 \arguments{
 \item{x}{AAA}

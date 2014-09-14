@@ -27,7 +27,7 @@
 
 #' @export
 .Last.lib <- function(libpath) {
-  message("Thank you for using the 'debate' R-package", '.')
+  message("Thank you for using the 'debate' package", '.')
   message('See you soon', '!')
 }
 

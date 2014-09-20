@@ -3034,12 +3034,9 @@ setMethod(
         for(k in names(color$legend)){
           names(seats.which)[names(seats.which) == k] <- color$legend[[k]]
         }
+        col[seats.which] <- names(seats.which)
       }
       
-      col[seats.which] <- names(seats.which)
-      #       print(col[seats])
-#       arg.col <- col[as.numeric(ids)]
-      #       print(arg.col)
       
       
       plot(

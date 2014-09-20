@@ -11,6 +11,6 @@ spnet.label.cex(object) <- value
 \item{value}{numeric; the cex parameter.}
 }
 \description{
-This generic method intends to add or replace the label cex of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the label cex of a \code{SpatialNetwork} object.
 }
 

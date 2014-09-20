@@ -11,6 +11,6 @@ spnet.symbol.cex(object) <- value
 \item{value}{the new cex parameter.}
 }
 \description{
-This generic method intends to add or replace the symbol cex parameter of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the symbol cex parameter of a \code{SpatialNetwork} object.
 }
 

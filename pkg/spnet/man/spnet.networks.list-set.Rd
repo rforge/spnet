@@ -11,6 +11,6 @@ spnet.networks.list(object) <- value
 \item{value}{a list of parameters.}
 }
 \description{
-This generic method intends to add or replace networks parameters of a \code{SpatialNetwork} object.
+This generic method intends to set or replace networks parameters of a \code{SpatialNetwork} object.
 }
 

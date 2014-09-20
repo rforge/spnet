@@ -13,6 +13,6 @@ spnet.network.arrow.translate.x(object, network.name) <- value
 \item{value}{the arrow translation on the x axis.}
 }
 \description{
-This generic method intends to add or replace the arrow translation on the x axis of a given network of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the arrow translation on the x axis of a given network of a \code{SpatialNetwork} object.
 }
 

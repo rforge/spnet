@@ -11,6 +11,6 @@ spnet.title.sub(object) <- value
 \item{value}{the new title.}
 }
 \description{
-This generic method intends to add or replace the sub title of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the sub title of a \code{SpatialNetwork} object.
 }
 

@@ -13,6 +13,6 @@ spnet.network.arrow.color(object, network.name) <- value
 \item{value}{the arrow color.}
 }
 \description{
-This generic method intends to add or replace the arrow color of a given network of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the arrow color of a given network of a \code{SpatialNetwork} object.
 }
 

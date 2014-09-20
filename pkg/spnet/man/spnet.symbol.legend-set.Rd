@@ -11,6 +11,6 @@ spnet.symbol.legend(object) <- value
 \item{value}{the new legend.}
 }
 \description{
-This generic method intends to add or replace the symbol legend of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the symbol legend of a \code{SpatialNetwork} object.
 }
 

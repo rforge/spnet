@@ -11,6 +11,6 @@ spnet.color.legend(object) <- value
 \item{value}{the color legend.}
 }
 \description{
-This generic method intends to add or replace the color legend of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the color legend of a \code{SpatialNetwork} object.
 }
 

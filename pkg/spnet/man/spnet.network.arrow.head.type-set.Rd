@@ -13,6 +13,6 @@ spnet.network.arrow.head.type(object, network.name) <- value
 \item{value}{type of arrowhead to draw, one of "simple", "curved", "triangle", "circle", "ellipse" or "T". See \code{\link[shape]{Arrows}} for details.}
 }
 \description{
-This generic method intends to add or replace the arrow head type of a given network of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the arrow head type of a given network of a \code{SpatialNetwork} object.
 }
 

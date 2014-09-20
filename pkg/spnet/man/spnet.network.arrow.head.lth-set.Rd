@@ -13,6 +13,6 @@ spnet.network.arrow.head.lth(object, network.name) <- value
 \item{value}{the arrow head length.}
 }
 \description{
-This generic method intends to add or replace the arrow head length of a given network of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the arrow head length of a given network of a \code{SpatialNetwork} object.
 }
 

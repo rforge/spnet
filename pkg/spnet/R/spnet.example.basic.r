@@ -23,8 +23,10 @@ spnet.example.basic <- function(
   network2 = TRUE,
   barplot = TRUE
 ) {
+  example.basic.env <- new.env()
+  data("world.map.simplified", package = "spnet", envir = example.basic.env)
   node <- c("France", "United States", "Brazil", "Australia")
-  position <- match(node, world.map.simplified@data[,'NAME']) - 1
+  position <- match(node, example.basic.env$world.map.simplified@data[,'NAME']) - 1
   net1 <- spnet.create(
     data.frame(
       'NODE' =  node,
@@ -33,15 +35,15 @@ spnet.example.basic <- function(
   )
   spnet.title.main(net1) <- ""
   if(map) {
-    world.map.simplified <- NULL 
-    rm(world.map.simplified) 
-    data("world.map.simplified", package = "spnet", envir = environment())
-    spnet.map(net1) <- get("world.map.simplified", envir  = environment())
+    spnet.map(net1) <- example.basic.env$world.map.simplified
   }
   if(color) {
     net1$continent <- c("Europa", "America", "America", "Oceania")
     spnet.color.variable(net1) <- "continent"
     spnet.color.legend(net1) <- c('Europa' = "#BEF7E3", 'America' = "#D7BEF7", 'Oceania' = "#F5E78E")
+    spnet.color.background(net1) <- "#B3CAF5"
+    spnet.color.border(net1) <- "#555555"
+    spnet.color.region(net1) <- "#F5E1B3"
   }
   if(symbol) {
     net1$role <- c('North', 'North', 'South', 'South')
@@ -99,6 +101,7 @@ spnet.example.basic.full <- function(){
 #' @export
 spnet.example.basic.map <- function(){
   net1 <- spnet.example.basic(
+    map = TRUE,
     color = FALSE,
     symbol = FALSE,
     network1 = FALSE,

@@ -14,33 +14,33 @@ spnet.create(x, map, networks, plot.title = list(main =
   1)), infos, quiet = FALSE)
 }
 \arguments{
-\item{x}{AAA}
+\item{x}{a \code{data.frame} containing at least two columns: \code{NODE} and \code{POSITION}.}
 
-\item{map}{AAA}
+\item{map}{a \code{\link[sp]{SpatialPolygons}} object.}
 
-\item{networks}{AAA}
+\item{networks}{a list of the networks to plot.}
 
-\item{plot.title}{AAA}
+\item{plot.title}{a list of parameters for setting the title.}
 
-\item{plot.label}{list of arguments to be passed to the \code{\link{text}} function.}
+\item{plot.label}{a list of parameters to be passed to the \code{\link{text}} function for setting labels.}
 
-\item{plot.color}{AAA}
+\item{plot.color}{a list of parameters for setting colors.}
 
-\item{plot.symbol}{AAA}
+\item{plot.symbol}{a list of parameters for setting symbols.}
 
-\item{plot.barplot}{AAA}
+\item{plot.barplot}{a list of parameters for setting barplots.}
 
-\item{plot.arrow}{AAA}
+\item{plot.arrow}{a list of parameters for setting arrows.}
 
-\item{plot.legend}{AAA}
+\item{plot.legend}{a list of parameters for setting the legend.}
 
-\item{plot.layout}{AAA}
+\item{plot.layout}{a list of parameters for setting the layout.}
 
-\item{plot.par}{AAA}
+\item{plot.par}{a list of graphical parameters.}
 
-\item{infos}{AAA}
+\item{infos}{a list of meta information about the instance of the object.}
 
-\item{quiet}{= FALSE AAA}
+\item{quiet}{= FALSE a logical, suppress all messages.}
 }
 \description{
 The \code{spnet.create} function is the official builder for creating \code{SpatialNetwork} objects.

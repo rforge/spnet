@@ -11,6 +11,6 @@ spnet.barplot.bound.upper(object) <- value
 \item{value}{a numeric vector of coordinates, c(x,y), specifying a translation from the center of each country.}
 }
 \description{
-This generic method intends to add or replace the barplot upper bound position of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the barplot upper bound position of a \code{SpatialNetwork} object.
 }
 

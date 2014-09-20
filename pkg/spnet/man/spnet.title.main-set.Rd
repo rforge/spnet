@@ -11,6 +11,6 @@ spnet.title.main(object) <- value
 \item{value}{the new title.}
 }
 \description{
-This generic method intends to add or replace the main title of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the main title of a \code{SpatialNetwork} object.
 }
 

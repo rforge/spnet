@@ -13,6 +13,6 @@ spnet.network.label(object, network.name) <- value
 \item{value}{the network label. Currently only support a \code{matrix} object.}
 }
 \description{
-This generic method intends to add or replace the label of a given network of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the label of a given network of a \code{SpatialNetwork} object.
 }
 

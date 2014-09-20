@@ -11,6 +11,6 @@ spnet.label.variable(object) <- value
 \item{value}{the new label, for example "#000000".}
 }
 \description{
-This generic method intends to add or replace the label variable of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the label variable of a \code{SpatialNetwork} object.
 }
 

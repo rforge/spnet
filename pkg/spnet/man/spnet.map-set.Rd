@@ -11,6 +11,6 @@ spnet.map(object) <- value
 \item{value}{the map.}
 }
 \description{
-This generic method intends to add or replace the map object. Currently only \code{SpatialPolygons} from the \code{sp} package are supported.
+This generic method intends to set or replace the map object. Currently only \code{SpatialPolygons} from the \code{sp} package are supported.
 }
 

@@ -11,6 +11,6 @@ spnet.legend.list(object) <- value
 \item{value}{a list of parameters.}
 }
 \description{
-This generic method intends to add or replace legend parameters of a \code{SpatialNetwork} object.
+This generic method intends to set or replace legend parameters of a \code{SpatialNetwork} object.
 }
 

@@ -70,7 +70,12 @@ setClass(
   prototype = prototype(
     meta = list(
       date.created = Sys.time(),
-      plot.color.default = "grey90",
+      plot.color.default = list(
+        background = "transparent",
+        region = "#ffffff",
+        node = "#f0f0f0",
+        border = "#000000"
+      ),
       plot.symbol.default = list(
         color = 'grey10',
         cex = 4,
@@ -266,7 +271,7 @@ setMethod(
 
 #' Set the map to a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the map object. Currently only \code{SpatialPolygons} from the \code{sp} package are supported.
+#' This generic method intends to set or replace the map object. Currently only \code{SpatialPolygons} from the \code{sp} package are supported.
 #' 
 #' @param object the \code{SpatialNetwork} object for which we want to set the map.
 #' @param value the map.
@@ -279,6 +284,14 @@ setMethod(
   signature = c("SpatialNetwork", 'SpatialPolygons'),
   definition = function(object, value){
     object@map <- value
+    if (is.null(spnet.color.background(object)))
+      spnet.color.background(object) <- object@meta$plot.color$background
+    if (is.null(spnet.color.region(object)))
+      spnet.color.region(object) <- object@meta$plot.color$region
+    if (is.null(spnet.color.node(object)))
+      spnet.color.node(object) <- object@meta$plot.color$node
+    if (is.null(spnet.color.border(object)))
+      spnet.color.border(object) <- object@meta$plot.color$border
     validObject(object)
     return(object)
   }
@@ -313,7 +326,7 @@ setMethod(
 
 #' Set the list of all networks parameters of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace networks parameters of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace networks parameters of a \code{SpatialNetwork} object.
 #' 
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
@@ -354,7 +367,7 @@ setMethod(
 
 #' Set the list of all parameters of a given network of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace all parameters of a given network of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace all parameters of a given network of a \code{SpatialNetwork} object.
 #' 
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param network.name character; the name of the network.
@@ -484,7 +497,7 @@ setMethod(
 
 #' Set the data of a given network of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the data of a given network of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the data of a given network of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param network.name character; the name of the network.
@@ -541,7 +554,7 @@ setMethod(
 
 #' Set the label of a given network of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the label of a given network of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the label of a given network of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param network.name character; the name of the network.
@@ -597,7 +610,7 @@ setMethod(
 
 #' Set the arrow color of a given network of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the arrow color of a given network of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the arrow color of a given network of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param network.name character; the name of the network.
@@ -653,7 +666,7 @@ setMethod(
 
 #' Set the arrow opacity of a given network of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the arrow opacity of a given network of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the arrow opacity of a given network of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param network.name character; the name of the network.
@@ -711,7 +724,7 @@ setMethod(
 
 #' Set the arrow thickness of a given network of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the arrow thickness of a given network of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the arrow thickness of a given network of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param network.name character; the name of the network.
@@ -768,7 +781,7 @@ setMethod(
 
 #' Set the arrow shortening of a given network of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the arrow shortening of a given network of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the arrow shortening of a given network of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param network.name character; the name of the network.
@@ -829,7 +842,7 @@ setMethod(
 
 #' Set the arrow head type of a given network of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the arrow head type of a given network of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the arrow head type of a given network of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param network.name character; the name of the network.
@@ -885,7 +898,7 @@ setMethod(
 
 #' Set the arrow head length of a given network of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the arrow head length of a given network of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the arrow head length of a given network of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param network.name character; the name of the network.
@@ -941,7 +954,7 @@ setMethod(
 
 #' Set the arrow translation on the x axis of a given network of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the arrow translation on the x axis of a given network of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the arrow translation on the x axis of a given network of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param network.name character; the name of the network.
@@ -995,7 +1008,7 @@ setMethod(
 
 #' Set the arrow translation on the y axis of a given network of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the arrow translation on the y axis of a given network of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the arrow translation on the y axis of a given network of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param network.name character; the name of the network.
@@ -1051,7 +1064,7 @@ setMethod(
 
 #' Set the list of all title parameters of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace title parameters of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace title parameters of a \code{SpatialNetwork} object.
 #' 
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
@@ -1096,7 +1109,7 @@ setMethod(
 
 #' Set the main title  of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the main title of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the main title of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new title.
@@ -1146,7 +1159,7 @@ setMethod(
 
 #' Set the sub title  of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the sub title of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the sub title of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new title.
@@ -1194,7 +1207,7 @@ setMethod(
 
 #' Set the list of all label parameters of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace label parameters of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace label parameters of a \code{SpatialNetwork} object.
 #' 
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
@@ -1245,7 +1258,7 @@ setMethod(
 
 #' Set the label variable  of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the label variable of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the label variable of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new label, for example "#000000".
@@ -1294,7 +1307,7 @@ setMethod(
 
 #' Set the label cex  of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the label cex of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the label cex of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value numeric; the cex parameter.
@@ -1345,7 +1358,7 @@ setMethod(
 
 #' Set the label color  of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the label color of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the label color of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new label, for example "#000000".
@@ -1399,7 +1412,7 @@ setMethod(
 
 #' Set the list of all color parameters of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace color parameters of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace color parameters of a \code{SpatialNetwork} object.
 #' 
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
@@ -1449,7 +1462,7 @@ setMethod(
 
 #' Set the color variable  of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the color variable of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the color variable of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new color, for example "#000000".
@@ -1498,7 +1511,7 @@ setMethod(
 
 #' Set the color legend  of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the color legend of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the color legend of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the color legend.
@@ -1515,6 +1528,193 @@ setMethod(
     return(object)
   }
 )
+
+
+
+
+
+
+
+
+
+
+
+
+#' Get the background color of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to extract the background color of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @export
+setGeneric("spnet.color.background", function(object){ standardGeneric("spnet.color.background") })
+
+#' @describeIn spnet.color.background method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.color.background",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.color")$background)
+  }
+)
+
+#' Set the background color  of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to set or replace the background color of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param value a \code{character}, the color.
+#' @export
+setGeneric("spnet.color.background<-", function(object, value){ standardGeneric("spnet.color.background<-") })
+
+#' @describeIn spnet.color.background method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.color.background<-" ,
+  signature = c("SpatialNetwork", 'character'),
+  definition = function(object, value){
+    object@plot.color$background <- value
+    validObject(object)
+    return(object)
+  }
+)
+
+
+
+
+
+
+
+
+
+
+
+#' Get the default color of a region of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to extract the default color of a region of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @export
+setGeneric("spnet.color.region", function(object){ standardGeneric("spnet.color.region") })
+
+#' @describeIn spnet.color.region method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.color.region",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.color")$region)
+  }
+)
+
+#' Set the default color of a region  of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to set or replace the default color of a region of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param value a \code{character}, the color.
+#' @export
+setGeneric("spnet.color.region<-", function(object, value){ standardGeneric("spnet.color.region<-") })
+
+#' @describeIn spnet.color.region method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.color.region<-" ,
+  signature = c("SpatialNetwork", 'character'),
+  definition = function(object, value){
+    object@plot.color$region <- value
+    validObject(object)
+    return(object)
+  }
+)
+
+
+
+
+
+
+
+
+
+#' Get the default color of a node of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to extract the default color of a node of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @export
+setGeneric("spnet.color.node", function(object){ standardGeneric("spnet.color.node") })
+
+#' @describeIn spnet.color.node method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.color.node",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.color")$node)
+  }
+)
+
+#' Set the default color of a node  of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to set or replace the default color of a node of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param value a \code{character}, the color.
+#' @export
+setGeneric("spnet.color.node<-", function(object, value){ standardGeneric("spnet.color.node<-") })
+
+#' @describeIn spnet.color.node method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.color.node<-" ,
+  signature = c("SpatialNetwork", 'character'),
+  definition = function(object, value){
+    object@plot.color$node <- value
+    validObject(object)
+    return(object)
+  }
+)
+
+
+
+
+
+
+
+
+
+
+#' Get the border color of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to extract the border color of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @export
+setGeneric("spnet.color.border", function(object){ standardGeneric("spnet.color.border") })
+
+#' @describeIn spnet.color.border method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.color.border",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.color")$border)
+  }
+)
+
+#' Set the border color  of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to set or replace the border color of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param value a \code{character}, the color.
+#' @export
+setGeneric("spnet.color.border<-", function(object, value){ standardGeneric("spnet.color.border<-") })
+
+#' @describeIn spnet.color.border method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "spnet.color.border<-" ,
+  signature = c("SpatialNetwork", 'character'),
+  definition = function(object, value){
+    object@plot.color$border <- value
+    validObject(object)
+    return(object)
+  }
+)
+
 
 
 
@@ -1548,7 +1748,7 @@ setMethod(
 
 #' Set the list of all symbol parameters of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace symbol parameters of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace symbol parameters of a \code{SpatialNetwork} object.
 #' 
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
@@ -1599,7 +1799,7 @@ setMethod(
 
 #' Set the symbol variable  of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the symbol variable of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the symbol variable of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the symbol variable.
@@ -1652,7 +1852,7 @@ setMethod(
 
 #' Set the symbol legend  of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the symbol legend of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the symbol legend of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new legend.
@@ -1701,7 +1901,7 @@ setMethod(
 
 #' Set the symbol cex parameter  of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the symbol cex parameter of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the symbol cex parameter of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new cex parameter.
@@ -1754,7 +1954,7 @@ setMethod(
 
 #' Set the symbol color of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the symbol color of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the symbol color of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the color.
@@ -1804,7 +2004,7 @@ setMethod(
 
 #' Set the symbol translation on the x axis of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the value of symbol translation on the x axis of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the value of symbol translation on the x axis of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric; the value of the translation.
@@ -1852,7 +2052,7 @@ setMethod(
 
 #' Set the symbol translation on the y axis of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the value of the symbol translation on the y axis of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the value of the symbol translation on the y axis of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric; the value of the translation.
@@ -1900,7 +2100,7 @@ setMethod(
 
 #' Set the list of all barplot parameters of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace barplot parameters of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace barplot parameters of a \code{SpatialNetwork} object.
 #' 
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
@@ -1953,7 +2153,7 @@ setMethod(
 
 #' Set the barplot variable  of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the barplot variable of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the barplot variable of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the name of the variable to use for plotting barplots.
@@ -2006,7 +2206,7 @@ setMethod(
 
 #' Set the barplot foreground color  of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the barplot foreground color of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the barplot foreground color of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the color.
@@ -2060,7 +2260,7 @@ setMethod(
 
 #' Set the barplot background color  of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the barplot background color of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the barplot background color of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new color.
@@ -2115,7 +2315,7 @@ setMethod(
 
 #' Set the barplot lower bound position  of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the barplot lower bound position of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the barplot lower bound position of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric vector of coordinates, c(x,y), specifying a translation from the center of each country.
@@ -2167,7 +2367,7 @@ setMethod(
 
 #' Set the barplot upper bound position  of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the barplot upper bound position of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the barplot upper bound position of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric vector of coordinates, c(x,y), specifying a translation from the center of each country.
@@ -2218,7 +2418,7 @@ setMethod(
 
 #' Set the barplot width  of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the barplot width of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the barplot width of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric.
@@ -2271,7 +2471,7 @@ setMethod(
 
 #' Set the list of all legend parameters of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace legend parameters of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace legend parameters of a \code{SpatialNetwork} object.
 #' 
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
@@ -2310,7 +2510,7 @@ setMethod(
 
 #' Set the legend print (yes/no) status of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the legend print (yes/no) status of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the legend print (yes/no) status of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a logical.
@@ -2354,7 +2554,7 @@ setMethod(
 
 #' Set the legend cex parameter of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the legend cex parameter of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the legend cex parameter of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric.
@@ -2395,7 +2595,7 @@ setMethod(
 
 #' Set the legend number of columns of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the legend number of columns of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the legend number of columns of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric.
@@ -2437,7 +2637,7 @@ setMethod(
 
 #' Set the legend horizontal or vertical setting of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the legend horizontal or vertical setting of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the legend horizontal or vertical setting of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a logical.
@@ -2478,7 +2678,7 @@ setMethod(
 
 #' Set the legend line width parameter of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace the legend line width parameter of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace the legend line width parameter of a \code{SpatialNetwork} object.
 #' 
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a logical.
@@ -2520,7 +2720,7 @@ setMethod(
 
 #' Set the list of all layout parameters of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace layout parameters of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace layout parameters of a \code{SpatialNetwork} object.
 #' 
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
@@ -2573,7 +2773,7 @@ setMethod(
 
 #' Set the list of all par parameters of a \code{SpatialNetwork} object
 #' 
-#' This generic method intends to add or replace par parameters of a \code{SpatialNetwork} object.
+#' This generic method intends to set or replace par parameters of a \code{SpatialNetwork} object.
 #' 
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
@@ -2605,20 +2805,20 @@ setMethod(
 #' 
 #' @author Emmanuel Rousseaux
 #' 
-#' @param x AAA
-#' @param map AAA
-#' @param networks AAA
-#' @param plot.title AAA
-#' @param plot.label list of arguments to be passed to the \code{\link{text}} function.
-#' @param plot.color AAA
-#' @param plot.symbol AAA
-#' @param plot.barplot AAA
-#' @param plot.arrow AAA
-#' @param plot.legend AAA
-#' @param plot.layout AAA
-#' @param plot.par AAA
-#' @param infos AAA
-#' @param quiet = FALSE AAA
+#' @param x a \code{data.frame} containing at least two columns: \code{NODE} and \code{POSITION}.
+#' @param map a \code{\link[sp]{SpatialPolygons}} object.
+#' @param networks a list of the networks to plot.
+#' @param plot.title a list of parameters for setting the title.
+#' @param plot.label a list of parameters to be passed to the \code{\link{text}} function for setting labels.
+#' @param plot.color a list of parameters for setting colors.
+#' @param plot.symbol a list of parameters for setting symbols.
+#' @param plot.barplot a list of parameters for setting barplots.
+#' @param plot.arrow a list of parameters for setting arrows.
+#' @param plot.legend a list of parameters for setting the legend.
+#' @param plot.layout a list of parameters for setting the layout.
+#' @param plot.par a list of graphical parameters.
+#' @param infos a list of meta information about the instance of the object.
+#' @param quiet = FALSE a logical, suppress all messages.
 #' @export
 #' @examples
 #' people <- c("John", "Elsa", "Brian", "Kate")
@@ -2739,10 +2939,10 @@ setMethod(
     tit <- x@plot.title
     
     color <- x@plot.color
-    flag.color <- ifelse(length(color) > 0, T, F)
+    flag.color <- ifelse(!is.null(color$variable) && !is.null(color$legend), T, F)
     
     symbol <- x@plot.symbol
-    flag.symbol <- ifelse(length(symbol) > 0, T, F)
+    flag.symbol <- ifelse(!is.null(symbol$variable) && !is.null(symbol$legend), T, F)
     
     barplot <- x@plot.barplot
     flag.barplot <- ifelse(nzchar(barplot$variable), T, F)
@@ -2823,28 +3023,31 @@ setMethod(
       coord <- coordinates(x@map)
       ids <- row.names(coord)
       seats <- x[, 'POSITION']
-      names(seats) <- rep(x@meta$plot.color.default, length(seats))
-      #       print(seats)
+      seats.which <- match(seats, ids)
+      
+      col <- rep(spnet.color.region(x), nrow(coord))
+      col[seats.which] <- spnet.color.node(x)
       
       if(flag.color) {
-        names(seats) <- x[, color$variable] # we store color labels in the names
-        names(seats)[!names(seats) %in% names(color$legend)] <- x@meta$plot.color.default
+        names(seats.which) <- x[, color$variable] # we store color labels in the names
+        names(seats.which)[!names(seats.which) %in% names(color$legend)] <- spnet.color.node(x)
         for(k in names(color$legend)){
-          names(seats)[names(seats) == k] <- color$legend[[k]]
+          names(seats.which)[names(seats.which) == k] <- color$legend[[k]]
         }
       }
       
-      col <- rep(par("bg"), nrow(coord))
-      #       print(col)
-      col[seats] <- names(seats)
+      col[seats.which] <- names(seats.which)
       #       print(col[seats])
-      arg.col <- col[as.numeric(ids)]
+#       arg.col <- col[as.numeric(ids)]
       #       print(arg.col)
       
       
       plot(
         x@map,
-        col = arg.col,
+#         col = arg.col,
+        col = col,
+        border = spnet.color.border(x),
+        bg = spnet.color.background(x),
         ... = ...
       )
       

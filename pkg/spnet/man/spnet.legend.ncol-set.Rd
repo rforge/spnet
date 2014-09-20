@@ -11,6 +11,6 @@ spnet.legend.ncol(object) <- value
 \item{value}{a numeric.}
 }
 \description{
-This generic method intends to add or replace the legend number of columns of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the legend number of columns of a \code{SpatialNetwork} object.
 }
 

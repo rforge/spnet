@@ -11,6 +11,6 @@ spnet.legend.print(object) <- value
 \item{value}{a logical.}
 }
 \description{
-This generic method intends to add or replace the legend print (yes/no) status of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the legend print (yes/no) status of a \code{SpatialNetwork} object.
 }
 

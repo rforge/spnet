@@ -11,6 +11,6 @@ spnet.barplot.width(object) <- value
 \item{value}{a numeric.}
 }
 \description{
-This generic method intends to add or replace the barplot width of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the barplot width of a \code{SpatialNetwork} object.
 }
 

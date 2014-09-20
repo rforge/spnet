@@ -11,6 +11,6 @@ spnet.symbol.variable(object) <- value
 \item{value}{the symbol variable.}
 }
 \description{
-This generic method intends to add or replace the symbol variable of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the symbol variable of a \code{SpatialNetwork} object.
 }
 

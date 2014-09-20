@@ -13,6 +13,6 @@ spnet.network.arrow.shorten(object, network.name) <- value
 \item{value}{the arrow shortening.}
 }
 \description{
-This generic method intends to add or replace the arrow shortening of a given network of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the arrow shortening of a given network of a \code{SpatialNetwork} object.
 }
 

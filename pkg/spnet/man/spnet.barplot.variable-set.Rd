@@ -11,6 +11,6 @@ spnet.barplot.variable(object) <- value
 \item{value}{the name of the variable to use for plotting barplots.}
 }
 \description{
-This generic method intends to add or replace the barplot variable of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the barplot variable of a \code{SpatialNetwork} object.
 }
 

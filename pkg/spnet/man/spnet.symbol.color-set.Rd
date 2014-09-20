@@ -11,6 +11,6 @@ spnet.symbol.color(object) <- value
 \item{value}{the color.}
 }
 \description{
-This generic method intends to add or replace the symbol color of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the symbol color of a \code{SpatialNetwork} object.
 }
 

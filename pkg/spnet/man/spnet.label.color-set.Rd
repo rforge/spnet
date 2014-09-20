@@ -11,6 +11,6 @@ spnet.label.color(object) <- value
 \item{value}{the new label, for example "#000000".}
 }
 \description{
-This generic method intends to add or replace the label color of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the label color of a \code{SpatialNetwork} object.
 }
 

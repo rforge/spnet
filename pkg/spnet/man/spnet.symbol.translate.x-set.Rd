@@ -11,6 +11,6 @@ spnet.symbol.translate.x(object) <- value
 \item{value}{a numeric; the value of the translation.}
 }
 \description{
-This generic method intends to add or replace the value of symbol translation on the x axis of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the value of symbol translation on the x axis of a \code{SpatialNetwork} object.
 }
 

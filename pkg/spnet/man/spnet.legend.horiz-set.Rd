@@ -11,6 +11,6 @@ spnet.legend.horiz(object) <- value
 \item{value}{a logical.}
 }
 \description{
-This generic method intends to add or replace the legend horizontal or vertical setting of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the legend horizontal or vertical setting of a \code{SpatialNetwork} object.
 }
 

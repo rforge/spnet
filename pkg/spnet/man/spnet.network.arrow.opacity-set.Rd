@@ -13,6 +13,6 @@ spnet.network.arrow.opacity(object, network.name) <- value
 \item{value}{the arrow opacity.}
 }
 \description{
-This generic method intends to add or replace the arrow opacity of a given network of a \code{SpatialNetwork} object.
+This generic method intends to set or replace the arrow opacity of a given network of a \code{SpatialNetwork} object.
 }
 

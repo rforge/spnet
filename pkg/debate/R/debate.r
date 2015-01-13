@@ -6,5 +6,5 @@
 #' @references Deville M. and Rousseaux E. (2013). TITLE. JOURNAL. VOLUME(NUMBER), PAGEFROM-PAGETO.
 #' @keywords package debate text mining networks map spatial
 #' @docType package
-#' @import methods spnet
+#' @import methods sp spnet
 NULL

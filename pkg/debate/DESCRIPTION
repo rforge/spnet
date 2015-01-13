@@ -18,6 +18,7 @@ Description: Several dimensions are in play during a debate. This is especially
 License: GPL (>= 2)
 Depends:
     methods,
+    sp,
     spnet (>= 0.0.3)
 Suggests:
     knitr

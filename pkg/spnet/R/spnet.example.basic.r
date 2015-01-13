@@ -8,6 +8,7 @@
 #' @param network1 logical; if \code{TRUE} a first example of network is provided.
 #' @param network2 logical; if \code{TRUE} a second example of network is provided.
 #' @param barplot logical; if \code{TRUE} a example of barplot rendering of a numeric variable is provided.
+#' @param title logical; if \code{TRUE} a example of title is provided.
 #' @return a \code{SpatialNetwok} object.
 #' @examples
 #' data(world.map.simplified, package = "spnet")
@@ -21,7 +22,8 @@ spnet.example.basic <- function(
   symbol = TRUE,
   network1 = TRUE,
   network2 = TRUE,
-  barplot = TRUE
+  barplot = TRUE,
+  title = TRUE
 ) {
   example.basic.env <- new.env()
   data("world.map.simplified", package = "spnet", envir = example.basic.env)
@@ -40,19 +42,18 @@ spnet.example.basic <- function(
   if(color) {
     net1$continent <- c("Europa", "America", "America", "Oceania")
     spnet.color.variable(net1) <- "continent"
-    spnet.color.legend(net1) <- c('Europa' = "#BEF7E3", 'America' = "#D7BEF7", 'Oceania' = "#F5E78E")
-    spnet.color.background(net1) <- "#B3CAF5"
-    spnet.color.border(net1) <- "#555555"
-    spnet.color.region(net1) <- "#F5E1B3"
+    spnet.color.legend(net1) <- c('Europa' = "#CBB3E466", 'America' = "#D490B366", 'Oceania' = "#CBE4B366")
+    spnet.color.background(net1) <- "#B3E4E466" # light blue
+    spnet.color.border(net1) <- "#55555566" # grey
+    spnet.color.region(net1) <- "#D2A65F66" # light orange
   }
   if(symbol) {
     net1$role <- c('North', 'North', 'South', 'South')
     spnet.symbol.variable(net1) <- 'role'
     spnet.symbol.legend(net1) <- c('North' = 'triangle.up', 'South' = 'triangle.down')
-    spnet.symbol.color(net1) <- '#00EE00'
-    spnet.symbol.cex(net1) <- 2
-    spnet.symbol.translate.x(net1) <- 0
-    spnet.symbol.translate.y(net1) <- 6
+    spnet.symbol.color(net1) <- '#A52A2A88'
+    spnet.symbol.cex(net1) <- 1
+    spnet.symbol.shift.y(net1) <- 6
   }
   if(network1) {
     network1 <- matrix(
@@ -60,11 +61,17 @@ spnet.example.basic <- function(
       nrow = length(node),
       dimnames = list(node, node)
     )
-    network1['France', 'United States'] <- 1
-    network1['Brazil', 'Australia'] <- 2
-    
+      
     spnet.networks.add(net1) <- "network1"
     spnet.network.data(net1, "network1") <- network1
+    spnet.network.data(net1, 'network1')['France', 'United States'] <- 2
+    spnet.network.data(net1, 'network1')['Australia', 'United States'] <- 1
+    spnet.network.data(net1, 'network1')['France', 'Brazil'] <- 3
+    spnet.network.data(net1, 'network1')['Brazil', 'France'] <- 2
+    spnet.network.label(net1, 'network1') <- 'Holidays'
+    spnet.network.arrow.shift.y(net1, 'network1') <- 2
+    spnet.network.arrow.color(net1, 'network1') <- '#33333366'
+    spnet.network.arrow.thickness(net1, 'network1') <- 0.5
   }
   if(network2) {
     network2 <- matrix(
@@ -72,21 +79,28 @@ spnet.example.basic <- function(
       nrow = length(node),
       dimnames = list(node, node)
     )
-    network2['United States', 'France'] <- 1
-    network2['United States', 'Australia'] <- 1
-    network2['Brazil', 'France'] <- 3
-    
+      
     spnet.networks.add(net1) <- "network2"
     spnet.network.data(net1, "network2") <- network2
+    spnet.network.data(net1, 'network2')['Brazil', 'Australia'] <- 2
+    spnet.network.label(net1, 'network2') <- 'Studies'
+    spnet.network.arrow.shift.y(net1, 'network2') <- -2
+    spnet.network.arrow.opacity(net1, 'network2') <- 0.9
+    spnet.network.arrow.color(net1, 'network2') <- 'grey'
+    spnet.network.arrow.thickness(net1, 'network2') <- 0.5
   }
   if(barplot) {
     net1$num.var <- c(0.1,0.3,0.5,0.9)
     spnet.barplot.variable(net1) <- "num.var"
-    spnet.barplot.bound.lower(net1) <- c(-5,-6)
-    spnet.barplot.bound.upper(net1) <- c(5,-6)
-    spnet.barplot.fgcolor(net1) <- "#3B6E5C"
-    spnet.barplot.bgcolor(net1) <- "#77D9B7"
-    spnet.barplot.width(net1) <- 8
+    spnet.barplot.bound.upper(net1) <- c(-13,20)
+    spnet.barplot.bound.lower(net1) <- c(-13,3)
+    spnet.barplot.fgcolor(net1) <- "#333333DD"
+    spnet.barplot.bgcolor(net1) <- "#E6E6E6DD"
+    spnet.barplot.width(net1) <- 10
+  }
+  if(title) {
+    spnet.title.main(net1) <- "Where John, Elsa, Brian and Kate have traveled"
+    spnet.title.sub(net1) <- "For holidays and studies"
   }
   return(net1)
 }

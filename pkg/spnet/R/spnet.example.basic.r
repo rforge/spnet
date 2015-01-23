@@ -99,7 +99,7 @@ spnet.example.basic <- function(
     spnet.barplot.width(net1) <- 10
   }
   if(title) {
-    spnet.title.main(net1) <- "Where John, Elsa, Brian and Kate have traveled"
+    spnet.title.main(net1) <- "Places visited by John, Elsa, Brian and Kate"
     spnet.title.sub(net1) <- "For holidays and studies"
   }
   return(net1)

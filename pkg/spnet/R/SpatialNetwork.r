@@ -12,6 +12,7 @@
 #' @slot plot.title object of class \code{"list"}
 #' @slot plot.label object of class \code{"list"}
 #' @slot plot.color object of class \code{"list"}
+#' @slot plot.blackwhite object of class \code{"list"}
 #' @slot plot.symbol object of class \code{"list"}
 #' @slot plot.arrow object of class \code{"list"}
 #' @slot plot.barplot object of class \code{"list"}
@@ -57,6 +58,7 @@ setClass(
     'plot.title' = 'list',
     'plot.label' = 'list',
     'plot.color' = 'list',
+    'plot.blackwhite' = 'list',
     'plot.symbol' = 'list',
     'plot.arrow' = 'list',
     'plot.barplot' = 'list',
@@ -92,6 +94,7 @@ setClass(
         thickness = 2.00,
         length.rate = 1,
         shorten = 0.3,
+        line.type = 1:5,
         head.length = 0.20,
         head.type = 'curved'
       )
@@ -161,7 +164,7 @@ setClass(
     #           )
     #         )
     #       }
-    #       exist.in.symbol <- symbol$legend %in% names(spnet::.spnet.symbol.list)
+    #       exist.in.symbol <- symbol$legend %in% names(spnet::.graph.symbol.list)
     #       if(!all(exist.in.symbol)) stop(
     #         paste(
     #           "Some symbol names you provided doesn't exist:",
@@ -259,11 +262,11 @@ NULL
 #' @param object the \code{SpatialNetwork} object for which we want to get the map.
 #' @param value the map.
 #' @export
-setGeneric("spnet.map", function(object){ standardGeneric("spnet.map") })
+setGeneric("graph.map", function(object){ standardGeneric("graph.map") })
 
-#' @describeIn spnet.map method for \code{SpatialPolygons} objects.
+#' @describeIn graph.map method for \code{SpatialPolygons} objects.
 setMethod(
-  f = "spnet.map",
+  f = "graph.map",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "map"))
@@ -277,22 +280,22 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to set the map.
 #' @param value the map.
 #' @export
-setGeneric("spnet.map<-", function(object, value){ standardGeneric("spnet.map<-") })
+setGeneric("graph.map<-", function(object, value){ standardGeneric("graph.map<-") })
 
-#' @describeIn spnet.map method for \code{SpatialPolygons} objects.
+#' @describeIn graph.map method for \code{SpatialPolygons} objects.
 setMethod(
-  f = "spnet.map<-" ,
+  f = "graph.map<-" ,
   signature = c("SpatialNetwork", 'SpatialPolygons'),
   definition = function(object, value){
     object@map <- value
-    if (is.null(spnet.color.background(object)))
-      spnet.color.background(object) <- object@meta$plot.color$background
-    if (is.null(spnet.color.region(object)))
-      spnet.color.region(object) <- object@meta$plot.color$region
-    if (is.null(spnet.color.node(object)))
-      spnet.color.node(object) <- object@meta$plot.color$node
-    if (is.null(spnet.color.border(object)))
-      spnet.color.border(object) <- object@meta$plot.color$border
+    if (is.null(graph.color.background(object)))
+      graph.color.background(object) <- object@meta$plot.color$background
+    if (is.null(graph.color.region(object)))
+      graph.color.region(object) <- object@meta$plot.color$region
+    if (is.null(graph.color.node(object)))
+      graph.color.node(object) <- object@meta$plot.color$node
+    if (is.null(graph.color.border(object)))
+      graph.color.border(object) <- object@meta$plot.color$border
     validObject(object)
     return(object)
   }
@@ -315,11 +318,11 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to get parameters.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.networks.list", function(object){ standardGeneric("spnet.networks.list") })
+setGeneric("graph.networks.list", function(object){ standardGeneric("graph.networks.list") })
 
-#' @describeIn spnet.networks.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.networks.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.networks.list",
+  f = "graph.networks.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "networks"))
@@ -333,11 +336,11 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.networks.list<-", function(object, value){ standardGeneric("spnet.networks.list<-") })
+setGeneric("graph.networks.list<-", function(object, value){ standardGeneric("graph.networks.list<-") })
 
-#' @describeIn spnet.networks.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.networks.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.networks.list<-" ,
+  f = "graph.networks.list<-" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@networks <- value
@@ -357,11 +360,11 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.network.list", function(object, network.name){ standardGeneric("spnet.network.list") })
+setGeneric("graph.network.list", function(object, network.name){ standardGeneric("graph.network.list") })
 
-#' @describeIn spnet.network.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.list",
+  f = "graph.network.list",
   signature = c("SpatialNetwork", "character"),
   definition = function (object, network.name) { 
     return(slot(object, "networks")[[network.name]])
@@ -376,11 +379,11 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.network.list<-", function(object, network.name, value){ standardGeneric("spnet.network.list<-") })
+setGeneric("graph.network.list<-", function(object, network.name, value){ standardGeneric("graph.network.list<-") })
 
-#' @describeIn spnet.network.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.list<-" ,
+  f = "graph.network.list<-" ,
   signature = c("SpatialNetwork", "character", 'list'),
   definition = function(object, network.name, value){
     object@networks[[network.name]] <- value
@@ -406,9 +409,9 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param network.name a character; the name of the network.
 #' @export
-spnet.network.exists <- function(object, network.name) {
+graph.network.exists <- function(object, network.name) {
   stopifnot(inherits(object, 'SpatialNetwork'))
-  return(is.element(network.name, names(spnet.networks.list(object))))
+  return(is.element(network.name, names(graph.networks.list(object))))
 }
 
 
@@ -422,21 +425,21 @@ spnet.network.exists <- function(object, network.name) {
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a character; the name of the network.
 #' @export
-setGeneric("spnet.networks.add<-", function(object, value){ standardGeneric("spnet.networks.add<-") })
+setGeneric("graph.networks.add<-", function(object, value){ standardGeneric("graph.networks.add<-") })
 
-#' @rdname spnet.networks.add-set
+#' @rdname graph.networks.add-set
 setMethod(
-  f = "spnet.networks.add<-",
+  f = "graph.networks.add<-",
   signature = c("SpatialNetwork", "character"),
   definition = function(object, value){
     network.name <- value
     if(make.names(network.name) != network.name) {
       stop("The name is not valid. Please check it with 'make.names()'.")
     }
-    if(spnet.network.exists(object, network.name)) {
+    if(graph.network.exists(object, network.name)) {
       stop("This network name is already defined.")
     }
-    spnet.networks.list(object) <- eval(parse(text = paste0("c(spnet.networks.list(object), list(", network.name, " = list()))")))
+    graph.networks.list(object) <- eval(parse(text = paste0("c(graph.networks.list(object), list(", network.name, " = list()))")))
     return(object)
   }
 )
@@ -448,24 +451,24 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a character; the name of the network.
 #' @export
-setGeneric("spnet.networks.remove<-", function(object, value){ standardGeneric("spnet.networks.remove<-") })
+setGeneric("graph.networks.remove<-", function(object, value){ standardGeneric("graph.networks.remove<-") })
 
-#' @rdname spnet.networks.remove-set
+#' @rdname graph.networks.remove-set
 setMethod(
-  f = "spnet.networks.remove<-",
+  f = "graph.networks.remove<-",
   signature = c("SpatialNetwork", "character"),
   definition = function(object, value){
     network.name <- value
     if(make.names(network.name) != network.name) {
       stop("The name is not valid. Please check it with 'make.names()'.")
     }
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("This network name doesn't exist.")
     }
-    if(length(spnet.networks.list(object)) == 1) {
-      spnet.networks.list(object) <- list()
+    if(length(graph.networks.list(object)) == 1) {
+      graph.networks.list(object) <- list()
     } else {
-      spnet.networks.list(object) <- spnet.networks.list(object)[-which(names(spnet.networks.list(object)) == network.name)]
+      graph.networks.list(object) <- graph.networks.list(object)[-which(names(graph.networks.list(object)) == network.name)]
     }
     return(object)
   }
@@ -485,15 +488,15 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the network data. Currently only support a \code{matrix} object.
 #' @export
-setGeneric("spnet.network.data", function(object, network.name){ standardGeneric("spnet.network.data") })
+setGeneric("graph.network.data", function(object, network.name){ standardGeneric("graph.network.data") })
 
-#' @describeIn spnet.network.data method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.data method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.data",
+  f = "graph.network.data",
   signature = c("SpatialNetwork", "character"), 
   definition = function (object, network.name) {
-    if(!spnet.network.exists(object, network.name)) {
-      stop("There is no network called '", network.name, "'. Please use the 'spnet.network.add' function to define a network before trying to add data.")
+    if(!graph.network.exists(object, network.name)) {
+      stop("There is no network called '", network.name, "'. Please use the 'graph.network.add' function to define a network before trying to add data.")
     }
     return(object@networks[[network.name]]$data)
   }
@@ -508,15 +511,15 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the network data. Currently only support a \code{matrix} object.
 #' @export
-setGeneric("spnet.network.data<-", function(object, network.name, value){ standardGeneric("spnet.network.data<-") })
+setGeneric("graph.network.data<-", function(object, network.name, value){ standardGeneric("graph.network.data<-") })
 
-#' @describeIn spnet.network.data method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.data method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.data<-" ,
+  f = "graph.network.data<-" ,
   signature = c("SpatialNetwork", "character", "matrix"),
   definition = function(object, network.name, value){
-    if(!spnet.network.exists(object, network.name)) {
-      stop("There is no network called '", network.name, "'. Please use the 'spnet.networks.add' function to define a network before trying to add data.")
+    if(!graph.network.exists(object, network.name)) {
+      stop("There is no network called '", network.name, "'. Please use the 'graph.networks.add' function to define a network before trying to add data.")
     }
     object@networks[[network.name]]$data <- value
     validObject(object)
@@ -544,14 +547,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the network label.
 #' @export
-setGeneric("spnet.network.label", function(object, network.name){ standardGeneric("spnet.network.label") })
+setGeneric("graph.network.label", function(object, network.name){ standardGeneric("graph.network.label") })
 
-#' @describeIn spnet.network.label method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.label method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.label",
+  f = "graph.network.label",
   signature = c("SpatialNetwork", "character"), 
   definition = function (object, network.name) {
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
     return(object@networks[[network.name]]$label)
@@ -567,14 +570,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the network label.
 #' @export
-setGeneric("spnet.network.label<-", function(object, network.name, value){ standardGeneric("spnet.network.label<-") })
+setGeneric("graph.network.label<-", function(object, network.name, value){ standardGeneric("graph.network.label<-") })
 
-#' @describeIn spnet.network.label method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.label method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.label<-" ,
+  f = "graph.network.label<-" ,
   signature = c("SpatialNetwork", "character", "character"),
   definition = function(object, network.name, value){
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
     object@networks[[network.name]]$label <- value
@@ -602,14 +605,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the arrow color.
 #' @export
-setGeneric("spnet.network.arrow.color", function(object, network.name){ standardGeneric("spnet.network.arrow.color") })
+setGeneric("graph.network.arrow.color", function(object, network.name){ standardGeneric("graph.network.arrow.color") })
 
-#' @describeIn spnet.network.arrow.color method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.arrow.color method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.color",
+  f = "graph.network.arrow.color",
   signature = c("SpatialNetwork", "character"), 
   definition = function (object, network.name) {
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
     return(object@networks[[network.name]]$color)
@@ -625,14 +628,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the arrow color.
 #' @export
-setGeneric("spnet.network.arrow.color<-", function(object, network.name, value){ standardGeneric("spnet.network.arrow.color<-") })
+setGeneric("graph.network.arrow.color<-", function(object, network.name, value){ standardGeneric("graph.network.arrow.color<-") })
 
-#' @describeIn spnet.network.arrow.color method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.arrow.color method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.color<-" ,
+  f = "graph.network.arrow.color<-" ,
   signature = c("SpatialNetwork", "character", "character"),
   definition = function(object, network.name, value){
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
     object@networks[[network.name]]$color <- value
@@ -640,6 +643,68 @@ setMethod(
     return(object)
   }
 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' Get the arrow line type of a given network of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to extract the arrow line type of a given network of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param network.name character; the name of the network.
+#' @param value a numeric; the arrow line type.
+#' @export
+setGeneric("graph.network.arrow.line.type", function(object, network.name){ standardGeneric("graph.network.arrow.line.type") })
+
+#' @describeIn graph.network.arrow.line.type method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "graph.network.arrow.line.type",
+  signature = c("SpatialNetwork", "character"), 
+  definition = function (object, network.name) {
+    if(!graph.network.exists(object, network.name)) {
+      stop("There is no network called '", network.name, "'.")
+    }
+    return(object@networks[[network.name]]$line.type)
+  }
+)
+
+
+#' Set the arrow line type of a given network of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to set or replace the arrow line type of a given network of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param network.name character; the name of the network.
+#' @param value a numeric; the arrow line type.
+#' @export
+setGeneric("graph.network.arrow.line.type<-", function(object, network.name, value){ standardGeneric("graph.network.arrow.line.type<-") })
+
+#' @describeIn graph.network.arrow.line.type method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "graph.network.arrow.line.type<-" ,
+  signature = c("SpatialNetwork", "character", "numeric"),
+  definition = function(object, network.name, value){
+    if(!graph.network.exists(object, network.name)) {
+      stop("There is no network called '", network.name, "'.")
+    }
+    object@networks[[network.name]]$line.type <- value
+    validObject(object)
+    return(object)
+  }
+)
+
 
 
 
@@ -660,14 +725,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the arrow opacity.
 #' @export
-setGeneric("spnet.network.arrow.opacity", function(object, network.name){ standardGeneric("spnet.network.arrow.opacity") })
+setGeneric("graph.network.arrow.opacity", function(object, network.name){ standardGeneric("graph.network.arrow.opacity") })
 
-#' @describeIn spnet.network.arrow.opacity method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.arrow.opacity method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.opacity",
+  f = "graph.network.arrow.opacity",
   signature = c("SpatialNetwork", "character"), 
   definition = function (object, network.name) {
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
     return(object@networks[[network.name]]$opacity)
@@ -683,14 +748,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the arrow opacity.
 #' @export
-setGeneric("spnet.network.arrow.opacity<-", function(object, network.name, value){ standardGeneric("spnet.network.arrow.opacity<-") })
+setGeneric("graph.network.arrow.opacity<-", function(object, network.name, value){ standardGeneric("graph.network.arrow.opacity<-") })
 
-#' @describeIn spnet.network.arrow.opacity method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.arrow.opacity method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.opacity<-" ,
+  f = "graph.network.arrow.opacity<-" ,
   signature = c("SpatialNetwork", "character", "numeric"),
   definition = function(object, network.name, value){
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no arrow called '", network.name, "'.")
     }
     object@networks[[network.name]]$opacity <- value
@@ -720,14 +785,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the arrow thickness.
 #' @export
-setGeneric("spnet.network.arrow.thickness", function(object, network.name){ standardGeneric("spnet.network.arrow.thickness") })
+setGeneric("graph.network.arrow.thickness", function(object, network.name){ standardGeneric("graph.network.arrow.thickness") })
 
-#' @describeIn spnet.network.arrow.thickness method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.arrow.thickness method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.thickness",
+  f = "graph.network.arrow.thickness",
   signature = c("SpatialNetwork", "character"), 
   definition = function (object, network.name) {
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
     return(object@networks[[network.name]]$thickness)
@@ -743,14 +808,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the arrow thickness.
 #' @export
-setGeneric("spnet.network.arrow.thickness<-", function(object, network.name, value){ standardGeneric("spnet.network.arrow.thickness<-") })
+setGeneric("graph.network.arrow.thickness<-", function(object, network.name, value){ standardGeneric("graph.network.arrow.thickness<-") })
 
-#' @describeIn spnet.network.arrow.thickness method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.arrow.thickness method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.thickness<-" ,
+  f = "graph.network.arrow.thickness<-" ,
   signature = c("SpatialNetwork", "character", "numeric"),
   definition = function(object, network.name, value){
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
     object@networks[[network.name]]$thickness <- value
@@ -779,14 +844,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the arrow shortening.
 #' @export
-setGeneric("spnet.network.arrow.shorten", function(object, network.name){ standardGeneric("spnet.network.arrow.shorten") })
+setGeneric("graph.network.arrow.shorten", function(object, network.name){ standardGeneric("graph.network.arrow.shorten") })
 
-#' @describeIn spnet.network.arrow.shorten method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.arrow.shorten method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.shorten",
+  f = "graph.network.arrow.shorten",
   signature = c("SpatialNetwork", "character"), 
   definition = function (object, network.name) {
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
     return(object@networks[[network.name]]$shorten)
@@ -802,15 +867,15 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the arrow shortening.
 #' @export
-setGeneric("spnet.network.arrow.shorten<-", function(object, network.name, value){ standardGeneric("spnet.network.arrow.shorten<-") })
+setGeneric("graph.network.arrow.shorten<-", function(object, network.name, value){ standardGeneric("graph.network.arrow.shorten<-") })
 
-#' @describeIn spnet.network.arrow.shorten method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.arrow.shorten method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.shorten<-" ,
+  f = "graph.network.arrow.shorten<-" ,
   signature = c("SpatialNetwork", "character", "numeric"),
   definition = function(object, network.name, value){
-    if(!spnet.network.exists(object, network.name)) {
-      stop("There is no network called '", network.name, "'. Please use the 'spnet.networks.add' function to define a network before trying to add shorten.")
+    if(!graph.network.exists(object, network.name)) {
+      stop("There is no network called '", network.name, "'. Please use the 'graph.networks.add' function to define a network before trying to add shorten.")
     }
     object@networks[[network.name]]$shorten <- value
     validObject(object)
@@ -842,14 +907,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value type of arrowhead to draw, one of "simple", "curved", "triangle", "circle", "ellipse" or "T". See \code{\link[shape]{Arrows}} for details.
 #' @export
-setGeneric("spnet.network.arrow.head.type", function(object, network.name){ standardGeneric("spnet.network.arrow.head.type") })
+setGeneric("graph.network.arrow.head.type", function(object, network.name){ standardGeneric("graph.network.arrow.head.type") })
 
-#' @describeIn spnet.network.arrow.head.type method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.arrow.head.type method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.head.type",
+  f = "graph.network.arrow.head.type",
   signature = c("SpatialNetwork", "character"), 
   definition = function (object, network.name) {
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
     return(object@networks[[network.name]]$head.type)
@@ -865,14 +930,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value type of arrowhead to draw, one of "simple", "curved", "triangle", "circle", "ellipse" or "T". See \code{\link[shape]{Arrows}} for details.
 #' @export
-setGeneric("spnet.network.arrow.head.type<-", function(object, network.name, value){ standardGeneric("spnet.network.arrow.head.type<-") })
+setGeneric("graph.network.arrow.head.type<-", function(object, network.name, value){ standardGeneric("graph.network.arrow.head.type<-") })
 
-#' @describeIn spnet.network.arrow.head.type method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.arrow.head.type method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.head.type<-" ,
+  f = "graph.network.arrow.head.type<-" ,
   signature = c("SpatialNetwork", "character", "character"),
   definition = function(object, network.name, value){
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
     object@networks[[network.name]]$head.type <- value
@@ -900,14 +965,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the arrow head length.
 #' @export
-setGeneric("spnet.network.arrow.head.lth", function(object, network.name){ standardGeneric("spnet.network.arrow.head.lth") })
+setGeneric("graph.network.arrow.head.lth", function(object, network.name){ standardGeneric("graph.network.arrow.head.lth") })
 
-#' @describeIn spnet.network.arrow.head.lth method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.arrow.head.lth method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.head.lth",
+  f = "graph.network.arrow.head.lth",
   signature = c("SpatialNetwork", "character"), 
   definition = function (object, network.name) {
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
     return(object@networks[[network.name]]$head.length)
@@ -923,14 +988,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the arrow head length.
 #' @export
-setGeneric("spnet.network.arrow.head.lth<-", function(object, network.name, value){ standardGeneric("spnet.network.arrow.head.lth<-") })
+setGeneric("graph.network.arrow.head.lth<-", function(object, network.name, value){ standardGeneric("graph.network.arrow.head.lth<-") })
 
-#' @describeIn spnet.network.arrow.head.lth method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.arrow.head.lth method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.head.lth<-" ,
+  f = "graph.network.arrow.head.lth<-" ,
   signature = c("SpatialNetwork", "character", "numeric"),
   definition = function(object, network.name, value){
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
     object@networks[[network.name]]$head.length <- value
@@ -958,14 +1023,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the arrow shift on the x axis.
 #' @export
-setGeneric("spnet.network.arrow.shift.x", function(object, network.name){ standardGeneric("spnet.network.arrow.shift.x") })
+setGeneric("graph.network.arrow.shift.x", function(object, network.name){ standardGeneric("graph.network.arrow.shift.x") })
 
-#' @describeIn spnet.network.arrow.shift.x method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.arrow.shift.x method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.shift.x",
+  f = "graph.network.arrow.shift.x",
   signature = c("SpatialNetwork", "character"), 
   definition = function (object, network.name) {
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
     return(object@networks[[network.name]]$shift.x)
@@ -981,14 +1046,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the arrow shift on the x axis.
 #' @export
-setGeneric("spnet.network.arrow.shift.x<-", function(object, network.name, value){ standardGeneric("spnet.network.arrow.shift.x<-") })
+setGeneric("graph.network.arrow.shift.x<-", function(object, network.name, value){ standardGeneric("graph.network.arrow.shift.x<-") })
 
-#' @describeIn spnet.network.arrow.shift.x method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.arrow.shift.x method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.shift.x<-" ,
+  f = "graph.network.arrow.shift.x<-" ,
   signature = c("SpatialNetwork", "character", "numeric"),
   definition = function(object, network.name, value){
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
     object@networks[[network.name]]$shift.x <- value
@@ -1014,14 +1079,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the arrow shift on the y axis.
 #' @export
-setGeneric("spnet.network.arrow.shift.y", function(object, network.name){ standardGeneric("spnet.network.arrow.shift.y") })
+setGeneric("graph.network.arrow.shift.y", function(object, network.name){ standardGeneric("graph.network.arrow.shift.y") })
 
-#' @describeIn spnet.network.arrow.shift.y method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.arrow.shift.y method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.shift.y",
+  f = "graph.network.arrow.shift.y",
   signature = c("SpatialNetwork", "character"), 
   definition = function (object, network.name) {
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
     return(object@networks[[network.name]]$shift.y)
@@ -1037,14 +1102,14 @@ setMethod(
 #' @param network.name character; the name of the network.
 #' @param value the arrow shift on the y axis.
 #' @export
-setGeneric("spnet.network.arrow.shift.y<-", function(object, network.name, value){ standardGeneric("spnet.network.arrow.shift.y<-") })
+setGeneric("graph.network.arrow.shift.y<-", function(object, network.name, value){ standardGeneric("graph.network.arrow.shift.y<-") })
 
-#' @describeIn spnet.network.arrow.shift.y method for \code{SpatialNetwork} objects.
+#' @describeIn graph.network.arrow.shift.y method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.network.arrow.shift.y<-" ,
+  f = "graph.network.arrow.shift.y<-" ,
   signature = c("SpatialNetwork", "character", "numeric"),
   definition = function(object, network.name, value){
-    if(!spnet.network.exists(object, network.name)) {
+    if(!graph.network.exists(object, network.name)) {
       stop("There is no network called '", network.name, "'.")
     }
     object@networks[[network.name]]$shift.y <- value
@@ -1074,11 +1139,11 @@ setMethod(
 #' 
 #' @param object the \code{SpatialNetwork} object for which we want to get parameters.
 #' @export
-setGeneric("spnet.title.list", function(object){ standardGeneric("spnet.title.list") })
+setGeneric("graph.title.list", function(object){ standardGeneric("graph.title.list") })
 
-#' @describeIn spnet.title.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.title.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.title.list",
+  f = "graph.title.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.title"))
@@ -1092,11 +1157,11 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.title.list<-", function(object, value){ standardGeneric("spnet.title.list<-") })
+setGeneric("graph.title.list<-", function(object, value){ standardGeneric("graph.title.list<-") })
 
-#' @describeIn spnet.networks.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.networks.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.title.list<-" ,
+  f = "graph.title.list<-" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@plot.title <- value
@@ -1119,11 +1184,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new title.
 #' @export
-setGeneric("spnet.title.main", function(object){ standardGeneric("spnet.title.main") })
+setGeneric("graph.title.main", function(object){ standardGeneric("graph.title.main") })
 
-#' @describeIn spnet.title.main method for \code{SpatialNetwork} objects.
+#' @describeIn graph.title.main method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.title.main",
+  f = "graph.title.main",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.title")$main)
@@ -1138,11 +1203,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new title.
 #' @export
-setGeneric("spnet.title.main<-", function(object, value){ standardGeneric("spnet.title.main<-") })
+setGeneric("graph.title.main<-", function(object, value){ standardGeneric("graph.title.main<-") })
 
-#' @describeIn spnet.title.main method for \code{SpatialNetwork} objects.
+#' @describeIn graph.title.main method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.title.main<-" ,
+  f = "graph.title.main<-" ,
   signature = c("SpatialNetwork", 'character'),
   definition = function(object, value){
     object@plot.title$main <- value
@@ -1170,11 +1235,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new title.
 #' @export
-setGeneric("spnet.title.sub", function(object){ standardGeneric("spnet.title.sub") })
+setGeneric("graph.title.sub", function(object){ standardGeneric("graph.title.sub") })
 
-#' @describeIn spnet.title.sub method for \code{SpatialNetwork} objects.
+#' @describeIn graph.title.sub method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.title.sub",
+  f = "graph.title.sub",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.title")$sub)
@@ -1189,11 +1254,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new title.
 #' @export
-setGeneric("spnet.title.sub<-", function(object, value){ standardGeneric("spnet.title.sub<-") })
+setGeneric("graph.title.sub<-", function(object, value){ standardGeneric("graph.title.sub<-") })
 
-#' @describeIn spnet.title.sub method for \code{SpatialNetwork} objects.
+#' @describeIn graph.title.sub method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.title.sub<-" ,
+  f = "graph.title.sub<-" ,
   signature = c("SpatialNetwork", 'character'),
   definition = function(object, value){
     object@plot.title$sub <- value
@@ -1220,11 +1285,11 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to get parameters.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.label.list", function(object){ standardGeneric("spnet.label.list") })
+setGeneric("graph.label.list", function(object){ standardGeneric("graph.label.list") })
 
-#' @describeIn spnet.label.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.label.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.label.list",
+  f = "graph.label.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.label"))
@@ -1238,11 +1303,11 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.label.list<-", function(object, value){ standardGeneric("spnet.label.list<-") })
+setGeneric("graph.label.list<-", function(object, value){ standardGeneric("graph.label.list<-") })
 
-#' @describeIn spnet.label.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.label.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.label.list<-" ,
+  f = "graph.label.list<-" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@plot.label <- value
@@ -1272,11 +1337,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new label, for example "#000000".
 #' @export
-setGeneric("spnet.label.variable", function(object){ standardGeneric("spnet.label.variable") })
+setGeneric("graph.label.variable", function(object){ standardGeneric("graph.label.variable") })
 
-#' @describeIn spnet.label.variable method for \code{SpatialNetwork} objects.
+#' @describeIn graph.label.variable method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.label.variable",
+  f = "graph.label.variable",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.label")$variable)
@@ -1290,11 +1355,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new label, for example "#000000".
 #' @export
-setGeneric("spnet.label.variable<-", function(object, value){ standardGeneric("spnet.label.variable<-") })
+setGeneric("graph.label.variable<-", function(object, value){ standardGeneric("graph.label.variable<-") })
 
-#' @describeIn spnet.label.variable method for \code{SpatialNetwork} objects.
+#' @describeIn graph.label.variable method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.label.variable<-" ,
+  f = "graph.label.variable<-" ,
   signature = c("SpatialNetwork", 'character'),
   definition = function(object, value){
     object@plot.label$variable <- value
@@ -1322,11 +1387,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value numeric; the cex parameter.
 #' @export
-setGeneric("spnet.label.cex", function(object){ standardGeneric("spnet.label.cex") })
+setGeneric("graph.label.cex", function(object){ standardGeneric("graph.label.cex") })
 
-#' @describeIn spnet.label.cex method for \code{SpatialNetwork} objects.
+#' @describeIn graph.label.cex method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.label.cex",
+  f = "graph.label.cex",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.label")$cex)
@@ -1340,11 +1405,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value numeric; the cex parameter.
 #' @export
-setGeneric("spnet.label.cex<-", function(object, value){ standardGeneric("spnet.label.cex<-") })
+setGeneric("graph.label.cex<-", function(object, value){ standardGeneric("graph.label.cex<-") })
 
-#' @describeIn spnet.label.cex method for \code{SpatialNetwork} objects.
+#' @describeIn graph.label.cex method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.label.cex<-" ,
+  f = "graph.label.cex<-" ,
   signature = c("SpatialNetwork", 'numeric'),
   definition = function(object, value){
     object@plot.label$cex <- value
@@ -1374,11 +1439,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new label, for example "#000000".
 #' @export
-setGeneric("spnet.label.color", function(object){ standardGeneric("spnet.label.color") })
+setGeneric("graph.label.color", function(object){ standardGeneric("graph.label.color") })
 
-#' @describeIn spnet.label.color method for \code{SpatialNetwork} objects.
+#' @describeIn graph.label.color method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.label.color",
+  f = "graph.label.color",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.label")$col)
@@ -1392,11 +1457,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new label, for example "#000000".
 #' @export
-setGeneric("spnet.label.color<-", function(object, value){ standardGeneric("spnet.label.color<-") })
+setGeneric("graph.label.color<-", function(object, value){ standardGeneric("graph.label.color<-") })
 
-#' @describeIn spnet.label.color method for \code{SpatialNetwork} objects.
+#' @describeIn graph.label.color method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.label.color<-" ,
+  f = "graph.label.color<-" ,
   signature = c("SpatialNetwork", 'character'),
   definition = function(object, value){
     object@plot.label$col <- value
@@ -1429,11 +1494,11 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to get parameters.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.color.list", function(object){ standardGeneric("spnet.color.list") })
+setGeneric("graph.color.list", function(object){ standardGeneric("graph.color.list") })
 
-#' @describeIn spnet.color.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.color.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.color.list",
+  f = "graph.color.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.color"))
@@ -1447,11 +1512,11 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.color.list<-", function(object, value){ standardGeneric("spnet.color.list<-") })
+setGeneric("graph.color.list<-", function(object, value){ standardGeneric("graph.color.list<-") })
 
-#' @describeIn spnet.color.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.color.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.color.list<-" ,
+  f = "graph.color.list<-" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@plot.color <- value
@@ -1480,11 +1545,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new color, for example "#000000".
 #' @export
-setGeneric("spnet.color.variable", function(object){ standardGeneric("spnet.color.variable") })
+setGeneric("graph.color.variable", function(object){ standardGeneric("graph.color.variable") })
 
-#' @describeIn spnet.color.variable method for \code{SpatialNetwork} objects.
+#' @describeIn graph.color.variable method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.color.variable",
+  f = "graph.color.variable",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.color")$variable)
@@ -1498,11 +1563,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new color, for example "#000000".
 #' @export
-setGeneric("spnet.color.variable<-", function(object, value){ standardGeneric("spnet.color.variable<-") })
+setGeneric("graph.color.variable<-", function(object, value){ standardGeneric("graph.color.variable<-") })
 
-#' @describeIn spnet.color.variable method for \code{SpatialNetwork} objects.
+#' @describeIn graph.color.variable method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.color.variable<-" ,
+  f = "graph.color.variable<-" ,
   signature = c("SpatialNetwork", 'character'),
   definition = function(object, value){
     object@plot.color$variable <- value
@@ -1530,11 +1595,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the color legend.
 #' @export
-setGeneric("spnet.color.legend", function(object){ standardGeneric("spnet.color.legend") })
+setGeneric("graph.color.legend", function(object){ standardGeneric("graph.color.legend") })
 
-#' @describeIn spnet.color.legend method for \code{SpatialNetwork} objects.
+#' @describeIn graph.color.legend method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.color.legend",
+  f = "graph.color.legend",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.color")$legend)
@@ -1548,11 +1613,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the color legend.
 #' @export
-setGeneric("spnet.color.legend<-", function(object, value){ standardGeneric("spnet.color.legend<-") })
+setGeneric("graph.color.legend<-", function(object, value){ standardGeneric("graph.color.legend<-") })
 
-#' @describeIn spnet.color.legend method for \code{SpatialNetwork} objects.
+#' @describeIn graph.color.legend method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.color.legend<-" ,
+  f = "graph.color.legend<-" ,
   signature = c("SpatialNetwork", 'character'),
   definition = function(object, value){
     object@plot.color$legend <- value
@@ -1579,11 +1644,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a \code{character}, the color.
 #' @export
-setGeneric("spnet.color.background", function(object){ standardGeneric("spnet.color.background") })
+setGeneric("graph.color.background", function(object){ standardGeneric("graph.color.background") })
 
-#' @describeIn spnet.color.background method for \code{SpatialNetwork} objects.
+#' @describeIn graph.color.background method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.color.background",
+  f = "graph.color.background",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.color")$background)
@@ -1597,11 +1662,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a \code{character}, the color.
 #' @export
-setGeneric("spnet.color.background<-", function(object, value){ standardGeneric("spnet.color.background<-") })
+setGeneric("graph.color.background<-", function(object, value){ standardGeneric("graph.color.background<-") })
 
-#' @describeIn spnet.color.background method for \code{SpatialNetwork} objects.
+#' @describeIn graph.color.background method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.color.background<-" ,
+  f = "graph.color.background<-" ,
   signature = c("SpatialNetwork", 'character'),
   definition = function(object, value){
     object@plot.color$background <- value
@@ -1627,11 +1692,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a \code{character}, the color.
 #' @export
-setGeneric("spnet.color.region", function(object){ standardGeneric("spnet.color.region") })
+setGeneric("graph.color.region", function(object){ standardGeneric("graph.color.region") })
 
-#' @describeIn spnet.color.region method for \code{SpatialNetwork} objects.
+#' @describeIn graph.color.region method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.color.region",
+  f = "graph.color.region",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.color")$region)
@@ -1645,11 +1710,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a \code{character}, the color.
 #' @export
-setGeneric("spnet.color.region<-", function(object, value){ standardGeneric("spnet.color.region<-") })
+setGeneric("graph.color.region<-", function(object, value){ standardGeneric("graph.color.region<-") })
 
-#' @describeIn spnet.color.region method for \code{SpatialNetwork} objects.
+#' @describeIn graph.color.region method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.color.region<-" ,
+  f = "graph.color.region<-" ,
   signature = c("SpatialNetwork", 'character'),
   definition = function(object, value){
     object@plot.color$region <- value
@@ -1673,11 +1738,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a \code{character}, the color.
 #' @export
-setGeneric("spnet.color.node", function(object){ standardGeneric("spnet.color.node") })
+setGeneric("graph.color.node", function(object){ standardGeneric("graph.color.node") })
 
-#' @describeIn spnet.color.node method for \code{SpatialNetwork} objects.
+#' @describeIn graph.color.node method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.color.node",
+  f = "graph.color.node",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.color")$node)
@@ -1691,11 +1756,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a \code{character}, the color.
 #' @export
-setGeneric("spnet.color.node<-", function(object, value){ standardGeneric("spnet.color.node<-") })
+setGeneric("graph.color.node<-", function(object, value){ standardGeneric("graph.color.node<-") })
 
-#' @describeIn spnet.color.node method for \code{SpatialNetwork} objects.
+#' @describeIn graph.color.node method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.color.node<-" ,
+  f = "graph.color.node<-" ,
   signature = c("SpatialNetwork", 'character'),
   definition = function(object, value){
     object@plot.color$node <- value
@@ -1720,11 +1785,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a \code{character}, the color.
 #' @export
-setGeneric("spnet.color.border", function(object){ standardGeneric("spnet.color.border") })
+setGeneric("graph.color.border", function(object){ standardGeneric("graph.color.border") })
 
-#' @describeIn spnet.color.border method for \code{SpatialNetwork} objects.
+#' @describeIn graph.color.border method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.color.border",
+  f = "graph.color.border",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.color")$border)
@@ -1738,11 +1803,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a \code{character}, the color.
 #' @export
-setGeneric("spnet.color.border<-", function(object, value){ standardGeneric("spnet.color.border<-") })
+setGeneric("graph.color.border<-", function(object, value){ standardGeneric("graph.color.border<-") })
 
-#' @describeIn spnet.color.border method for \code{SpatialNetwork} objects.
+#' @describeIn graph.color.border method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.color.border<-" ,
+  f = "graph.color.border<-" ,
   signature = c("SpatialNetwork", 'character'),
   definition = function(object, value){
     object@plot.color$border <- value
@@ -1765,6 +1830,203 @@ setMethod(
 
 
 
+#' Get the list of all black and white mode parameters of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to extract black and white mode parameters of a \code{SpatialNetwork} object.
+#' 
+#' @param object the \code{SpatialNetwork} object for which we want to get parameters.
+#' @param value a list of parameters.
+#' @export
+setGeneric("graph.blackwhite.list", function(object){ standardGeneric("graph.blackwhite.list") })
+
+#' @describeIn graph.blackwhite.list method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "graph.blackwhite.list",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.blackwhite"))
+  }
+)
+
+#' Set the list of all black and white mode parameters of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to set or replace black and white mode parameters of a \code{SpatialNetwork} object.
+#' 
+#' @param object the \code{SpatialNetwork} object for which we want to set parameters.
+#' @param value a list of parameters.
+#' @export
+setGeneric("graph.blackwhite.list<-", function(object, value){ standardGeneric("graph.blackwhite.list<-") })
+
+#' @describeIn graph.blackwhite.list method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "graph.blackwhite.list<-" ,
+  signature = c("SpatialNetwork", 'list'),
+  definition = function(object, value){
+    object@plot.blackwhite <- value
+    validObject(object)
+    return(object)
+  }
+)
+
+
+
+
+
+
+
+
+
+
+#' Get the black and white mode status of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to extract the black and white mode status of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param value a \code{logical}, the black and white mode status.
+#' @export
+setGeneric("graph.blackwhite.enable", function(object){ standardGeneric("graph.blackwhite.enable") })
+
+#' @describeIn graph.blackwhite.enable method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "graph.blackwhite.enable",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.blackwhite")$enable)
+  }
+)
+
+#' Set the black and white mode status  of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to set or replace the black and white mode status of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param value a \code{logical}, the black and white mode status.
+#' @export
+setGeneric("graph.blackwhite.enable<-", function(object, value){ standardGeneric("graph.blackwhite.enable<-") })
+
+#' @describeIn graph.blackwhite.enable method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "graph.blackwhite.enable<-" ,
+  signature = c("SpatialNetwork", 'logical'),
+  definition = function(object, value){
+    object@plot.blackwhite$enable <- value
+    validObject(object)
+    return(object)
+  }
+)
+
+
+
+
+
+
+
+
+
+
+
+#' Get the black and white mode minimal gray value of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to extract the black and white mode minimal gray value (from 0 to 1) of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param value a \code{logical}, the black and white mode minimal gray value.
+#' @export
+setGeneric("graph.blackwhite.min", function(object){ standardGeneric("graph.blackwhite.min") })
+
+#' @describeIn graph.blackwhite.min method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "graph.blackwhite.min",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.blackwhite")$min)
+  }
+)
+
+#' Set the black and white mode minimal gray value of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to set or replace the black and white mode minimal gray value (from 0 to 1) of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param value a \code{numeric}, the black and white mode minimal gray value.
+#' @export
+setGeneric("graph.blackwhite.min<-", function(object, value){ standardGeneric("graph.blackwhite.min<-") })
+
+#' @describeIn graph.blackwhite.min method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "graph.blackwhite.min<-" ,
+  signature = c("SpatialNetwork", 'numeric'),
+  definition = function(object, value){
+    object@plot.blackwhite$min <- value
+    validObject(object)
+    return(object)
+  }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+#' Get the black and white mode maximal gray value of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to extract the black and white mode maximal gray value (from 0 to 1) of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param value a \code{logical}, the black and white mode maximal gray value.
+#' @export
+setGeneric("graph.blackwhite.max", function(object){ standardGeneric("graph.blackwhite.max") })
+
+#' @describeIn graph.blackwhite.max method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "graph.blackwhite.max",
+  signature = "SpatialNetwork", 
+  definition = function (object) { 
+    return(slot(object, "plot.blackwhite")$max)
+  }
+)
+
+#' Set the black and white mode maximal gray value of a \code{SpatialNetwork} object
+#' 
+#' This generic method intends to set or replace the black and white mode maximal gray value (from 0 to 1) of a \code{SpatialNetwork} object.
+#' 
+#' @param object a \code{SpatialNetwork} object.
+#' @param value a \code{numeric}, the black and white mode maximal gray value.
+#' @export
+setGeneric("graph.blackwhite.max<-", function(object, value){ standardGeneric("graph.blackwhite.max<-") })
+
+#' @describeIn graph.blackwhite.max method for \code{SpatialNetwork} objects.
+setMethod(
+  f = "graph.blackwhite.max<-" ,
+  signature = c("SpatialNetwork", 'numeric'),
+  definition = function(object, value){
+    object@plot.blackwhite$max <- value
+    validObject(object)
+    return(object)
+  }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #' Get the list of all symbol parameters of a \code{SpatialNetwork} object
 #' 
 #' This generic method intends to extract symbol parameters of a \code{SpatialNetwork} object.
@@ -1772,11 +2034,11 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to get parameters.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.symbol.list", function(object){ standardGeneric("spnet.symbol.list") })
+setGeneric("graph.symbol.list", function(object){ standardGeneric("graph.symbol.list") })
 
-#' @describeIn spnet.symbol.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.symbol.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.symbol.list",
+  f = "graph.symbol.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.symbol"))
@@ -1790,11 +2052,11 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.symbol.list<-", function(object, value){ standardGeneric("spnet.symbol.list<-") })
+setGeneric("graph.symbol.list<-", function(object, value){ standardGeneric("graph.symbol.list<-") })
 
-#' @describeIn spnet.symbol.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.symbol.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.symbol.list<-" ,
+  f = "graph.symbol.list<-" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@plot.symbol <- value
@@ -1824,11 +2086,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the symbol variable.
 #' @export
-setGeneric("spnet.symbol.variable", function(object){ standardGeneric("spnet.symbol.variable") })
+setGeneric("graph.symbol.variable", function(object){ standardGeneric("graph.symbol.variable") })
 
-#' @describeIn spnet.symbol.variable method for \code{SpatialNetwork} objects.
+#' @describeIn graph.symbol.variable method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.symbol.variable",
+  f = "graph.symbol.variable",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.symbol")$variable)
@@ -1842,11 +2104,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the symbol variable.
 #' @export
-setGeneric("spnet.symbol.variable<-", function(object, value){ standardGeneric("spnet.symbol.variable<-") })
+setGeneric("graph.symbol.variable<-", function(object, value){ standardGeneric("graph.symbol.variable<-") })
 
-#' @describeIn spnet.symbol.variable method for \code{SpatialNetwork} objects.
+#' @describeIn graph.symbol.variable method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.symbol.variable<-" ,
+  f = "graph.symbol.variable<-" ,
   signature = c("SpatialNetwork", 'character'),
   definition = function(object, value){
     object@plot.symbol$variable <- value
@@ -1878,11 +2140,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new legend.
 #' @export
-setGeneric("spnet.symbol.legend", function(object){ standardGeneric("spnet.symbol.legend") })
+setGeneric("graph.symbol.legend", function(object){ standardGeneric("graph.symbol.legend") })
 
-#' @describeIn spnet.symbol.legend method for \code{SpatialNetwork} objects.
+#' @describeIn graph.symbol.legend method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.symbol.legend",
+  f = "graph.symbol.legend",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.symbol")$legend)
@@ -1896,12 +2158,12 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new legend.
 #' @export
-setGeneric("spnet.symbol.legend<-", function(object, value){ standardGeneric("spnet.symbol.legend<-") })
+setGeneric("graph.symbol.legend<-", function(object, value){ standardGeneric("graph.symbol.legend<-") })
 
-#' @describeIn spnet.symbol.legend method for \code{SpatialNetwork} objects.
+#' @describeIn graph.symbol.legend method for \code{SpatialNetwork} objects.
 
 setMethod(
-  f = "spnet.symbol.legend<-" ,
+  f = "graph.symbol.legend<-" ,
   signature = c("SpatialNetwork", 'character'),
   definition = function(object, value){
     object@plot.symbol$legend <- value
@@ -1928,11 +2190,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new cex parameter.
 #' @export
-setGeneric("spnet.symbol.cex", function(object){ standardGeneric("spnet.symbol.cex") })
+setGeneric("graph.symbol.cex", function(object){ standardGeneric("graph.symbol.cex") })
 
-#' @describeIn spnet.symbol.cex method for \code{SpatialNetwork} objects.
+#' @describeIn graph.symbol.cex method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.symbol.cex",
+  f = "graph.symbol.cex",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.symbol")$cex)
@@ -1946,11 +2208,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new cex parameter.
 #' @export
-setGeneric("spnet.symbol.cex<-", function(object, value){ standardGeneric("spnet.symbol.cex<-") })
+setGeneric("graph.symbol.cex<-", function(object, value){ standardGeneric("graph.symbol.cex<-") })
 
-#' @describeIn spnet.symbol.cex method for \code{SpatialNetwork} objects.
+#' @describeIn graph.symbol.cex method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.symbol.cex<-" ,
+  f = "graph.symbol.cex<-" ,
   signature = c("SpatialNetwork", 'numeric'),
   definition = function(object, value){
     object@plot.symbol$cex <- value
@@ -1982,11 +2244,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the color.
 #' @export
-setGeneric("spnet.symbol.color", function(object){ standardGeneric("spnet.symbol.color") })
+setGeneric("graph.symbol.color", function(object){ standardGeneric("graph.symbol.color") })
 
-#' @describeIn spnet.symbol.color method for \code{SpatialNetwork} objects.
+#' @describeIn graph.symbol.color method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.symbol.color",
+  f = "graph.symbol.color",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.symbol")$color)
@@ -2000,11 +2262,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the color.
 #' @export
-setGeneric("spnet.symbol.color<-", function(object, value){ standardGeneric("spnet.symbol.color<-") })
+setGeneric("graph.symbol.color<-", function(object, value){ standardGeneric("graph.symbol.color<-") })
 
-#' @describeIn spnet.symbol.color method for \code{SpatialNetwork} objects.
+#' @describeIn graph.symbol.color method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.symbol.color<-" ,
+  f = "graph.symbol.color<-" ,
   signature = c("SpatialNetwork", 'character'),
   definition = function(object, value){
     object@plot.symbol$color <- value
@@ -2033,11 +2295,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric; the value of the shift.s
 #' @export
-setGeneric("spnet.symbol.shift.x", function(object){ standardGeneric("spnet.symbol.shift.x") })
+setGeneric("graph.symbol.shift.x", function(object){ standardGeneric("graph.symbol.shift.x") })
 
-#' @describeIn spnet.symbol.shift.x method for \code{SpatialNetwork} objects.
+#' @describeIn graph.symbol.shift.x method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.symbol.shift.x",
+  f = "graph.symbol.shift.x",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.symbol")$shift.x)
@@ -2051,11 +2313,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric; the value of the shift.
 #' @export
-setGeneric("spnet.symbol.shift.x<-", function(object, value){ standardGeneric("spnet.symbol.shift.x<-") })
+setGeneric("graph.symbol.shift.x<-", function(object, value){ standardGeneric("graph.symbol.shift.x<-") })
 
-#' @describeIn spnet.symbol.shift.x method for \code{SpatialNetwork} objects.
+#' @describeIn graph.symbol.shift.x method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.symbol.shift.x<-" ,
+  f = "graph.symbol.shift.x<-" ,
   signature = c("SpatialNetwork", 'numeric'),
   definition = function(object, value){
     object@plot.symbol$shift.x <- value
@@ -2082,11 +2344,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric; the value of the shift.
 #' @export
-setGeneric("spnet.symbol.shift.y", function(object){ standardGeneric("spnet.symbol.shift.y") })
+setGeneric("graph.symbol.shift.y", function(object){ standardGeneric("graph.symbol.shift.y") })
 
-#' @describeIn spnet.symbol.shift.y method for \code{SpatialNetwork} objects.
+#' @describeIn graph.symbol.shift.y method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.symbol.shift.y",
+  f = "graph.symbol.shift.y",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.symbol")$shift.y)
@@ -2100,11 +2362,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric; the value of the shift.
 #' @export
-setGeneric("spnet.symbol.shift.y<-", function(object, value){ standardGeneric("spnet.symbol.shift.y<-") })
+setGeneric("graph.symbol.shift.y<-", function(object, value){ standardGeneric("graph.symbol.shift.y<-") })
 
-#' @describeIn spnet.symbol.shift.y method for \code{SpatialNetwork} objects.
+#' @describeIn graph.symbol.shift.y method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.symbol.shift.y<-" ,
+  f = "graph.symbol.shift.y<-" ,
   signature = c("SpatialNetwork", 'numeric'),
   definition = function(object, value){
     object@plot.symbol$shift.y <- value
@@ -2131,11 +2393,11 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to get parameters.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.barplot.list", function(object){ standardGeneric("spnet.barplot.list") })
+setGeneric("graph.barplot.list", function(object){ standardGeneric("graph.barplot.list") })
 
-#' @describeIn spnet.barplot.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.barplot.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.barplot.list",
+  f = "graph.barplot.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.barplot"))
@@ -2149,11 +2411,11 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.barplot.list<-", function(object, value){ standardGeneric("spnet.barplot.list<-") })
+setGeneric("graph.barplot.list<-", function(object, value){ standardGeneric("graph.barplot.list<-") })
 
-#' @describeIn spnet.barplot.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.barplot.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.barplot.list<-" ,
+  f = "graph.barplot.list<-" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@plot.barplot <- value
@@ -2185,11 +2447,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the name of the variable to use for plotting barplots.
 #' @export
-setGeneric("spnet.barplot.variable", function(object){ standardGeneric("spnet.barplot.variable") })
+setGeneric("graph.barplot.variable", function(object){ standardGeneric("graph.barplot.variable") })
 
-#' @describeIn spnet.barplot.variable method for \code{SpatialNetwork} objects.
+#' @describeIn graph.barplot.variable method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.barplot.variable",
+  f = "graph.barplot.variable",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.barplot")$variable)
@@ -2203,11 +2465,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the name of the variable to use for plotting barplots.
 #' @export
-setGeneric("spnet.barplot.variable<-", function(object, value){ standardGeneric("spnet.barplot.variable<-") })
+setGeneric("graph.barplot.variable<-", function(object, value){ standardGeneric("graph.barplot.variable<-") })
 
-#' @describeIn spnet.barplot.variable method for \code{SpatialNetwork} objects.
+#' @describeIn graph.barplot.variable method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.barplot.variable<-" ,
+  f = "graph.barplot.variable<-" ,
   signature = c("SpatialNetwork", 'character'),
   definition = function(object, value){
     object@plot.barplot$variable <- value
@@ -2238,11 +2500,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the color.
 #' @export
-setGeneric("spnet.barplot.fgcolor", function(object){ standardGeneric("spnet.barplot.fgcolor") })
+setGeneric("graph.barplot.fgcolor", function(object){ standardGeneric("graph.barplot.fgcolor") })
 
-#' @describeIn spnet.barplot.fgcolor method for \code{SpatialNetwork} objects.
+#' @describeIn graph.barplot.fgcolor method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.barplot.fgcolor",
+  f = "graph.barplot.fgcolor",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.barplot")$fgcolor)
@@ -2257,11 +2519,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the color.
 #' @export
-setGeneric("spnet.barplot.fgcolor<-", function(object, value){ standardGeneric("spnet.barplot.fgcolor<-") })
+setGeneric("graph.barplot.fgcolor<-", function(object, value){ standardGeneric("graph.barplot.fgcolor<-") })
 
-#' @describeIn spnet.barplot.fgcolor method for \code{SpatialNetwork} objects.
+#' @describeIn graph.barplot.fgcolor method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.barplot.fgcolor<-" ,
+  f = "graph.barplot.fgcolor<-" ,
   signature = c("SpatialNetwork", 'character'),
   definition = function(object, value){
     object@plot.barplot$fgcolor <- value
@@ -2294,11 +2556,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new color.
 #' @export
-setGeneric("spnet.barplot.bgcolor", function(object){ standardGeneric("spnet.barplot.bgcolor") })
+setGeneric("graph.barplot.bgcolor", function(object){ standardGeneric("graph.barplot.bgcolor") })
 
-#' @describeIn spnet.barplot.bgcolor method for \code{SpatialNetwork} objects.
+#' @describeIn graph.barplot.bgcolor method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.barplot.bgcolor",
+  f = "graph.barplot.bgcolor",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.barplot")$bgcolor)
@@ -2312,11 +2574,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value the new color.
 #' @export
-setGeneric("spnet.barplot.bgcolor<-", function(object, value){ standardGeneric("spnet.barplot.bgcolor<-") })
+setGeneric("graph.barplot.bgcolor<-", function(object, value){ standardGeneric("graph.barplot.bgcolor<-") })
 
-#' @describeIn spnet.barplot.bgcolor method for \code{SpatialNetwork} objects.
+#' @describeIn graph.barplot.bgcolor method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.barplot.bgcolor<-" ,
+  f = "graph.barplot.bgcolor<-" ,
   signature = c("SpatialNetwork", 'character'),
   definition = function(object, value){
     object@plot.barplot$bgcolor <- value
@@ -2350,11 +2612,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric vector of coordinates, c(x,y), specifying a shift from the center of each country.
 #' @export
-setGeneric("spnet.barplot.bound.lower", function(object){ standardGeneric("spnet.barplot.bound.lower") })
+setGeneric("graph.barplot.bound.lower", function(object){ standardGeneric("graph.barplot.bound.lower") })
 
-#' @describeIn spnet.barplot.bound.lower method for \code{SpatialNetwork} objects.
+#' @describeIn graph.barplot.bound.lower method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.barplot.bound.lower",
+  f = "graph.barplot.bound.lower",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.barplot")$bound.lower)
@@ -2368,11 +2630,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric vector of coordinates, c(x,y), specifying a shift from the center of each country.
 #' @export
-setGeneric("spnet.barplot.bound.lower<-", function(object, value){ standardGeneric("spnet.barplot.bound.lower<-") })
+setGeneric("graph.barplot.bound.lower<-", function(object, value){ standardGeneric("graph.barplot.bound.lower<-") })
 
-#' @describeIn spnet.barplot.bound.lower method for \code{SpatialNetwork} objects.
+#' @describeIn graph.barplot.bound.lower method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.barplot.bound.lower<-" ,
+  f = "graph.barplot.bound.lower<-" ,
   signature = c("SpatialNetwork", 'numeric'),
   definition = function(object, value){
     object@plot.barplot$bound.lower <- value
@@ -2403,11 +2665,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric vector of coordinates, c(x,y), specifying a shift from the center of each country.
 #' @export
-setGeneric("spnet.barplot.bound.upper", function(object){ standardGeneric("spnet.barplot.bound.upper") })
+setGeneric("graph.barplot.bound.upper", function(object){ standardGeneric("graph.barplot.bound.upper") })
 
-#' @describeIn spnet.barplot.bound.upper method for \code{SpatialNetwork} objects.
+#' @describeIn graph.barplot.bound.upper method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.barplot.bound.upper",
+  f = "graph.barplot.bound.upper",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.barplot")$bound.upper)
@@ -2421,11 +2683,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric vector of coordinates, c(x,y), specifying a shift from the center of each country.
 #' @export
-setGeneric("spnet.barplot.bound.upper<-", function(object, value){ standardGeneric("spnet.barplot.bound.upper<-") })
+setGeneric("graph.barplot.bound.upper<-", function(object, value){ standardGeneric("graph.barplot.bound.upper<-") })
 
-#' @describeIn spnet.barplot.bound.upper method for \code{SpatialNetwork} objects.
+#' @describeIn graph.barplot.bound.upper method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.barplot.bound.upper<-" ,
+  f = "graph.barplot.bound.upper<-" ,
   signature = c("SpatialNetwork", 'numeric'),
   definition = function(object, value){
     object@plot.barplot$bound.upper <- value
@@ -2455,11 +2717,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric.
 #' @export
-setGeneric("spnet.barplot.width", function(object){ standardGeneric("spnet.barplot.width") })
+setGeneric("graph.barplot.width", function(object){ standardGeneric("graph.barplot.width") })
 
-#' @describeIn spnet.barplot.width method for \code{SpatialNetwork} objects.
+#' @describeIn graph.barplot.width method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.barplot.width",
+  f = "graph.barplot.width",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.barplot")$width)
@@ -2473,11 +2735,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric.
 #' @export
-setGeneric("spnet.barplot.width<-", function(object, value){ standardGeneric("spnet.barplot.width<-") })
+setGeneric("graph.barplot.width<-", function(object, value){ standardGeneric("graph.barplot.width<-") })
 
-#' @describeIn spnet.barplot.width method for \code{SpatialNetwork} objects.
+#' @describeIn graph.barplot.width method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.barplot.width<-" ,
+  f = "graph.barplot.width<-" ,
   signature = c("SpatialNetwork", 'numeric'),
   definition = function(object, value){
     object@plot.barplot$width <- value
@@ -2509,11 +2771,11 @@ setMethod(
 #' @param value a list of parameters.
 #' @export
 
-setGeneric("spnet.legend.list", function(object){ standardGeneric("spnet.legend.list") })
+setGeneric("graph.legend.list", function(object){ standardGeneric("graph.legend.list") })
 
-#' @describeIn spnet.legend.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.legend.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.legend.list",
+  f = "graph.legend.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.legend"))
@@ -2527,11 +2789,11 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.legend.list<-", function(object, value){ standardGeneric("spnet.legend.list<-") })
+setGeneric("graph.legend.list<-", function(object, value){ standardGeneric("graph.legend.list<-") })
 
-#' @describeIn spnet.legend.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.legend.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.legend.list<-" ,
+  f = "graph.legend.list<-" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@plot.legend <- value
@@ -2560,11 +2822,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a logical.
 #' @export
-setGeneric("spnet.legend.print", function(object){ standardGeneric("spnet.legend.print") })
+setGeneric("graph.legend.print", function(object){ standardGeneric("graph.legend.print") })
 
-#' @describeIn spnet.legend.print method for \code{SpatialNetwork} objects.
+#' @describeIn graph.legend.print method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.legend.print",
+  f = "graph.legend.print",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.legend")$print)
@@ -2578,11 +2840,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a logical.
 #' @export
-setGeneric("spnet.legend.print<-", function(object, value){ standardGeneric("spnet.legend.print<-") })
+setGeneric("graph.legend.print<-", function(object, value){ standardGeneric("graph.legend.print<-") })
 
-#' @describeIn spnet.legend.print method for \code{SpatialNetwork} objects.
+#' @describeIn graph.legend.print method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.legend.print<-" ,
+  f = "graph.legend.print<-" ,
   signature = c("SpatialNetwork", 'logical'),
   definition = function(object, value){
     object@plot.legend$print <- value
@@ -2605,11 +2867,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric.
 #' @export
-setGeneric("spnet.legend.cex", function(object){ standardGeneric("spnet.legend.cex") })
+setGeneric("graph.legend.cex", function(object){ standardGeneric("graph.legend.cex") })
 
-#' @describeIn spnet.legend.cex method for \code{SpatialNetwork} objects.
+#' @describeIn graph.legend.cex method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.legend.cex",
+  f = "graph.legend.cex",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.legend")$cex)
@@ -2623,11 +2885,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric.
 #' @export
-setGeneric("spnet.legend.cex<-", function(object, value){ standardGeneric("spnet.legend.cex<-") })
+setGeneric("graph.legend.cex<-", function(object, value){ standardGeneric("graph.legend.cex<-") })
 
-#' @describeIn spnet.legend.cex method for \code{SpatialNetwork} objects.
+#' @describeIn graph.legend.cex method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.legend.cex<-" ,
+  f = "graph.legend.cex<-" ,
   signature = c("SpatialNetwork", 'numeric'),
   definition = function(object, value){
     object@plot.legend$cex <- value
@@ -2647,11 +2909,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric.
 #' @export
-setGeneric("spnet.legend.ncol", function(object){ standardGeneric("spnet.legend.ncol") })
+setGeneric("graph.legend.ncol", function(object){ standardGeneric("graph.legend.ncol") })
 
-#' @describeIn spnet.legend.ncol method for \code{SpatialNetwork} objects.
+#' @describeIn graph.legend.ncol method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.legend.ncol",
+  f = "graph.legend.ncol",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.legend")$ncol)
@@ -2665,11 +2927,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a numeric.
 #' @export
-setGeneric("spnet.legend.ncol<-", function(object, value){ standardGeneric("spnet.legend.ncol<-") })
+setGeneric("graph.legend.ncol<-", function(object, value){ standardGeneric("graph.legend.ncol<-") })
 
-#' @describeIn spnet.legend.ncol method for \code{SpatialNetwork} objects.
+#' @describeIn graph.legend.ncol method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.legend.ncol<-" ,
+  f = "graph.legend.ncol<-" ,
   signature = c("SpatialNetwork", 'numeric'),
   definition = function(object, value){
     object@plot.legend$ncol <- value
@@ -2690,11 +2952,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a logical.
 #' @export
-setGeneric("spnet.legend.horiz", function(object){ standardGeneric("spnet.legend.horiz") })
+setGeneric("graph.legend.horiz", function(object){ standardGeneric("graph.legend.horiz") })
 
-#' @describeIn spnet.legend.horiz method for \code{SpatialNetwork} objects.
+#' @describeIn graph.legend.horiz method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.legend.horiz",
+  f = "graph.legend.horiz",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.legend")$horiz)
@@ -2708,11 +2970,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a logical.
 #' @export
-setGeneric("spnet.legend.horiz<-", function(object, value){ standardGeneric("spnet.legend.horiz<-") })
+setGeneric("graph.legend.horiz<-", function(object, value){ standardGeneric("graph.legend.horiz<-") })
 
-#' @describeIn spnet.legend.horiz method for \code{SpatialNetwork} objects.
+#' @describeIn graph.legend.horiz method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.legend.horiz<-" ,
+  f = "graph.legend.horiz<-" ,
   signature = c("SpatialNetwork", 'logical'),
   definition = function(object, value){
     object@plot.legend$horiz <- value
@@ -2732,11 +2994,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a logical.
 #' @export
-setGeneric("spnet.legend.line.width", function(object){ standardGeneric("spnet.legend.line.width") })
+setGeneric("graph.legend.line.width", function(object){ standardGeneric("graph.legend.line.width") })
 
-#' @describeIn spnet.legend.line.width method for \code{SpatialNetwork} objects.
+#' @describeIn graph.legend.line.width method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.legend.line.width",
+  f = "graph.legend.line.width",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.legend")$lwd)
@@ -2750,11 +3012,11 @@ setMethod(
 #' @param object a \code{SpatialNetwork} object.
 #' @param value a logical.
 #' @export
-setGeneric("spnet.legend.line.width<-", function(object, value){ standardGeneric("spnet.legend.line.width<-") })
+setGeneric("graph.legend.line.width<-", function(object, value){ standardGeneric("graph.legend.line.width<-") })
 
-#' @describeIn spnet.legend.line.width method for \code{SpatialNetwork} objects.
+#' @describeIn graph.legend.line.width method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.legend.line.width<-" ,
+  f = "graph.legend.line.width<-" ,
   signature = c("SpatialNetwork", 'numeric'),
   definition = function(object, value){
     object@plot.legend$lwd <- value
@@ -2776,11 +3038,11 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to get parameters.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.layout.list", function(object){ standardGeneric("spnet.layout.list") })
+setGeneric("graph.layout.list", function(object){ standardGeneric("graph.layout.list") })
 
-#' @describeIn spnet.layout.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.layout.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.layout.list",
+  f = "graph.layout.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.layout"))
@@ -2794,11 +3056,11 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.layout.list<-", function(object, value){ standardGeneric("spnet.layout.list<-") })
+setGeneric("graph.layout.list<-", function(object, value){ standardGeneric("graph.layout.list<-") })
 
-#' @describeIn spnet.layout.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.layout.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.layout.list<-" ,
+  f = "graph.layout.list<-" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@plot.layout <- value
@@ -2830,11 +3092,11 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to get parameters.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.par.list", function(object){ standardGeneric("spnet.par.list") })
+setGeneric("graph.par.list", function(object){ standardGeneric("graph.par.list") })
 
-#' @describeIn spnet.par.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.par.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.par.list",
+  f = "graph.par.list",
   signature = "SpatialNetwork", 
   definition = function (object) { 
     return(slot(object, "plot.par"))
@@ -2848,11 +3110,11 @@ setMethod(
 #' @param object the \code{SpatialNetwork} object for which we want to set parameters.
 #' @param value a list of parameters.
 #' @export
-setGeneric("spnet.par.list<-", function(object, value){ standardGeneric("spnet.par.list<-") })
+setGeneric("graph.par.list<-", function(object, value){ standardGeneric("graph.par.list<-") })
 
-#' @describeIn spnet.par.list method for \code{SpatialNetwork} objects.
+#' @describeIn graph.par.list method for \code{SpatialNetwork} objects.
 setMethod(
-  f = "spnet.par.list<-" ,
+  f = "graph.par.list<-" ,
   signature = c("SpatialNetwork", 'list'),
   definition = function(object, value){
     object@plot.par <- value
@@ -2881,6 +3143,7 @@ setMethod(
 #' @param plot.title a list of parameters for setting the title.
 #' @param plot.label a list of parameters to be passed to the \code{\link{text}} function for setting labels.
 #' @param plot.color a list of parameters for setting colors.
+#' @param plot.blackwhite a list of parameters for setting the black and white mode.
 #' @param plot.symbol a list of parameters for setting symbols.
 #' @param plot.barplot a list of parameters for setting barplots.
 #' @param plot.arrow a list of parameters for setting arrows.
@@ -2915,6 +3178,7 @@ spnet.create <- function(
   plot.title = list(main = "Untitled SPNET object", sub = "", cex = 2, col = "#333333"),
   plot.label = list(cex = 1, col = '#333333'),
   plot.color,
+  plot.blackwhite = list(enable = FALSE, min = 0.02, max = 0.98),
   plot.symbol,
   plot.barplot = list(variable = "", bound.lower = c(-0.5,-0.5), bound.upper = c(0.5,-0.5), fgcolor = "#666666", bgcolor = "#eeeeee", width = 8),
   plot.arrow,
@@ -2937,6 +3201,7 @@ spnet.create <- function(
     row.names = 1:nrow(df),
     plot.title =plot.title,
     plot.label = plot.label,
+    plot.blackwhite = plot.blackwhite,
     plot.barplot = plot.barplot,
     plot.legend = plot.legend,
     plot.layout = plot.layout,
@@ -2944,7 +3209,7 @@ spnet.create <- function(
   )
   
   if(!missing(networks)) {
-    spnet.networks.list(out) <- networks
+    graph.networks.list(out) <- networks
   }
   
   return(out)
@@ -2961,9 +3226,9 @@ setMethod(
     print.data.frame(head(object))
     cat("\n")
     
-    if(length(spnet.map(object)) > 0) {
+    if(length(graph.map(object)) > 0) {
       cat("- Map:\n")
-      cat("    Length:", length(spnet.map(object)), "\n\n")
+      cat("    Length:", length(graph.map(object)), "\n\n")
     }
     
     if(length(object@networks) > 0) {
@@ -3003,7 +3268,7 @@ setMethod(
   f = 'plot',
   signature = 'SpatialNetwork',
   definition = function(x, ...) {
-    if(length(spnet.map(x)) == 0)
+    if(length(graph.map(x)) == 0)
       stop("The map is empty. Please define a valid map.")
     
     tit <- x@plot.title
@@ -3013,6 +3278,13 @@ setMethod(
     
     symbol <- x@plot.symbol
     flag.symbol <- ifelse(!is.null(symbol$variable) && !is.null(symbol$legend), T, F)
+    if(flag.symbol) {
+      if('color' %in% names(symbol)) {
+        symb.color <- symbol$color
+      } else {
+        symb.color <- x@meta$plot.symbol.default$color
+      }
+    }
     
     barplot <- x@plot.barplot
     flag.barplot <- ifelse(nzchar(barplot$variable), T, F)
@@ -3023,6 +3295,46 @@ setMethod(
     lay <- x@plot.layout
     
     arg.col <- numeric()
+    
+    # black and white mode
+    plot.blackwhite <- x@plot.blackwhite
+    flag.blackwhite <- plot.blackwhite$enable
+    
+    if(flag.blackwhite) {
+      allcolors = character(0)
+      
+      # we build the vector of all colors that will be printed
+      allcolors = c(allcolors, graph.color.background(x)) # background
+      allcolors = c(allcolors, graph.color.border(x)) # border
+      allcolors = c(allcolors, graph.color.node(x)) # node (default)
+      allcolors = c(allcolors, graph.color.region(x)) # region
+      if(flag.color)
+        allcolors = c(allcolors, color$legend) # node (default)
+      if(flag.symbol)
+        allcolors = c(allcolors, symb.color) # symbol
+      
+      allcolors = sort(unique(allcolors))
+      
+      allcolorsbw = color2blackwhite(
+        allcolors,
+        contrast.min = plot.blackwhite$min,
+        contrast.max = plot.blackwhite$max
+      )
+      
+      # we replace each color to its corresponding black and white color
+      graph.color.background(x) <- allcolorsbw[match(graph.color.background(x), allcolors)] # background
+      graph.color.border(x) <- allcolorsbw[match(graph.color.border(x), allcolors)] # border
+      graph.color.node(x) <- allcolorsbw[match(graph.color.node(x), allcolors)] # node
+      graph.color.region(x) <- allcolorsbw[match(graph.color.region(x), allcolors)] # region
+      if(flag.color){
+        oldcolors <- color$legend
+        newcolors <- allcolorsbw[match(color$legend, allcolors)]
+        color$legend <- newcolors
+        names(color$legend) <- names(oldcolors)
+      }
+      if(flag.symbol)
+        symb.color <- allcolorsbw[match(symb.color, allcolors)] # symbol
+    }
     
     ## PLOT
     def.par <- par(no.readonly = TRUE) # save default, for resetting...
@@ -3049,7 +3361,7 @@ setMethod(
       )
     }
     #     layout.show(nf)
-    par(spnet.par.list(x))
+    par(graph.par.list(x))
     
     plot.new()
     # plot the title
@@ -3086,7 +3398,7 @@ setMethod(
     eval(sub.call)
     
     if(!'POSITION' %in% names(x)) { # we only plot the map
-      plot(spnet.map(x), ... = ...)
+      plot(graph.map(x), ... = ...)
       plot.new()
     } else { # we plot position referenced
       
@@ -3095,12 +3407,12 @@ setMethod(
       seats <- x[, 'POSITION']
       seats.which <- match(seats, ids)
       
-      col <- rep(spnet.color.region(x), nrow(coord))
-      col[seats.which] <- spnet.color.node(x)
+      col <- rep(graph.color.region(x), nrow(coord))
+      col[seats.which] <- graph.color.node(x)
       
       if(flag.color) {
         names(seats.which) <- x[, color$variable] # we store color labels in the names
-        names(seats.which)[!names(seats.which) %in% names(color$legend)] <- spnet.color.node(x)
+        names(seats.which)[!names(seats.which) %in% names(color$legend)] <- graph.color.node(x)
         for(k in names(color$legend)){
           names(seats.which)[names(seats.which) == k] <- color$legend[[k]]
         }
@@ -3113,8 +3425,8 @@ setMethod(
         x@map,
 #         col = arg.col,
         col = col,
-        border = spnet.color.border(x),
-        bg = spnet.color.background(x),
+        border = graph.color.border(x),
+        bg = graph.color.background(x),
         ... = ...
       )
       
@@ -3125,7 +3437,7 @@ setMethod(
       seats.which <- match(seats, ids)
       lab <- rep("", nrow(coord))
       
-      lab.opt <- spnet.label.list(x)
+      lab.opt <- graph.label.list(x)
       if(any(c('variable') %in% names(lab.opt))) {
         lab.opt.clean = lab.opt[-which(names(lab.opt) %in% c('variable'))]
         lab[seats.which] <- as.character(x[, lab.opt$variable])
@@ -3193,14 +3505,15 @@ setMethod(
         }
         #         print(seats)
         arg.pch <- names(seats)
-        allsymb <- .spnet.symbol.list
+        allsymb <- .graph.symbol.list
         arg.pch <- allsymb[match(arg.pch, names(allsymb))]
         
-        if('color' %in% names(symbol)) {
-          symb.color <- symbol$color
-        } else {
-          symb.color <- x@meta$plot.symbol.default$color
-        }
+#         MOVED UP FOR SETTING THE B&W MODE
+#         if('color' %in% names(symbol)) {
+#           symb.color <- symbol$color
+#         } else {
+#           symb.color <- x@meta$plot.symbol.default$color
+#         }
         
         if('shift.x' %in% names(symbol)) {
           symb.shift.x <- symbol$shift.x
@@ -3230,18 +3543,18 @@ setMethod(
         seats <- x[, 'POSITION']
         seats.which <- match(seats, ids)
         
-        values <- x[, spnet.barplot.variable(x)]
+        values <- x[, graph.barplot.variable(x)]
         
         for(i in 1:length(values)) {
           value <- values[i]
           if(!is.na(value)) {
             lines.barplot(
               value = value,
-              bound.lower = coord[seats.which[i],] + spnet.barplot.bound.lower(x),
-              bound.upper = coord[seats.which[i],] + spnet.barplot.bound.upper(x),
-              bgcolor = spnet.barplot.bgcolor(x),
-              fgcolor = spnet.barplot.fgcolor(x),
-              lwd = spnet.barplot.width(x)
+              bound.lower = coord[seats.which[i],] + graph.barplot.bound.lower(x),
+              bound.upper = coord[seats.which[i],] + graph.barplot.bound.upper(x),
+              bgcolor = graph.barplot.bgcolor(x),
+              fgcolor = graph.barplot.fgcolor(x),
+              lwd = graph.barplot.width(x)
             )
           }
         }
@@ -3378,20 +3691,20 @@ setMethod(
       
       
       ## LEGEND
-      leg.pring = spnet.legend.list(x)$print
-      leg.cex = spnet.legend.list(x)$cex
-      leg.ncol = spnet.legend.list(x)$ncol
-      leg.horiz = spnet.legend.list(x)$horiz
-      leg.lwd = spnet.legend.list(x)$lwd
+      leg.pring = graph.legend.list(x)$print
+      leg.cex = graph.legend.list(x)$cex
+      leg.ncol = graph.legend.list(x)$ncol
+      leg.horiz = graph.legend.list(x)$horiz
+      leg.lwd = graph.legend.list(x)$lwd
       
-      par(spnet.par.list(x))
+      par(graph.par.list(x))
       plot.new()
       if(leg.pring) {
         if(flag.color) {
           legend(
             x = "topleft",
-            legend = names(x@plot.color$legend),
-            fill = x@plot.color$legend,
+            legend = names(color$legend),
+            fill = color$legend,
             bty = 'n',
             cex = leg.cex,
             ncol = leg.ncol,
@@ -3402,7 +3715,8 @@ setMethod(
           legend(
             x = "top",
             legend = names(x@plot.symbol$legend),
-            pch = .spnet.symbol.list[match(x@plot.symbol$legend, names(.spnet.symbol.list))],
+            pch = .graph.symbol.list[match(x@plot.symbol$legend, names(.graph.symbol.list))],
+            col = symb.color,
             bty = 'n',
             cex = leg.cex
           )
@@ -3445,7 +3759,7 @@ setMethod(
 # ---------------------------------------------------------------
 # Symbol list
 # ---------------------------------------------------------------
-.spnet.symbol.list <- c(
+.graph.symbol.list <- c(
   "circle" = 1,
   "triangle.up" = 2,
   "triangle.down" = 6,
@@ -3456,7 +3770,7 @@ setMethod(
   "times" = 4  
 )
 plot.symbol.list <- function(){
-  l <- .spnet.symbol.list
+  l <- .graph.symbol.list
   coord <- 2:(length(l)+1)
   plot(
     coord,

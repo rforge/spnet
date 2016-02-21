@@ -27,7 +27,7 @@ spnet.example.basic <- function(
 ) {
   example.basic.env <- new.env()
   data("world.map.simplified", package = "spnet", envir = example.basic.env)
-  node <- c("France", "United States", "Brazil", "Australia")
+  node <- c("France", "United States", "Brazil", "Australia", "Antarctica" )
   position <- match(node, example.basic.env$world.map.simplified@data[,'NAME']) - 1
   net1 <- spnet.create(
     data.frame(
@@ -35,25 +35,25 @@ spnet.example.basic <- function(
       'POSITION' = position
     )
   )
-  spnet.title.main(net1) <- ""
+  graph.title.main(net1) <- ""
   if(map) {
-    spnet.map(net1) <- example.basic.env$world.map.simplified
+    graph.map(net1) <- example.basic.env$world.map.simplified
   }
   if(color) {
-    net1$continent <- c("Europa", "America", "America", "Oceania")
-    spnet.color.variable(net1) <- "continent"
-    spnet.color.legend(net1) <- c('Europa' = "#CBB3E466", 'America' = "#D490B366", 'Oceania' = "#CBE4B366")
-    spnet.color.background(net1) <- "#B3E4E466" # light blue
-    spnet.color.border(net1) <- "#55555566" # grey
-    spnet.color.region(net1) <- "#D2A65F66" # light orange
+    net1$continent <- c("Europa", "America", "America", "Oceania", "Antarctica")
+    graph.color.variable(net1) <- "continent"
+    graph.color.legend(net1) <- c('Europa' = "#CBB3E466", 'America' = "#D490B366", 'Oceania' = "#CBE4B366")
+    graph.color.background(net1) <- "#B3E4E466" # light blue
+    graph.color.border(net1) <- "#55555566" # grey
+    graph.color.region(net1) <- "#D2A65F66" # light orange
   }
   if(symbol) {
-    net1$role <- c('North', 'North', 'South', 'South')
-    spnet.symbol.variable(net1) <- 'role'
-    spnet.symbol.legend(net1) <- c('North' = 'triangle.up', 'South' = 'triangle.down')
-    spnet.symbol.color(net1) <- '#A52A2A88'
-    spnet.symbol.cex(net1) <- 1
-    spnet.symbol.shift.y(net1) <- 6
+    net1$role <- c('North', 'North', 'South', 'South', 'South')
+    graph.symbol.variable(net1) <- 'role'
+    graph.symbol.legend(net1) <- c('North' = 'triangle.up', 'South' = 'triangle.down')
+    graph.symbol.color(net1) <- '#A52A2A88'
+    graph.symbol.cex(net1) <- 1
+    graph.symbol.shift.y(net1) <- 6
   }
   if(network1) {
     network1 <- matrix(
@@ -62,16 +62,16 @@ spnet.example.basic <- function(
       dimnames = list(node, node)
     )
       
-    spnet.networks.add(net1) <- "network1"
-    spnet.network.data(net1, "network1") <- network1
-    spnet.network.data(net1, 'network1')['France', 'United States'] <- 2
-    spnet.network.data(net1, 'network1')['Australia', 'United States'] <- 1
-    spnet.network.data(net1, 'network1')['France', 'Brazil'] <- 3
-    spnet.network.data(net1, 'network1')['Brazil', 'France'] <- 2
-    spnet.network.label(net1, 'network1') <- 'Holidays'
-    spnet.network.arrow.shift.y(net1, 'network1') <- 2
-    spnet.network.arrow.color(net1, 'network1') <- '#33333366'
-    spnet.network.arrow.thickness(net1, 'network1') <- 0.5
+    graph.networks.add(net1) <- "network1"
+    graph.network.data(net1, "network1") <- network1
+    graph.network.data(net1, 'network1')['France', 'United States'] <- 2
+    graph.network.data(net1, 'network1')['Australia', 'United States'] <- 1
+    graph.network.data(net1, 'network1')['France', 'Brazil'] <- 3
+    graph.network.data(net1, 'network1')['Brazil', 'France'] <- 2
+    graph.network.label(net1, 'network1') <- 'Holidays'
+    graph.network.arrow.shift.y(net1, 'network1') <- 2
+    graph.network.arrow.color(net1, 'network1') <- '#33333366'
+    graph.network.arrow.thickness(net1, 'network1') <- 0.5
   }
   if(network2) {
     network2 <- matrix(
@@ -80,27 +80,27 @@ spnet.example.basic <- function(
       dimnames = list(node, node)
     )
       
-    spnet.networks.add(net1) <- "network2"
-    spnet.network.data(net1, "network2") <- network2
-    spnet.network.data(net1, 'network2')['Brazil', 'Australia'] <- 2
-    spnet.network.label(net1, 'network2') <- 'Studies'
-    spnet.network.arrow.shift.y(net1, 'network2') <- -2
-    spnet.network.arrow.opacity(net1, 'network2') <- 0.9
-    spnet.network.arrow.color(net1, 'network2') <- 'grey'
-    spnet.network.arrow.thickness(net1, 'network2') <- 0.5
+    graph.networks.add(net1) <- "network2"
+    graph.network.data(net1, "network2") <- network2
+    graph.network.data(net1, 'network2')['Brazil', 'Australia'] <- 2
+    graph.network.label(net1, 'network2') <- 'Studies'
+    graph.network.arrow.shift.y(net1, 'network2') <- -2
+    graph.network.arrow.opacity(net1, 'network2') <- 0.9
+    graph.network.arrow.color(net1, 'network2') <- 'grey'
+    graph.network.arrow.thickness(net1, 'network2') <- 0.5
   }
   if(barplot) {
-    net1$num.var <- c(0.1,0.3,0.5,0.9)
-    spnet.barplot.variable(net1) <- "num.var"
-    spnet.barplot.bound.upper(net1) <- c(-13,20)
-    spnet.barplot.bound.lower(net1) <- c(-13,3)
-    spnet.barplot.fgcolor(net1) <- "#333333DD"
-    spnet.barplot.bgcolor(net1) <- "#E6E6E6DD"
-    spnet.barplot.width(net1) <- 10
+    net1$num.var <- c(0.1,0.3,0.5,0.9,0.0)
+    graph.barplot.variable(net1) <- "num.var"
+    graph.barplot.bound.upper(net1) <- c(-13,20)
+    graph.barplot.bound.lower(net1) <- c(-13,3)
+    graph.barplot.fgcolor(net1) <- "#333333DD"
+    graph.barplot.bgcolor(net1) <- "#E6E6E6DD"
+    graph.barplot.width(net1) <- 10
   }
   if(title) {
-    spnet.title.main(net1) <- "Places visited by John, Elsa, Brian and Kate"
-    spnet.title.sub(net1) <- "For holidays and studies"
+    graph.title.main(net1) <- "Places visited by John, Elsa, Brian and Kate"
+    graph.title.sub(net1) <- "For holidays and studies"
   }
   return(net1)
 }

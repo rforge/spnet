@@ -70,14 +70,17 @@ debate.txt.extract.markup <- function(txt, pattern.start, pattern.stop, quiet=TR
 #' debate.txt.count.matches(txt = txt, items = "soumis au vote de la séance plénière de l'Assemblée constituante")
 #' debate.txt.count.matches(txt = txt, items = "qsdfbnmsdfui")
 #' debate.txt.count.matches(txt = txt, items = c("qsdfbnmsdfui", "président", "merci", "soumis au vote"))
-debate.txt.count.matches <- function(txt, items) {
-  out <- mapply(.debate.txt.count.matches.aux, txt, items)
+debate.txt.count.matches <- function(txt, items, ignore.case = FALSE) {
+  stopifnot(length(txt) > 0)
+  if(length(items) == 0) return(numeric(0))
+  
+  out <- mapply(.debate.txt.count.matches.aux, txt, items, ignore.case)
   names(out) <- items
   return(out)
 }
-.debate.txt.count.matches.aux <- function(txt, pattern) {
+.debate.txt.count.matches.aux <- function(txt, pattern, ignore.case) {
   stopifnot(length(txt) == 1)
-  out <- gregexpr(pattern, txt)[[1]]
+  out <- gregexpr(pattern, txt, ignore.case = ignore.case)[[1]]
   if(out[1]==-1)
     return(0)
   else

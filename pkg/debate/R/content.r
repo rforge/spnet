@@ -8,7 +8,7 @@
 #' @param lowercase if \code{TRUE} the \code{txt} parameter will be lowercased before analysis.
 #' @export
 #' @examples
-#' path.to.pdf <- paste0(path.package("debate"), "/doc/BOACG_Tome_21_article_49.pdf")
+#' path.to.pdf <- paste0(find.package("debate"), "/doc/BOACG_Tome_21_article_49.pdf")
 #' txt <- debate.pdftotext(path.to.pdf)
 #' txt <- debate.txt.clean(txt)
 #' dic <- debate.example.dic()
@@ -22,14 +22,37 @@ debate.content.extract.dictionary <- function(txt, dictionary, escape = "[!\"#$%
   if(lowercase) txt <- tolower(txt)
 
   for (i in 1:length(dictionary)) {
-    dictionary[[i]]$count = debate.txt.count.matches(txt=txt, items=dictionary[[i]]$match)
+    dictionary[[i]]$positive.count = debate.txt.count.matches(txt=txt, items=dictionary[[i]]$positive.matches)
+    dictionary[[i]]$negative.count = debate.txt.count.matches(txt=txt, items=dictionary[[i]]$negative.matches)
     #       dictionary[[i]]$count[is.na(dictionary[[i]]$count)] <- 0
-    dictionary[[i]]$count.overall = sum(dictionary[[i]]$count)
+    dictionary[[i]]$positive.count.overall = sum(dictionary[[i]]$positive.count)
+    dictionary[[i]]$negative.count.overall = sum(dictionary[[i]]$negative.count)
+    dictionary[[i]]$count.overall = dictionary[[i]]$positive.count.overall - dictionary[[i]]$negative.count.overall
   }
   return(dictionary)
   #   }
 }
 
+more.than.one <- function(x) {
+  as.numeric(x>0)
+}
+count.summary <- function(x, type = "overall", mode = "sum"){
+  stopifnot(type %in% c("overall", "positive", "negative"))
+  concept.names <- lapply(x, function(x){x$name})
+  if(type == "overall") {
+    out <- as.numeric(lapply(x, function(x){x$count.overall}))
+    names(out) <- concept.names
+    if(mode == "binary")
+      out <- sapply(out, more.than.one)
+  }
+  if(type == "positive"){
+    
+  }
+  if(type == "negative"){
+    
+  }
+  return(out)
+}
 
 debate.content.extract.aux <- function(txt, contributors, dictionary = NULL, escape = "[!\"#$%&()*+,./:;<=>?^_|]", lowercase = TRUE) {
   # extract all contributors interventions
@@ -57,7 +80,7 @@ debate.content.extract.aux <- function(txt, contributors, dictionary = NULL, esc
 
 
 
-debate.content.extract.mps <- function(txt, contributors, escape = "[!\"#$%&()*+,./:;<=>?^_|]", lowercase = TRUE) {
+debate.content.extract.contributors <- function(txt, contributors, escape = "[!\"#$%&()*+,./:;<=>?^_|]", lowercase = TRUE) {
   return(debate.content.extract.aux(
     txt = txt,
     contributors = contributors,
@@ -67,6 +90,21 @@ debate.content.extract.mps <- function(txt, contributors, escape = "[!\"#$%&()*+
   ))
 }
 
+contrib.summary <- function(x) {
+  out <- data.frame(contribution = character(0), contributor = character(0), stringsAsFactors = FALSE)
+  for (i in 1:length(x)) {
+    current <- x[[i]]
+    if (length(current$contributions) > 0) {
+      for(j in 1:length(current$contributions)){
+        out <- rbind(out, data.frame(
+          contribution = current$contributions[[j]],
+          contributor = current$name
+        ))
+      }
+    }
+  }
+  return(out)
+}
 
 debate.content.extract.all <- function(txt, contributors, dictionary, escape = "[!\"#$%&()*+,./:;<=>?^_|]", lowercase = TRUE) {
   return(debate.content.extract.aux(

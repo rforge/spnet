@@ -20,7 +20,7 @@ debate.content.extract.dictionary(txt, dictionary,
 This function extracts from a text, represented as a character string, all occurences of terms defined in a dictionary.
 }
 \examples{
-path.to.pdf <- paste0(path.package("debate"), "/doc/BOACG_Tome_21_article_49.pdf")
+path.to.pdf <- paste0(find.package("debate"), "/doc/BOACG_Tome_21_article_49.pdf")
 txt <- debate.pdftotext(path.to.pdf)
 txt <- debate.txt.clean(txt)
 dic <- debate.example.dic()

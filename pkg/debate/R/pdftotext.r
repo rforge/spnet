@@ -3,10 +3,12 @@
 #' This function extracts text from a PDF file and store it in a character string.
 #' 
 #' @param file the path of the file which the text have to be extract from.
-#' @param backend specify the tool to be use for extracting the text. Current options are \code{debate.pdftotext} and \code{tesseract}. See details.
+#' @param backend specify the tool to be use for extracting the text. Current options are \code{pdftotext} and \code{tesseract}. See details.
 #' @param control control parameters to use with \code{debate.pdftotext}. Ignore when using \code{tesseract}.
 #' @param lang language to use when performing an OCR task (\code{tesseract} option). Language codes are based on ISO 963-2. Please consult the \code{tesseract} website for more information.
-#' @details It is not so easy to extract text from a PDF file. The \code{debate.pdftotext} command works well in a lot of cases and is quite efficient. For using this option, the \code{debate.pdftotext} command have to be installed on your system. On most Linux distributions, the command is included as part of the \code{poppler-utils} package. On Windows, the command is included as part of the \code{Xpdf} software (\url{http://www.foolabs.com/xpdf}). Some PDF file can embed complex structures as for example several layers, fonts or forms. Although the PDF is correctly rendered by the PDF viewer, the conversion to text partially fails and a lot of text may be lost or corrupted. To avoid this, a strategy can be to convert the PDF file into a image and then pass it through an Optical Character Recognition (OCR) software. This second option generally achieve better results, but is also more time consuming. The \code{tesseract} option allows to run this strategy using the tesseract OCR. For using this strategy, you first need to install the tesseract OCR. On most linux distributions the software is provided as part of the \code{tesseract-ocr} package. You may also need to install specific language utilities, for example the \code{tesseract-ocr-fra} package for enabling French support. Windows users can download the software from the tesseract website (\url{https://code.google.com/p/tesseract-ocr/}). You also need to install the \code{convert} utility. This utility, part of the \code{imagemagick} software, is used in backend for converting PDF files into images. On most linux distribution the command is included as part of the \code{imagemagick} package. Windows users can download \code{imagemagick} from its official website (\url{http://www.imagemagick.org/}).
+#' @details It is not so easy to extract text from a PDF file. 
+#' Option 1: The \code{pdftotext} command works well in a lot of cases and is quite efficient. We recommend the user to start with this option. To use this option, the \code{pdftotext} command have to be installed on your system. On most Linux distributions, the command is included as part of the \code{poppler-utils} package. On Windows, the command is included as part of the \code{Xpdf} software that you can download from it official website (\url{http://www.foolabs.com/xpdf}).
+#' Option 2: Some PDF file can embed complex structures as for example several layers, fonts or forms. Although the PDF is correctly rendered by the PDF viewer, the conversion to text partially fails and a lot of text may be lost or corrupted. To avoid this, a strategy can be to convert the PDF file into a image and then pass it through an Optical Character Recognition (OCR) software. This second option generally achieve better results, but is also more time consuming. The \code{tesseract} option allows to run this strategy using the tesseract OCR. For using this strategy, you first need to install the tesseract OCR. On most linux distributions the software is provided as part of the \code{tesseract-ocr} package. You may also need to install specific language utilities, for example the \code{tesseract-ocr-fra} package for enabling French support. Windows users can download the software from the tesseract website (\url{https://code.google.com/p/tesseract-ocr/}). You also need to install the \code{convert} utility. This utility, part of the \code{imagemagick} software, is used in backend for converting PDF files into images. On most linux distribution the command is included as part of the \code{imagemagick} package. Windows users can download \code{imagemagick} from its official website (\url{http://www.imagemagick.org/}).
 #' @export
 #' @examples
 #' \dontrun{
@@ -55,13 +57,13 @@ debate.pdftotext <- function(file, backend = "debate.pdftotext", control = c('-l
       stop("Unable to find the 'convert' command (from 'imagemagic'). You need it to use this functionnality.")
     }
     
-    message("This operation may take a long time...")
+    cat("This operation may take a long time...\n")
     d <- tempdir()
     if(!file.exists(d)) {dir.create(d)}
     d <- paste0(d, "/convert")
     dir.create(d)
     
-    message("* Converting the PDF file to JPG images")
+    cat("* Converting the PDF file to JPG images\n")
     cmd.convert <- paste("convert -density 300 -quality 85", file, paste0(d,"/in-%06d.jpg"))
     #     print(cmd.convert)
     system(cmd.convert)
@@ -70,18 +72,21 @@ debate.pdftotext <- function(file, backend = "debate.pdftotext", control = c('-l
     #     print(f)
     txt <- ""
     
-    message("* Passing images through the OCR")
+    cat("* Processing pages through the OCR\n")
     for (i in 1:length(f)) {
-      #       print(f[i])
+      cat("\r", paste(rep(' ', 255), collapse=''), sep='')
+      flush.console()
+      cat(paste0("\r    => ", i, "/", length(f)))
+      flush.console()
       f.tmp <- paste0(d, '/', paste0("out", i))
       f.tmp.txt <- paste0(f.tmp, ".txt")
       #       cmd.tess <- paste("tesseract -l", lang, paste0(d, '/', f[i]), f.tmp)
       cmd.tess.out <- system2(tesseract.path, args=c(paste("-l", lang), paste0(d, '/', f[i]), f.tmp), stdout=TRUE, stderr=TRUE)
       txt <- paste(txt, readChar(f.tmp.txt, file.info(f.tmp.txt)$size))
     }
-    message("* Deleting temporary files")
+    cat("\n* Deleting temporary files\n")
     unlink(d, recursive= TRUE)
-    message("Done.")
+    cat("Done.")
   }
   
   return(txt)

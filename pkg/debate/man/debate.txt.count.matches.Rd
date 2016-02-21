@@ -4,7 +4,7 @@
 \alias{debate.txt.count.matches}
 \title{Count all occurences of keywords or sentences within a character string}
 \usage{
-debate.txt.count.matches(txt, items)
+debate.txt.count.matches(txt, items, ignore.case = FALSE)
 }
 \arguments{
 \item{txt}{the character string to mine.}

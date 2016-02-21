@@ -9,19 +9,23 @@ debate.example.dic <- function() {
   return(list(
     list(
       name = "Naturalisation",
-      match = c("naturalisation", "naturalisations", "naturaliser", "naturalisent",
+      positive.matches = c("naturalisation", "naturalisations", "naturaliser", "naturalisent",
                 "national","nationaux","nationale","passeport","droit du sol",
-                "droit du sang", "devenir suisse")
+                "droit du sang", "devenir suisse"),
+      negative.matches = character(0)
+      
     ),
     list(
       name = "Multiculturalisme",
-      match = c("multiculturalisme","multiculturel","multiculturelle","cosmopolite",
-                "richesse","enrichissent","rayonnement")
+      positive.matches = c("multiculturalisme","multiculturel","multiculturelle","cosmopolite",
+                "richesse","enrichissent","rayonnement"),
+      negative.matches = character(0)
     ),
     list(
       name = "Motivation",
-      match = c("taux de participation","ViVRE","Kultura","n'en ont pas fait la demande",
-                "revendication est largement minoritaire","ils participeraient moins")
+      positive.matches = c("taux de participation","ViVRE","Kultura","n'en ont pas fait la demande",
+                "revendication est largement minoritaire","ils participeraient moins"),
+      negative.matches = character(0)
     )
   ))
 }

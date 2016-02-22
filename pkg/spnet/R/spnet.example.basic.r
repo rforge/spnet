@@ -15,6 +15,7 @@
 #' net1 <- spnet.example.basic()
 #' plot(net1)
 #' @rdname spnet.example.basic
+#' @importFrom utils data
 #' @export
 spnet.example.basic <- function(
   map = TRUE,

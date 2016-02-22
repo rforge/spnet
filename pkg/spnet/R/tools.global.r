@@ -20,6 +20,8 @@ spnet.get.local.user.manual <- function(where = getwd(), overwrite = FALSE) {
 #' @param increase.contrast a \code{logical}, if \code{TRUE} the scaling is performed.
 #' @param contrast.min the minimal gray value to use in the scaling (0 = white, 1 = black).
 #' @param contrast.max the maximal gray value to use in the scaling (0 = white, 1 = black).
+#' @importFrom grDevices col2rgb
+#' @importFrom grDevices gray
 #' @export
 #' @examples
 #' mycols = c("#BA364E", "#32BAA1", "#12AA91")

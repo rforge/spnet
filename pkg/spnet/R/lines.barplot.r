@@ -1,3 +1,4 @@
+#' @importFrom graphics lines
 lines.barplot <- function(bound.lower, bound.upper, value, bgcolor = "#eeeeee", fgcolor = "#666666", lwd = 8){
   
   stopifnot(is.numeric(bound.lower))

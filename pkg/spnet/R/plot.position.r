@@ -9,6 +9,7 @@
 #' @return NULL
 #' 
 #' @family plot map
+#' @importFrom graphics text
 #' @export
 #' @examples
 #' ## The world map

@@ -3216,6 +3216,7 @@ spnet.create <- function(
 }
 
 
+#' @importFrom utils head
 setMethod(
   f = 'show',
   signature = 'SpatialNetwork',
@@ -3264,6 +3265,15 @@ setMethod(
   }
 )
 
+
+#' @importFrom graphics layout
+#' @importFrom graphics legend
+#' @importFrom graphics par
+#' @importFrom graphics plot.new
+#' @importFrom graphics points
+#' @importFrom graphics text
+#' @importFrom grDevices col2rgb
+#' @importFrom grDevices rgb
 setMethod(
   f = 'plot',
   signature = 'SpatialNetwork',
@@ -3769,6 +3779,8 @@ setMethod(
   "cross" = 3,
   "times" = 4  
 )
+
+#' @importFrom graphics text
 plot.symbol.list <- function(){
   l <- .graph.symbol.list
   coord <- 2:(length(l)+1)
